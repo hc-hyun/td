@@ -1,16 +1,7 @@
-# td.dir 값에 따라 적을 한 틱에 0.1블록씩 이동시킵니다.
-# 10틱 동안 이동하면 총 1블록을 이동하므로, 기본 속도는 초당 2블록입니다.
-# 1 = 동쪽(+X), 2 = 서쪽(-X), 3 = 남쪽(+Z), 4 = 북쪽(-Z)
-# tp 마지막의 yaw/pitch 값으로 적이 이동 방향을 바라보게 합니다.
-# Minecraft yaw 기준: 동쪽 -90, 서쪽 90, 남쪽 0, 북쪽 180입니다.
-execute if score @s td.dir matches 1 run tp @s ~0.1 ~ ~ -90 0
-execute if score @s td.dir matches 2 run tp @s ~-0.1 ~ ~ 90 0
-execute if score @s td.dir matches 3 run tp @s ~ ~ ~0.1 0 0
-execute if score @s td.dir matches 4 run tp @s ~ ~ ~-0.1 180 0
-
-# 현재 블록 안에서 이동한 틱 수를 1 증가시킵니다.
-scoreboard players add @s td.step 1
-
-# 10틱 이상 이동하면 다음 칸 중앙에 도착한 것으로 보고,
-# 현재 위치를 보정한 뒤 주변 검은 양털을 다시 검사합니다.
-execute if score @s td.step matches 10.. at @s run function td:path/on_cell
+# td.speed 값에 따라 속도별 이동 함수를 실행합니다.
+# 1 = slow, 2 = normal, 3 = fast입니다.
+# 잘못된 값이 들어간 적은 normal 속도로 처리해 경로 이동이 멈추지 않게 합니다.
+execute if score @s td.speed matches 1 run function td:enemy/speed/slow
+execute if score @s td.speed matches 2 run function td:enemy/speed/normal
+execute if score @s td.speed matches 3 run function td:enemy/speed/fast
+execute unless score @s td.speed matches 1..3 run function td:enemy/speed/normal

@@ -4,6 +4,6 @@ scoreboard players set $wave_time td.wave_time 0
 scoreboard players set $wave_done td.wave_done 1
 scoreboard players set $wave_prep td.wave_prep 0
 function td:reset/enemies
+bossbar set td:core visible false
 title @a title {text:'Victory!',color:'green',bold:true}
 tellraw @a {text:'All 20 waves cleared. The core survived.',color:'green'}
-

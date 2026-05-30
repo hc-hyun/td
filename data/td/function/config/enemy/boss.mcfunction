@@ -2,3 +2,4 @@
 scoreboard players set $enemy_boss_hp td.enemy_max_hp 100
 scoreboard players set $enemy_boss_speed td.speed 1
 scoreboard players set $enemy_boss_reward td.reward 80
+scoreboard players set $enemy_boss_core_damage td.core_damage 10

@@ -15,6 +15,7 @@ scoreboard objectives add td.branch_pick dummy
 scoreboard objectives add td.hp dummy
 scoreboard objectives add td.enemy_hp dummy
 scoreboard objectives add td.enemy_max_hp dummy
+scoreboard objectives add td.core_damage dummy
 scoreboard objectives add td.hp_ratio dummy
 scoreboard objectives add td.speed dummy
 scoreboard objectives add td.tower_cd dummy
@@ -60,11 +61,21 @@ bossbar set td:boss max 1
 bossbar set td:boss value 0
 bossbar set td:boss visible false
 
+# 활성 맵의 코어 에너지를 화면 상단에 보여줍니다.
+bossbar add td:core {text:'Core Energy',color:'green',bold:true}
+bossbar set td:core color green
+bossbar set td:core style notched_20
+bossbar set td:core players @a
+bossbar set td:core max 1
+bossbar set td:core value 0
+bossbar set td:core visible false
+
 # /reload 이후 기존 적 이름표도 현재 텍스트 컴포넌트 문법으로 다시 갱신되게 합니다.
 tag @e[tag=td.enemy] remove td.hpbar.ready
 
 function td:map/ensure_ids
 function td:spawnpoint/activate_for_map
+function td:core/activate_for_map
 
 # 타입별 팀을 만들고 색상과 충돌 규칙을 설정합니다.
 # 적은 타입별 팀 중 하나에 들어가며, td.enemy 태그로 공통 처리됩니다.

@@ -8,6 +8,7 @@ tag @e[type=minecraft:marker,tag=td.start] remove td.start
 tag @e[type=minecraft:marker,tag=td.map.activate_candidate,limit=1] add td.map.active
 tag @e[type=minecraft:marker,tag=td.map.activate_candidate,limit=1] add td.start
 function td:spawnpoint/activate_for_map
+function td:core/activate_for_map
 
 execute at @e[type=minecraft:marker,tag=td.map.activate_candidate,limit=1] run particle minecraft:happy_villager ~ ~1 ~ 0.3 0.3 0.3 0.02 12
 tag @e[type=minecraft:marker,tag=td.map.activate_candidate] remove td.map.activate_candidate

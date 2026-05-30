@@ -14,3 +14,6 @@ function td:enemy/bossbar/tick
 
 # 웨이브 진행, 클리어, 준비 시간, 승패 상태를 처리합니다.
 function td:wave/tick
+
+# 활성 코어의 에너지를 bossbar에 반영합니다.
+function td:core/bossbar/tick

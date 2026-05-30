@@ -2,3 +2,4 @@
 scoreboard players set $enemy_basic_hp td.enemy_max_hp 10
 scoreboard players set $enemy_basic_speed td.speed 2
 scoreboard players set $enemy_basic_reward td.reward 5
+scoreboard players set $enemy_basic_core_damage td.core_damage 1

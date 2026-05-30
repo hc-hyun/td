@@ -7,3 +7,6 @@ scoreboard players set $wave_time td.wave_time 0
 scoreboard players set $wave_state td.wave_state 0
 scoreboard players set $wave_done td.wave_done 0
 scoreboard players set $wave_prep td.wave_prep 0
+bossbar set td:core value 0
+bossbar set td:core max 1
+bossbar set td:core visible false

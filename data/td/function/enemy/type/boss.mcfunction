@@ -1,10 +1,11 @@
 # boss 타입 설정입니다.
-# HP, speed, reward는 td:config/enemy/boss에서 가져옵니다.
+# HP, speed, reward, core damage는 td:config/enemy/boss에서 가져옵니다.
 tag @s add td.type.boss
 scoreboard players operation @s td.enemy_max_hp = $enemy_boss_hp td.enemy_max_hp
 scoreboard players operation @s td.enemy_hp = $enemy_boss_hp td.enemy_max_hp
 scoreboard players operation @s td.speed = $enemy_boss_speed td.speed
 scoreboard players operation @s td.reward = $enemy_boss_reward td.reward
+scoreboard players operation @s td.core_damage = $enemy_boss_core_damage td.core_damage
 
 # 팀 색상과 충돌 방지 규칙을 적용합니다.
 team join td_enemy_boss @s

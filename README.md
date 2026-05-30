@@ -39,10 +39,11 @@ world/
 | 해야 할 일 | 명령 또는 위치 |
 | --- | --- |
 | 시작점 저장 | `/function td:map/save_here` |
+| 코어 저장 | `/function td:core/save_here` |
 | 플레이할 맵 활성화 | `/function td:map/activate_nearest` |
 | 스폰 지점 저장 | `/function td:spawnpoint/save_here/1` ~ `/8` |
 | 합류 지점 방향 가이드 | `/function td:path/guide/east`, `west`, `south`, `north` |
-| 상태 확인 | `/function td:map/status`, `/function td:spawnpoint/status` |
+| 상태 확인 | `/function td:map/status`, `/function td:spawnpoint/status`, `/function td:core/status` |
 | 게임 시작 | `/function td:wave/start` |
 
 ### 맵 제작 체크리스트
@@ -50,10 +51,12 @@ world/
 ```mcfunction
 /reload
 /function td:map/save_here
+/function td:core/save_here
 /function td:spawnpoint/save_here/1
 /function td:path/guide/east
 /function td:map/status
 /function td:spawnpoint/status
+/function td:core/status
 /function td:wave/start
 ```
 
@@ -63,7 +66,8 @@ world/
 
 - 검은 양털 경로는 평면 1칸 폭을 기준으로 합니다.
 - 대각선 이동은 지원하지 않습니다.
-- 시작점과 끝점은 막다른 길로 만듭니다.
+- 시작점은 막다른 길로 만들고, 도착 지점에는 코어 marker를 저장합니다.
+- 코어가 아닌 막다른 길에 적이 도착하면 경로 오류로 처리되며 코어 HP는 줄지 않습니다.
 - 갈림길은 지원합니다. 후보가 여러 개면 적마다 랜덤으로 하나를 고릅니다.
 - 두 길이 다시 만나는 합류 칸에는 목적지 방향 가이드를 둡니다.
 - 순환 경로는 방문 기록이 없으므로 피합니다.
@@ -77,7 +81,15 @@ world/
 /function td:map/save_here
 ```
 
-3. 적을 나오게 할 칸마다 서서 스폰 지점을 저장합니다.
+3. 지켜야 할 코어 블록 위에 서서 코어를 저장합니다.
+
+```mcfunction
+/function td:core/save_here
+```
+
+코어 marker는 활성 맵의 `td.map_id`에 묶입니다. 적이 이 marker 근처의 막다른 길에 도착하면 타입별 `td.core_damage`만큼 코어 HP가 줄어듭니다. 코어 에너지는 `td:core` bossbar로 표시됩니다.
+
+4. 적을 나오게 할 칸마다 서서 스폰 지점을 저장합니다.
 
 ```mcfunction
 /function td:spawnpoint/save_here/1
@@ -86,7 +98,7 @@ world/
 
 스폰 지점은 활성 맵의 `td.map_id`에 묶입니다. 한 맵에는 `1`부터 `8`까지 저장할 수 있습니다. 스폰 지점이 하나도 없으면 활성 맵 시작점인 `td.start`에서 적이 나옵니다.
 
-4. 합류형 경로가 있다면 합류 칸에서 목적지 방향 가이드를 저장합니다.
+5. 합류형 경로가 있다면 합류 칸에서 목적지 방향 가이드를 저장합니다.
 
 ```mcfunction
 /function td:path/guide/east
@@ -95,14 +107,15 @@ world/
 /function td:path/guide/north
 ```
 
-5. 저장 상태를 확인합니다.
+6. 저장 상태를 확인합니다.
 
 ```mcfunction
 /function td:map/status
 /function td:spawnpoint/status
+/function td:core/status
 ```
 
-6. 게임을 시작합니다.
+7. 게임을 시작합니다.
 
 ```mcfunction
 /function td:wave/start
@@ -116,7 +129,7 @@ world/
 /function td:map/activate_nearest
 ```
 
-가까운 맵 시작점을 지우면 같은 `td.map_id`에 묶인 스폰 지점도 함께 삭제됩니다.
+가까운 맵 시작점을 지우면 같은 `td.map_id`에 묶인 스폰 지점과 코어도 함께 삭제됩니다.
 
 ```mcfunction
 /function td:map/remove_nearest
@@ -159,18 +172,18 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 
 현재 적 타입은 `basic`, `fast`, `tank`, `boss`입니다.
 
-| 타입 | 랜덤 소환 예시 | 엔티티 | 기본 HP | 기본 속도 | 기본 보상 |
-| --- | --- | --- | ---: | --- | ---: |
-| basic | `td:spawn/random {type:"basic"}` | zombie | 10 | normal | 5 |
-| fast | `td:spawn/random {type:"fast"}` | vindicator | 6 | fast | 6 |
-| tank | `td:spawn/random {type:"tank"}` | pillager | 30 | slow | 15 |
-| boss | `td:spawn/random {type:"boss"}` | evoker | 100 | slow | 80 |
+| 타입 | 랜덤 소환 예시 | 엔티티 | 기본 HP | 기본 속도 | 기본 보상 | 코어 피해 |
+| --- | --- | --- | ---: | --- | ---: | ---: |
+| basic | `td:spawn/random {type:"basic"}` | zombie | 10 | normal | 5 | 1 |
+| fast | `td:spawn/random {type:"fast"}` | vindicator | 6 | fast | 6 | 1 |
+| tank | `td:spawn/random {type:"tank"}` | pillager | 30 | slow | 15 | 3 |
+| boss | `td:spawn/random {type:"boss"}` | evoker | 100 | slow | 80 | 10 |
 
 ### 기존 몹 수치만 조정
 
 | 바꿀 것 | 수정 위치 |
 | --- | --- |
-| HP, 속도, 처치 보상 | `data/td/function/config/enemy/<타입>.mcfunction` |
+| HP, 속도, 처치 보상, 코어 피해 | `data/td/function/config/enemy/<타입>.mcfunction` |
 | 엔티티 종류 | `data/td/function/spawn/type/<타입>.mcfunction` |
 | 장비, 크기, 소환 이펙트 | `data/td/function/enemy/type/<타입>.mcfunction` |
 | 머리 위 체력바 표시 이름 | `data/td/function/enemy/hpbar/type/<타입>.mcfunction` |
@@ -181,7 +194,7 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 
 기존 타입 중 가장 비슷한 것을 복사해서 만듭니다. 새 타입 이름은 매크로의 `type` 값과 파일명이 같아야 합니다.
 
-1. `data/td/function/config/enemy/<새타입>.mcfunction`을 만들고 HP, 속도, 보상을 설정합니다.
+1. `data/td/function/config/enemy/<새타입>.mcfunction`을 만들고 HP, 속도, 보상, 코어 피해를 설정합니다.
 2. `data/td/function/spawn/type/<새타입>.mcfunction`에서 실제 엔티티를 소환하고 `td:enemy/type/<새타입>`, `td:spawn/common`을 호출합니다.
 3. `data/td/function/enemy/type/<새타입>.mcfunction`에서 팀, 크기, 장비, 이펙트를 설정합니다.
 4. `data/td/function/enemy/hpbar/type/<새타입>.mcfunction`과 `enemy/hpbar/run/<새타입>.mcfunction`을 만듭니다.
@@ -240,6 +253,7 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 | blink 비용 | `td:config/economy`의 `$tower_blink_cost` | 70 |
 | 전투 중 환불 비율 | `td:config/economy`의 `$combat_refund_divisor` | 2 |
 | 적 처치 보상 | `td:config/enemy/<타입>`의 reward | 타입별 |
+| 적 코어 피해 | `td:config/enemy/<타입>`의 core damage | 타입별 |
 | 코어 HP | `td:config/core`의 `$core_hp` | 20 |
 | 웨이브 준비 시간 | `td:config/core`의 `$wave_prep_ticks` | 600 |
 
@@ -256,6 +270,7 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 ```mcfunction
 /function td:shop/give_items
 /function td:economy/status
+/function td:core/status
 /function td:wave/status
 /function td:wave/next
 /function td:wave/stop
@@ -274,6 +289,9 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 | `td:map/activate_nearest` | 8블록 안의 가장 가까운 저장 맵 활성화 |
 | `td:map/remove_nearest` | 8블록 안의 가장 가까운 저장 맵 삭제 |
 | `td:map/status` | 활성 맵과 현재 웨이브/코어 상태 표시 |
+| `td:core/save_here` | 발밑 블록을 활성 맵 코어로 저장 |
+| `td:core/remove_nearest` | 가까운 활성 맵 코어 삭제 |
+| `td:core/status` | 활성 맵 코어와 코어 HP 표시 |
 | `td:spawnpoint/save_here/1` ~ `/8` | 활성 맵에 번호별 스폰 지점 저장 |
 | `td:spawnpoint/remove_nearest` | 가까운 활성 스폰 지점 삭제 |
 | `td:spawnpoint/status` | 활성 맵의 스폰 지점 상태 표시 |
@@ -293,7 +311,7 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 | `td:config/load` | `#td:config/load`에 등록된 모든 설정 함수 호출 |
 | `td:config/core` | 코어 HP, 웨이브 준비 시간, 체력바 배율 |
 | `td:config/economy` | 시작 돈, 타워 비용, 전투 중 환불 divisor |
-| `td:config/enemy/<타입>` | 적 HP, 속도, 보상 |
+| `td:config/enemy/<타입>` | 적 HP, 속도, 보상, 코어 피해 |
 | `td:config/tower/<타입>` | 타워 피해량, 초기 쿨타임 |
 
 ## 참조: 중요한 점수판
@@ -302,6 +320,7 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 | --- | --- |
 | `td.hp` | 코어 HP와 일부 HP 관련 fake player |
 | `td.enemy_hp`, `td.enemy_max_hp` | 적 현재/최대 HP |
+| `td.core_damage` | 적이 코어에 도착했을 때 줄 피해량 |
 | `td.reward` | 적 처치 보상 |
 | `td.money` | 플레이어 개인 돈 |
 | `td.place_cost` | 배치 비용과 비용 config fake player |

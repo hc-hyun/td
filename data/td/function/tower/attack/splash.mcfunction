@@ -1,0 +1,15 @@
+# splash 공격: 가장 가까운 적 주변 2.5블록에 3 광역 피해를 줍니다.
+scoreboard players set @s td.tower_cd 0
+
+tag @e[tag=td.enemy,distance=..7,limit=1,sort=nearest] add td.tower.target
+
+tp @s ~ ~ ~ facing entity @e[tag=td.tower.target,limit=1] eyes
+swing @s mainhand
+
+execute at @e[tag=td.tower.target,limit=1] run particle minecraft:enchant ~ ~1 ~ 0.8 0.5 0.8 0.25 60 force
+execute at @e[tag=td.tower.target,limit=1] run particle minecraft:poof ~ ~0.8 ~ 0.8 0.25 0.8 0.03 24 force
+execute at @e[tag=td.tower.target,limit=1] run playsound minecraft:entity.evoker.cast_spell master @a[distance=..20] ~ ~ ~ 0.8 1.2
+
+execute at @e[tag=td.tower.target,limit=1] run tag @e[tag=td.enemy,distance=..2.5] add td.tower.hit
+scoreboard players set $damage td.tmp 3
+function td:tower/damage/hit_tagged

@@ -43,10 +43,12 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:set_start
 ```
 
-4. 원하는 위치에 기본 방어 유닛을 배치합니다.
+4. 원하는 위치에 방어 유닛을 배치합니다.
 
 ```mcfunction
 /function td:tower/place/basic
+/function td:tower/place/splash
+/function td:tower/place/blink
 ```
 
 가까운 방어 유닛을 제거하려면 다음 명령을 사용합니다.
@@ -103,6 +105,8 @@ S ■ ■ ■
 - `td:spawn/boss`: 크고 체력이 높은 evoker 보스 적을 소환합니다.
 - `td:spawn_enemy`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:spawn/basic`을 실행합니다.
 - `td:tower/place/basic`: 플레이어 위치에 기본 mannequin 방어 유닛을 배치합니다.
+- `td:tower/place/splash`: 플레이어 위치에 광역 마법 방어 유닛을 배치합니다.
+- `td:tower/place/blink`: 플레이어 위치에 순간이동 광역 방어 유닛을 배치합니다.
 - `td:tower/remove_nearest`: 플레이어 기준 4블록 안의 가장 가까운 방어 유닛을 제거합니다.
 - `td:tower/tick`: 방어 유닛의 쿨타임과 공격 판정을 처리합니다.
 - `td:path/on_cell`: 현재 칸 주변의 검은 양털을 검사해서 다음 이동 방향을 고릅니다.
@@ -127,11 +131,13 @@ S ■ ■ ■
 
 ## 방어 유닛
 
-| 타입 | 함수 | 엔티티 | 피해 | 사거리 | 공격 주기 |
-| --- | --- | --- | ---: | ---: | ---: |
-| basic | `td:tower/place/basic` | mannequin | 4 | 8블록 | 40틱 |
+| 타입 | 함수 | 엔티티 | 피해 | 사거리 | 공격 주기 | 특징 |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| basic | `td:tower/place/basic` | mannequin | 4 | 8블록 | 40틱 | 가장 가까운 적 1명 공격 |
+| splash | `td:tower/place/splash` | mannequin | 3 | 7블록 | 60틱 | 타겟 주변 2.5블록 광역 공격 |
+| blink | `td:tower/place/blink` | mannequin | 5 | 12블록 | 100틱 | 타겟에게 순간이동해 주변 3블록 광역 공격 후 6틱 동안 머물다 복귀 |
 
-기본 방어 유닛은 `minecraft:mannequin`을 사용하며, 공격할 때 `/swing`으로 팔을 휘두르고 가장 가까운 `td.enemy`의 `td.enemy_hp` 점수를 깎습니다.
+방어 유닛은 `minecraft:mannequin`을 사용하며, 공격할 때 `/swing`으로 팔을 휘두르고 `td.enemy`의 `td.enemy_hp` 점수를 깎습니다. 쿨타임과 사거리 검사는 공통 `td:tower/tick`에서 처리하고, 실제 공격 방식과 이펙트는 `td:tower/attack/<타입>` 함수가 담당합니다.
 
 ## 점수판 값
 
@@ -156,6 +162,13 @@ S ■ ■ ■
   - `2`: normal
   - `3`: fast
 - `td.tower_cd`: 방어 유닛의 공격 쿨타임입니다. 40 이상이고 사거리 안에 적이 있으면 공격합니다.
+- `td.tower_type`: 방어 유닛 타입 번호입니다.
+  - `1`: basic
+  - `2`: splash
+  - `3`: blink
+- `td.tower_id`: 방어 유닛과 순간이동 복귀 marker를 짝짓기 위한 고유 번호입니다.
+- `td.blink_time`: blink 방어 유닛이 타겟 위치에 머무는 남은 틱입니다.
+- `td.tmp`: 공통 계산용 임시 점수판입니다. 타워 데미지는 `$damage td.tmp`에 저장한 뒤 적용합니다.
 
 ## 몹 타입 추가 방법
 
@@ -168,6 +181,19 @@ S ■ ■ ■
 5. 소환 함수에서 타입 설정 함수 실행 후 `td:spawn/common`을 실행합니다.
 
 타입별 소환 함수는 몹 외형과 기본 설정만 담당하고, 실제 이동은 `td:enemy/move`와 `td:enemy/speed/*` 함수가 공통으로 처리합니다.
+
+## 방어 유닛 타입 추가 방법
+
+새 방어 유닛을 추가할 때는 기존 `basic`, `splash`, `blink` 중 가장 비슷한 타입을 복사해서 아래 흐름을 맞추면 됩니다.
+
+1. `data/td/function/tower/place/<타입>.mcfunction`을 만들고 `minecraft:mannequin`을 소환합니다.
+2. 소환 NBT에 `td.tower`, `td.tower.new`, `td.tower.<타입>` 태그를 넣습니다.
+3. `data/td/function/tower/type/<타입>.mcfunction`에서 `td.tower_type`, 초기 `td.tower_cd`, 팀, 장비, 크기, 배치 이펙트를 설정합니다.
+4. `data/td/function/tower/tick.mcfunction`에 해당 타입의 쿨타임, 사거리, `td.tower_type` 분기 조건을 추가합니다.
+5. `data/td/function/tower/attack.mcfunction`에 새 타입 번호와 `td:tower/attack/<타입>` 호출을 추가합니다.
+6. `data/td/function/tower/attack/<타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
+
+공격 함수에서는 시작 전에 `td:tower/attack`이 임시 태그를 정리합니다. 가장 가까운 단일 타겟은 `td.tower.target`, 광역 피해 대상은 `td.tower.hit` 태그를 붙인 뒤 `td:tower/damage/apply` 또는 `td:tower/damage/hit_tagged`를 호출합니다. 순간이동형 공격은 `td.tower.origin` marker로 원위치를 저장하고 `td.blink_time`이 끝난 뒤 반드시 돌아오도록 작성합니다.
 
 ## 파일 메모
 

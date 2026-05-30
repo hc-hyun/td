@@ -11,6 +11,10 @@ scoreboard objectives add td.enemy_max_hp dummy
 scoreboard objectives add td.type dummy
 scoreboard objectives add td.speed dummy
 scoreboard objectives add td.tower_cd dummy
+scoreboard objectives add td.tower_type dummy
+scoreboard objectives add td.tower_id dummy
+scoreboard objectives add td.blink_time dummy
+scoreboard objectives add td.tmp dummy
 
 # 기지 체력은 가짜 플레이어 $base의 td.hp 점수로 관리합니다.
 # /reload 할 때마다 기본값 20으로 다시 맞춰집니다.

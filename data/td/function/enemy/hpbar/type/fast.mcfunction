@@ -1,0 +1,10 @@
+execute if score @s td.hp_ratio matches 10 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 10/10 ██████████',color:'green'}}
+execute if score @s td.hp_ratio matches 9 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 9/10 █████████░',color:'green'}}
+execute if score @s td.hp_ratio matches 8 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 8/10 ████████░░',color:'green'}}
+execute if score @s td.hp_ratio matches 7 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 7/10 ███████░░░',color:'yellow'}}
+execute if score @s td.hp_ratio matches 6 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 6/10 ██████░░░░',color:'yellow'}}
+execute if score @s td.hp_ratio matches 5 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 5/10 █████░░░░░',color:'yellow'}}
+execute if score @s td.hp_ratio matches 4 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 4/10 ████░░░░░░',color:'gold'}}
+execute if score @s td.hp_ratio matches 3 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 3/10 ███░░░░░░░',color:'gold'}}
+execute if score @s td.hp_ratio matches 2 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 2/10 ██░░░░░░░░',color:'red'}}
+execute if score @s td.hp_ratio matches 1 run data merge entity @s {CustomNameVisible:1b,CustomName:{text:'Fast 1/10 █░░░░░░░░░',color:'dark_red'}}

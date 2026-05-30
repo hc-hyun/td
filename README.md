@@ -6,6 +6,8 @@
 
 몹은 타입별 설정을 가질 수 있습니다. 현재는 `basic`, `fast`, `tank`, `boss` 4종을 제공하며, 각 타입은 체력, 속도, 크기, 외형, 이름, 소환 이펙트가 다릅니다.
 
+적은 머리 위에 `타입명 n/10 체력바` 형식의 이름표 체력바를 표시합니다. boss 타입 적이 살아 있으면 화면 상단에는 살아 있는 boss들의 HP 합산 bossbar도 표시됩니다.
+
 ## 지원 버전
 
 - Minecraft Java Edition 26.1 계열
@@ -78,6 +80,16 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /scoreboard players get $base td.hp
 ```
 
+테스트 중 유닛을 정리하려면 다음 초기화 함수를 사용합니다.
+
+```mcfunction
+/function td:reset/enemies
+/function td:reset/towers
+/function td:reset/all
+```
+
+이 초기화 함수들은 적과 방어 유닛만 정리하며, 검은 양털 경로 시작점과 기지 체력은 유지합니다.
+
 ## 경로 제작 규칙
 
 - 검은 양털 경로는 1칸 폭이어야 합니다.
@@ -109,6 +121,11 @@ S ■ ■ ■
 - `td:tower/place/blink`: 플레이어 위치에 순간이동 광역 방어 유닛을 배치합니다.
 - `td:tower/remove_nearest`: 플레이어 기준 4블록 안의 가장 가까운 방어 유닛을 제거합니다.
 - `td:tower/tick`: 방어 유닛의 쿨타임과 공격 판정을 처리합니다.
+- `td:enemy/hpbar/update`: 현재 적의 점수판 HP를 기준으로 머리 위 체력바를 갱신합니다.
+- `td:enemy/bossbar/tick`: 살아 있는 boss 타입 적들의 전체 HP를 bossbar에 반영합니다.
+- `td:reset/enemies`: 모든 적 유닛과 bossbar 상태를 초기화합니다.
+- `td:reset/towers`: 모든 아군 방어 유닛과 blink 복귀 marker를 초기화합니다.
+- `td:reset/all`: 적과 아군 방어 유닛을 모두 초기화합니다.
 - `td:path/on_cell`: 현재 칸 주변의 검은 양털을 검사해서 다음 이동 방향을 고릅니다.
 - `td:path/finish`: 적이 끝점에 도착했을 때 기지 체력을 1 줄이고 적을 제거합니다.
 
@@ -139,6 +156,21 @@ S ■ ■ ■
 
 방어 유닛은 `minecraft:mannequin`을 사용하며, 공격할 때 `/swing`으로 팔을 휘두르고 `td.enemy`의 `td.enemy_hp` 점수를 깎습니다. 쿨타임과 사거리 검사는 공통 `td:tower/tick`에서 처리하고, 실제 공격 방식과 이펙트는 `td:tower/attack/<타입>` 함수가 담당합니다.
 
+## 적 체력바
+
+일반 적은 이름표를 체력바로 사용합니다. 체력바는 바닐라 엔티티 `Health`가 아니라 데이터팩의 `td.enemy_hp`와 `td.enemy_max_hp` 점수판 값을 기준으로 계산합니다.
+
+예시:
+
+```text
+Basic 6/10 ██████░░░░
+Tank 3/10 ███░░░░░░░
+```
+
+체력바는 적 소환 직후와 타워 피해 적용 직후 갱신됩니다. `/reload` 이후 기존 적에게 체력바가 없으면 `td:enemy/hpbar/init_missing`이 다음 tick에 한 번 보정합니다.
+
+boss 타입 적이 하나 이상 살아 있으면 `td:boss` bossbar가 화면 상단에 표시됩니다. 여러 boss가 동시에 있으면 현재 HP와 최대 HP를 각각 합산해서 하나의 보스 웨이브 체력처럼 보여줍니다.
+
 ## 점수판 값
 
 - `td.dir`: 현재 이동 방향입니다.
@@ -152,6 +184,7 @@ S ■ ■ ■
 - `td.hp`: 기지 체력입니다. `$base` 가짜 플레이어에 저장됩니다.
 - `td.enemy_hp`: 적의 현재 체력입니다.
 - `td.enemy_max_hp`: 적의 최대 체력입니다.
+- `td.hp_ratio`: 적 체력바의 1~10 단계 값입니다.
 - `td.type`: 적 타입 번호입니다.
   - `1`: basic
   - `2`: fast
@@ -168,7 +201,7 @@ S ■ ■ ■
   - `3`: blink
 - `td.tower_id`: 방어 유닛과 순간이동 복귀 marker를 짝짓기 위한 고유 번호입니다.
 - `td.blink_time`: blink 방어 유닛이 타겟 위치에 머무는 남은 틱입니다.
-- `td.tmp`: 공통 계산용 임시 점수판입니다. 타워 데미지는 `$damage td.tmp`에 저장한 뒤 적용합니다.
+- `td.tmp`: 공통 계산용 임시 점수판입니다. 타워 데미지는 `$damage td.tmp`, 체력바 배율은 `$hp_scale td.tmp`, bossbar 합계는 `$boss_hp`와 `$boss_max`에 저장합니다.
 
 ## 몹 타입 추가 방법
 
@@ -193,7 +226,7 @@ S ■ ■ ■
 5. `data/td/function/tower/attack.mcfunction`에 새 타입 번호와 `td:tower/attack/<타입>` 호출을 추가합니다.
 6. `data/td/function/tower/attack/<타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
 
-공격 함수에서는 시작 전에 `td:tower/attack`이 임시 태그를 정리합니다. 가장 가까운 단일 타겟은 `td.tower.target`, 광역 피해 대상은 `td.tower.hit` 태그를 붙인 뒤 `td:tower/damage/apply` 또는 `td:tower/damage/hit_tagged`를 호출합니다. 순간이동형 공격은 `td.tower.origin` marker로 원위치를 저장하고 `td.blink_time`이 끝난 뒤 반드시 돌아오도록 작성합니다.
+공격 함수에서는 시작 전에 `td:tower/attack`이 임시 태그를 정리합니다. 가장 가까운 단일 타겟은 `td.tower.target`, 광역 피해 대상은 `td.tower.hit` 태그를 붙인 뒤 `td:tower/damage/apply` 또는 `td:tower/damage/hit_tagged`를 호출합니다. 순간이동형 공격은 `td.tower.origin` marker로 원위치를 저장하고 `td.blink_time`이 끝난 뒤 반드시 돌아오도록 작성합니다. 적의 `td.enemy_hp`를 바꾸는 새 피해 함수는 생존한 적에게 `td:enemy/hpbar/update`도 호출해야 합니다.
 
 ## 파일 메모
 

@@ -8,4 +8,4 @@ kill @e[type=minecraft:marker,tag=td.start]
 execute align xz positioned ~0.5 ~ ~0.5 run summon minecraft:marker ~ ~ ~ {Tags:["td.start"]}
 
 # 가까운 플레이어에게 시작점 저장 완료 메시지를 보여줍니다.
-tellraw @a[distance=..4] {"text":"TD start point saved.","color":"green"}
+tellraw @a[distance=..4] {text:'TD start point saved.',color:'green'}

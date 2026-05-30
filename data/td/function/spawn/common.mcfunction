@@ -8,6 +8,9 @@ scoreboard players set @s td.dir 0
 scoreboard players set @s td.step 0
 scoreboard players set @s td.next 0
 
+# 타입별 HP 설정을 기준으로 머리 위 체력바를 초기화합니다.
+function td:enemy/hpbar/update
+
 # 소환 직후 현재 칸에서 주변 검은 양털을 검사해 첫 이동 방향을 정합니다.
 function td:path/on_cell
 

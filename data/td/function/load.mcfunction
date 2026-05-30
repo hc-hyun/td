@@ -8,6 +8,7 @@ scoreboard objectives add td.next dummy
 scoreboard objectives add td.hp dummy
 scoreboard objectives add td.enemy_hp dummy
 scoreboard objectives add td.enemy_max_hp dummy
+scoreboard objectives add td.hp_ratio dummy
 scoreboard objectives add td.type dummy
 scoreboard objectives add td.speed dummy
 scoreboard objectives add td.tower_cd dummy
@@ -19,6 +20,19 @@ scoreboard objectives add td.tmp dummy
 # 기지 체력은 가짜 플레이어 $base의 td.hp 점수로 관리합니다.
 # /reload 할 때마다 기본값 20으로 다시 맞춰집니다.
 scoreboard players set $base td.hp 20
+scoreboard players set $hp_scale td.tmp 10
+
+# 보스 타입 적이 살아 있을 때 화면 상단에 전체 보스 체력 합계를 보여줍니다.
+bossbar add td:boss {text:'Boss Wave',color:'dark_purple',bold:true}
+bossbar set td:boss color purple
+bossbar set td:boss style notched_10
+bossbar set td:boss players @a
+bossbar set td:boss max 1
+bossbar set td:boss value 0
+bossbar set td:boss visible false
+
+# /reload 이후 기존 적 이름표도 현재 텍스트 컴포넌트 문법으로 다시 갱신되게 합니다.
+tag @e[tag=td.enemy] remove td.hpbar.ready
 
 # 예전 단일 적 팀 이름은 호환성을 위해 남겨둡니다.
 team add td_enemy

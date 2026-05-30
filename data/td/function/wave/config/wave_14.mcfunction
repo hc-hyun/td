@@ -1,20 +1,20 @@
 # Wave 14: tank x5 + fast x12.
-execute if score $wave_time td.wave_time matches 20 run function td:spawn/tank
-execute if score $wave_time td.wave_time matches 60 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 90 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 120 run function td:spawn/tank
-execute if score $wave_time td.wave_time matches 150 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 180 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 220 run function td:spawn/tank
-execute if score $wave_time td.wave_time matches 240 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 270 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 320 run function td:spawn/tank
-execute if score $wave_time td.wave_time matches 330 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 360 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 420 run function td:spawn/tank
-execute if score $wave_time td.wave_time matches 430 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 460 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 490 run function td:spawn/fast
-execute if score $wave_time td.wave_time matches 520 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/random {type:"tank"}
+execute if score $wave_time td.wave_time matches 60 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 90 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 120 run function td:spawn/random {type:"tank"}
+execute if score $wave_time td.wave_time matches 150 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 180 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 220 run function td:spawn/random {type:"tank"}
+execute if score $wave_time td.wave_time matches 240 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 270 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 320 run function td:spawn/random {type:"tank"}
+execute if score $wave_time td.wave_time matches 330 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 360 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 420 run function td:spawn/random {type:"tank"}
+execute if score $wave_time td.wave_time matches 430 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 460 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 490 run function td:spawn/random {type:"fast"}
+execute if score $wave_time td.wave_time matches 520 run function td:spawn/random {type:"fast"}
 execute if score $wave_time td.wave_time matches 560 run scoreboard players set $wave_done td.wave_done 1
 

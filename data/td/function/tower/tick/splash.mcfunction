@@ -1,0 +1,1 @@
+execute as @e[type=minecraft:mannequin,tag=td.tower.splash,tag=!td.tower.blinking,scores={td.tower_cd=60..}] at @s if entity @e[tag=td.enemy,distance=..7,limit=1,sort=nearest] run function td:tower/attack/run/splash

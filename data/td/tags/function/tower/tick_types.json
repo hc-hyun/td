@@ -1,0 +1,7 @@
+{
+  "values": [
+    "td:tower/tick/basic",
+    "td:tower/tick/splash",
+    "td:tower/tick/blink"
+  ]
+}

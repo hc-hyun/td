@@ -10,7 +10,7 @@ execute unless entity @s[tag=td.place.open] run tag @s remove td.place.valid
 execute if block ~ ~-1 ~ minecraft:black_wool run tag @s remove td.place.valid
 execute if entity @e[type=minecraft:mannequin,tag=td.tower,distance=..1] run tag @s remove td.place.valid
 execute unless score @s td.money >= @s td.place_cost run tag @s remove td.place.valid
-execute unless score @s td.place_type matches 1..3 run tag @s remove td.place.valid
+execute unless entity @s[tag=td.place.tower] run tag @s remove td.place.valid
 
 execute if entity @s[tag=td.place.valid] run function td:place/success
 execute unless entity @s[tag=td.place.valid] run function td:place/fail/invalid

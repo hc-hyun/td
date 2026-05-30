@@ -1,0 +1,3 @@
+tag @s add td.place.tower
+tag @s add td.place.basic
+scoreboard players operation @s td.place_cost = $tower_basic_cost td.place_cost

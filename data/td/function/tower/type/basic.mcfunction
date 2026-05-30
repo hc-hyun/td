@@ -1,6 +1,6 @@
 # basic 방어 유닛 설정입니다.
-# type 1, 사거리 8, 공격 주기 40틱입니다.
-scoreboard players set @s td.tower_type 1
+# 사거리 8, 공격 주기 40틱입니다.
+tag @s add td.tower.basic
 scoreboard players operation @s td.tower_cd = $tower_basic_initial_cd td.tower_cd
 function td:tower/assign_id
 

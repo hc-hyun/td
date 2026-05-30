@@ -84,7 +84,7 @@ world/
 /function td:spawnpoint/save_here/2
 ```
 
-스폰 지점은 활성 맵의 `td.map_id`에 묶입니다. 한 맵에는 `1`부터 `8`까지 저장할 수 있습니다. 스폰 지점이 하나도 없으면 기존 호환을 위해 활성 맵 시작점인 `td.start`에서 적이 나옵니다.
+스폰 지점은 활성 맵의 `td.map_id`에 묶입니다. 한 맵에는 `1`부터 `8`까지 저장할 수 있습니다. 스폰 지점이 하나도 없으면 활성 맵 시작점인 `td.start`에서 적이 나옵니다.
 
 4. 합류형 경로가 있다면 합류 칸에서 목적지 방향 가이드를 저장합니다.
 
@@ -138,18 +138,18 @@ data/td/function/wave/config/
 
 | 목적 | 예시 |
 | --- | --- |
-| 활성 스폰 지점 중 랜덤 | `execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic` |
-| 특정 번호 스폰 지점 | `execute if score $wave_time td.wave_time matches 100 run function td:spawn/fast/from_2` |
-| 모든 활성 스폰 지점 | `execute if score $wave_time td.wave_time matches 200 run function td:spawn/tank/all` |
+| 활성 스폰 지점 중 랜덤 | `execute if score $wave_time td.wave_time matches 20 run function td:spawn/random {type:"basic"}` |
+| 특정 번호 스폰 지점 | `execute if score $wave_time td.wave_time matches 100 run function td:spawn/from {type:"fast",id:2}` |
+| 모든 활성 스폰 지점 | `execute if score $wave_time td.wave_time matches 200 run function td:spawn/all {type:"tank"}` |
 | 웨이브 스폰 완료 | `execute if score $wave_time td.wave_time matches 300 run scoreboard players set $wave_done td.wave_done 1` |
 
 예시:
 
 ```mcfunction
 # Wave 01: basic x3
-execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 50 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 80 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 50 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 80 run function td:spawn/random {type:"basic"}
 execute if score $wave_time td.wave_time matches 140 run scoreboard players set $wave_done td.wave_done 1
 ```
 
@@ -159,35 +159,35 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 
 현재 적 타입은 `basic`, `fast`, `tank`, `boss`입니다.
 
-| 타입 | 소환 함수 | 엔티티 | 기본 HP | 기본 속도 | 기본 보상 |
+| 타입 | 랜덤 소환 예시 | 엔티티 | 기본 HP | 기본 속도 | 기본 보상 |
 | --- | --- | --- | ---: | --- | ---: |
-| basic | `td:spawn/basic` | zombie | 10 | normal | 5 |
-| fast | `td:spawn/fast` | vindicator | 6 | fast | 6 |
-| tank | `td:spawn/tank` | pillager | 30 | slow | 15 |
-| boss | `td:spawn/boss` | evoker | 100 | slow | 80 |
+| basic | `td:spawn/random {type:"basic"}` | zombie | 10 | normal | 5 |
+| fast | `td:spawn/random {type:"fast"}` | vindicator | 6 | fast | 6 |
+| tank | `td:spawn/random {type:"tank"}` | pillager | 30 | slow | 15 |
+| boss | `td:spawn/random {type:"boss"}` | evoker | 100 | slow | 80 |
 
 ### 기존 몹 수치만 조정
 
 | 바꿀 것 | 수정 위치 |
 | --- | --- |
 | HP, 속도, 처치 보상 | `data/td/function/config/enemy/<타입>.mcfunction` |
-| 엔티티 종류, 장비, 크기, 소환 이펙트 | `data/td/function/spawn/<타입>/selected.mcfunction`, `data/td/function/enemy/type/<타입>.mcfunction` |
+| 엔티티 종류 | `data/td/function/spawn/type/<타입>.mcfunction` |
+| 장비, 크기, 소환 이펙트 | `data/td/function/enemy/type/<타입>.mcfunction` |
 | 머리 위 체력바 표시 이름 | `data/td/function/enemy/hpbar/type/<타입>.mcfunction` |
 
 속도 값은 `1 = slow`, `2 = normal`, `3 = fast`입니다. 크기(`minecraft:scale`)는 `attribute` 명령이 숫자 리터럴을 요구하므로 `enemy/type/<타입>.mcfunction`에서 직접 수정합니다.
 
 ### 새 몹 타입 추가
 
-기존 타입 중 가장 비슷한 것을 복사해서 만듭니다.
+기존 타입 중 가장 비슷한 것을 복사해서 만듭니다. 새 타입 이름은 매크로의 `type` 값과 파일명이 같아야 합니다.
 
 1. `data/td/function/config/enemy/<새타입>.mcfunction`을 만들고 HP, 속도, 보상을 설정합니다.
-2. `data/td/function/spawn/<새타입>.mcfunction`을 만들고 `td:spawn/select/random`, `td:spawn/<새타입>/selected`, `td:spawn/select/clear` 흐름을 맞춥니다.
-3. `data/td/function/spawn/<새타입>/selected.mcfunction`에서 실제 엔티티를 소환합니다.
-4. `data/td/function/spawn/<새타입>/from_1` ~ `from_8`, `all`, `from_id`를 기존 타입에서 복사합니다.
-5. `data/td/function/enemy/type/<새타입>.mcfunction`에서 `td.type`, 팀, 크기, 장비, 이펙트를 설정합니다.
-6. `data/td/function/enemy/hpbar/type/<새타입>.mcfunction`을 만들고 체력바 이름을 작성합니다.
-7. `td:config/load`, `td:enemy/hpbar/update`, `td:load`의 팀 생성부에 새 타입을 연결합니다.
-8. 웨이브 config에서 `function td:spawn/<새타입>`을 호출합니다.
+2. `data/td/function/spawn/type/<새타입>.mcfunction`에서 실제 엔티티를 소환하고 `td:enemy/type/<새타입>`, `td:spawn/common`을 호출합니다.
+3. `data/td/function/enemy/type/<새타입>.mcfunction`에서 팀, 크기, 장비, 이펙트를 설정합니다.
+4. `data/td/function/enemy/hpbar/type/<새타입>.mcfunction`과 `enemy/hpbar/run/<새타입>.mcfunction`을 만듭니다.
+5. `data/td/tags/function/config/load.json`과 `enemy/hpbar_types.json`에 새 함수를 등록합니다.
+6. 필요하면 `td:load`의 팀 생성부에 새 적 팀을 추가합니다.
+7. 웨이브 config에서 `function td:spawn/random {type:"<새타입>"}`처럼 호출합니다.
 
 ## 4. 아군 추가하기
 
@@ -195,9 +195,9 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 
 | 타입 | 배치 함수 | 기본 비용 | 피해 | 사거리 | 공격 주기 | 특징 |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| basic | `td:tower/place/basic` | 20 | 4 | 8 | 40틱 | 단일 대상 |
-| splash | `td:tower/place/splash` | 40 | 3 | 7 | 60틱 | 타겟 주변 2.5블록 광역 |
-| blink | `td:tower/place/blink` | 70 | 5 | 12 | 100틱 | 순간이동 후 주변 3블록 광역 |
+| basic | `td:tower/place {type:"basic"}` | 20 | 4 | 8 | 40틱 | 단일 대상 |
+| splash | `td:tower/place {type:"splash"}` | 40 | 3 | 7 | 60틱 | 타겟 주변 2.5블록 광역 |
+| blink | `td:tower/place {type:"blink"}` | 70 | 5 | 12 | 100틱 | 순간이동 후 주변 3블록 광역 |
 
 ### 기존 아군 수치만 조정
 
@@ -205,28 +205,28 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 | --- | --- |
 | 비용 | `data/td/function/config/economy.mcfunction` |
 | 공격 피해 | `data/td/function/config/tower/<타입>.mcfunction` |
-| 상점 아이템 이름/설명 | `data/td/function/shop/give_items.mcfunction` |
+| 상점 아이템 이름/설명 | `data/td/function/shop/give_item/<타입>.mcfunction` |
 | 장비, 크기, 배치 이펙트 | `data/td/function/tower/type/<타입>.mcfunction` |
-| 사거리, 실제 공격 주기 | `data/td/function/tower/tick.mcfunction` |
+| 사거리, 실제 공격 주기 | `data/td/function/tower/tick/<타입>.mcfunction` |
 | 공격 방식과 이펙트 | `data/td/function/tower/attack/<타입>.mcfunction` |
 
-주의: `distance=..8`, `scores={td.tower_cd=40..}` 같은 선택자 리터럴은 점수판 값으로 대체하기 어렵습니다. 사거리와 실제 공격 주기를 바꿀 때는 `tower/tick.mcfunction`의 해당 줄을 직접 수정합니다. `config/tower/<타입>`의 초기 쿨타임은 새로 배치된 타워가 첫 공격을 언제 시작할지에 영향을 줍니다.
+주의: `distance=..8`, `scores={td.tower_cd=40..}` 같은 선택자 리터럴은 점수판 값으로 대체하기 어렵습니다. 사거리와 실제 공격 주기를 바꿀 때는 `tower/tick/<타입>.mcfunction`의 해당 줄을 직접 수정합니다. `config/tower/<타입>`의 초기 쿨타임은 새로 배치된 타워가 첫 공격을 언제 시작할지에 영향을 줍니다.
 
 ### 새 아군 타입 추가
 
 1. `data/td/function/config/tower/<새타입>.mcfunction`에 피해량과 초기 쿨타임을 추가합니다.
 2. `data/td/function/config/economy.mcfunction`에 비용 fake player를 추가합니다.
-3. `data/td/function/shop/give_items.mcfunction`에 선택 아이템을 추가합니다.
-4. `data/td/function/shop/use.mcfunction`과 `shop/use/<새타입>.mcfunction`에 우클릭 분기를 추가합니다.
-5. `data/td/function/tower/place/<새타입>.mcfunction`을 만들고 명령 배치 비용도 같은 config 값을 쓰게 합니다.
-6. `data/td/function/tower/spawn/<새타입>.mcfunction`에서 mannequin을 소환하고 소유자/구매가를 복사합니다.
-7. `data/td/function/place/success.mcfunction`에 `td.place_type` 분기를 추가합니다.
-8. `data/td/function/tower/type/<새타입>.mcfunction`에서 `td.tower_type`, 팀, 장비, 크기, 배치 이펙트를 설정합니다.
-9. `data/td/function/tower/tick.mcfunction`에 사거리와 쿨타임 조건을 추가합니다.
-10. `data/td/function/tower/attack.mcfunction`에 디스패처 분기를 추가합니다.
-11. `data/td/function/tower/attack/<새타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
+3. `tower/select/<새타입>.mcfunction`에서 `td.place.<새타입>` 태그와 비용을 설정하고, `tower/select/clear.mcfunction`에 해당 태그 제거를 추가합니다.
+4. `shop/give_item/<새타입>.mcfunction`과 `shop/use/<새타입>.mcfunction`을 만듭니다.
+5. `tower/spawn/<새타입>.mcfunction`에서 mannequin을 소환하고 소유자/구매가를 복사합니다.
+6. `tower/place_type/<새타입>.mcfunction`에서 선택 태그에 맞는 spawn 함수를 호출합니다.
+7. `tower/type/<새타입>.mcfunction`에서 팀, 장비, 크기, 배치 이펙트를 설정합니다.
+8. `tower/tick/<새타입>.mcfunction`에 사거리와 쿨타임 조건을 작성합니다.
+9. `tower/attack/<새타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
+10. `tower/attack/run/<새타입>.mcfunction`에서 임시 태그 정리 전후로 실제 공격 함수를 호출합니다.
+11. `shop/give_items`, `shop/use_items`, `tower/place_types`, `tower/tick_types`, `config/load` 태그 JSON에 새 함수를 등록합니다.
 
-타워 공격 함수는 `td:tower/attack`이 시작과 끝에 임시 태그를 정리합니다. 단일 타겟은 `td.tower.target`, 광역 대상은 `td.tower.hit`, blink 복귀 지점은 `td.tower.origin` marker를 사용합니다.
+단일 타겟은 `td.tower.target`, 광역 대상은 `td.tower.hit`, blink 복귀 지점은 `td.tower.origin` marker를 사용합니다.
 
 ## 5. 경제 시스템 조정하기
 
@@ -279,10 +279,10 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 | `td:spawnpoint/status` | 활성 맵의 스폰 지점 상태 표시 |
 | `td:path/guide/east`, `west`, `south`, `north` | 현재 칸에 강제 진행 방향 저장 |
 | `td:path/guide/remove_nearest` | 가까운 방향 가이드 삭제 |
-| `td:spawn/basic`, `fast`, `tank`, `boss` | 활성 스폰 지점 중 랜덤 위치에 적 소환 |
-| `td:spawn/<타입>/from_1` ~ `from_8` | 해당 번호 스폰 지점에서 적 소환 |
-| `td:spawn/<타입>/all` | 모든 활성 스폰 지점에서 적 소환 |
-| `td:tower/place/basic`, `splash`, `blink` | 명령으로 현재 위치에 타워 구매 배치 |
+| `td:spawn/random {type:"basic"}` | 활성 스폰 지점 중 랜덤 위치에 적 소환 |
+| `td:spawn/from {type:"fast",id:2}` | 해당 번호 스폰 지점에서 적 소환 |
+| `td:spawn/all {type:"tank"}` | 모든 활성 스폰 지점에서 적 소환 |
+| `td:tower/place {type:"basic"}` | 명령으로 현재 위치에 타워 구매 배치 |
 | `td:tower/remove_nearest` | 가까운 본인 소유 타워 환불 제거 |
 | `td:wave/start` | 새 게임 시작 |
 
@@ -290,7 +290,7 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 
 | 함수 | 역할 |
 | --- | --- |
-| `td:config/load` | 모든 설정 함수 호출 |
+| `td:config/load` | `#td:config/load`에 등록된 모든 설정 함수 호출 |
 | `td:config/core` | 코어 HP, 웨이브 준비 시간, 체력바 배율 |
 | `td:config/economy` | 시작 돈, 타워 비용, 전투 중 환불 divisor |
 | `td:config/enemy/<타입>` | 적 HP, 속도, 보상 |
@@ -306,7 +306,7 @@ execute if score $wave_time td.wave_time matches 140 run scoreboard players set 
 | `td.money` | 플레이어 개인 돈 |
 | `td.place_cost` | 배치 비용과 비용 config fake player |
 | `td.tower_cost` | 배치된 타워의 구매가 |
-| `td.tower_type`, `td.tower_cd` | 타워 타입과 쿨타임 |
+| `td.tower_cd` | 타워 공격 쿨타임 |
 | `td.wave`, `td.wave_time`, `td.wave_state`, `td.wave_done`, `td.wave_prep` | 웨이브 진행 상태 |
 | `td.map_id`, `td.spawn_id` | 맵과 스폰 지점 연결 |
 | `td.dir`, `td.next`, `td.branch_count`, `td.branch_pick`, `td.path_dir` | 검은 양털 경로 이동과 분기/가이드 |

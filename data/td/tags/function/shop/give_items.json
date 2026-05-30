@@ -1,0 +1,8 @@
+{
+  "values": [
+    "td:shop/give_item/basic",
+    "td:shop/give_item/splash",
+    "td:shop/give_item/blink",
+    "td:shop/give_item/remove_tower"
+  ]
+}

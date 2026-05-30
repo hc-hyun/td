@@ -1,0 +1,1 @@
+execute as @e[type=minecraft:mannequin,tag=td.tower.blink,tag=!td.tower.blinking,scores={td.tower_cd=100..}] at @s if entity @e[tag=td.enemy,distance=..12,limit=1,sort=nearest] run function td:tower/attack/run/blink

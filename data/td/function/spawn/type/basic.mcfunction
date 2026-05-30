@@ -1,0 +1,5 @@
+# 현재 위치에 basic 타입 적을 소환하고 초기화합니다.
+summon minecraft:zombie ~ ~ ~ {Tags:["td.enemy","td.new","td.type.basic"],NoAI:1b,NoGravity:1b,PersistenceRequired:1b,Silent:1b,CustomName:{text:'Basic',color:'green'},CustomNameVisible:1b}
+
+execute as @e[tag=td.new,tag=td.type.basic,sort=nearest,limit=1] at @s run function td:enemy/type/basic
+execute as @e[tag=td.new,tag=td.type.basic,sort=nearest,limit=1] at @s run function td:spawn/common

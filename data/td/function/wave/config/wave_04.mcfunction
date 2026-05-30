@@ -1,17 +1,17 @@
 # Wave 04: basic x14, 18틱 간격.
-execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 38 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 56 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 74 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 92 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 110 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 128 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 146 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 164 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 182 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 200 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 218 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 236 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 254 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 38 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 56 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 74 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 92 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 110 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 128 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 146 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 164 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 182 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 200 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 218 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 236 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 254 run function td:spawn/random {type:"basic"}
 execute if score $wave_time td.wave_time matches 340 run scoreboard players set $wave_done td.wave_done 1
 

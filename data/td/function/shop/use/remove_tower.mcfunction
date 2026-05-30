@@ -1,1 +1,1 @@
-function td:tower/remove_nearest
+execute if items entity @s weapon.mainhand minecraft:carrot_on_a_stick[custom_data~{td:{tool:"remove_tower"}}] run function td:tower/remove_nearest

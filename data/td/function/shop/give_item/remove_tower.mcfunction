@@ -1,0 +1,1 @@
+give @s minecraft:carrot_on_a_stick[custom_data={td:{tool:"remove_tower"}},item_name='{"text":"Remove Tower","color":"red","italic":false}',lore=['{"text":"Refund: 100% before waves, 50% during waves","color":"gray","italic":false}'],enchantment_glint_override=true] 1

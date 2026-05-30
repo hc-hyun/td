@@ -1,0 +1,13 @@
+{
+  "values": [
+    "td:config/core",
+    "td:config/economy",
+    "td:config/enemy/basic",
+    "td:config/enemy/fast",
+    "td:config/enemy/tank",
+    "td:config/enemy/boss",
+    "td:config/tower/basic",
+    "td:config/tower/splash",
+    "td:config/tower/blink"
+  ]
+}

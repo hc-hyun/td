@@ -1,6 +1,6 @@
 # blink 방어 유닛 설정입니다.
-# type 3, 사거리 12, 도착 지점 주변 3블록, 공격 주기 100틱입니다.
-scoreboard players set @s td.tower_type 3
+# 사거리 12, 도착 지점 주변 3블록, 공격 주기 100틱입니다.
+tag @s add td.tower.blink
 scoreboard players operation @s td.tower_cd = $tower_blink_initial_cd td.tower_cd
 function td:tower/assign_id
 

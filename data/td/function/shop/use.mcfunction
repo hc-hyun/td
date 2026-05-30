@@ -2,12 +2,11 @@
 tag @a remove td.place.actor
 tag @s add td.place.actor
 
-scoreboard players set @s td.place_type 0
+function td:tower/select/clear
 scoreboard players set @s td.place_cost 0
 
-execute if items entity @s weapon.mainhand minecraft:carrot_on_a_stick[custom_data~{td:{tool:"tower",tower:"basic"}}] run function td:shop/use/basic
-execute if items entity @s weapon.mainhand minecraft:carrot_on_a_stick[custom_data~{td:{tool:"tower",tower:"splash"}}] run function td:shop/use/splash
-execute if items entity @s weapon.mainhand minecraft:carrot_on_a_stick[custom_data~{td:{tool:"tower",tower:"blink"}}] run function td:shop/use/blink
-execute if items entity @s weapon.mainhand minecraft:carrot_on_a_stick[custom_data~{td:{tool:"remove_tower"}}] run function td:shop/use/remove_tower
+function #td:shop/use_items
+execute if entity @s[tag=td.place.tower] run function td:place/raycast/start
 
+function td:tower/select/clear
 tag @s remove td.place.actor

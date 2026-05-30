@@ -1,15 +1,15 @@
 # Wave 05: tank x2 + basic x10.
-execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 45 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 70 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 95 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 110 run function td:spawn/tank
-execute if score $wave_time td.wave_time matches 120 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 145 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 170 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 195 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 220 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 245 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 250 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 45 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 70 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 95 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 110 run function td:spawn/random {type:"tank"}
+execute if score $wave_time td.wave_time matches 120 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 145 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 170 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 195 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 220 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 245 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 250 run function td:spawn/random {type:"tank"}
 execute if score $wave_time td.wave_time matches 420 run scoreboard players set $wave_done td.wave_done 1
 

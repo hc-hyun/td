@@ -1,3 +1,1 @@
-scoreboard players set @s td.place_type 2
-scoreboard players operation @s td.place_cost = $tower_splash_cost td.place_cost
-function td:place/raycast/start
+execute if items entity @s weapon.mainhand minecraft:carrot_on_a_stick[custom_data~{td:{tool:"tower",tower:"splash"}}] run function td:tower/select/splash

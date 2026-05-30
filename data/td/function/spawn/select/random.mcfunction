@@ -1,5 +1,5 @@
 # 활성 맵의 스폰 지점 중 하나를 균등 랜덤으로 선택합니다.
-# 스폰 지점이 없으면 기존 td.start marker를 fallback으로 선택합니다.
+# 스폰 지점이 없으면 활성 맵 시작점을 선택합니다.
 function td:spawn/select/clear
 scoreboard players set $spawn_count td.spawn_count 0
 scoreboard players set $spawn_pick td.spawn_pick 0

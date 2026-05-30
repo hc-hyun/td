@@ -2,8 +2,8 @@
 scoreboard players set $boss_hp td.tmp 0
 scoreboard players set $boss_max td.tmp 0
 
-execute as @e[tag=td.enemy,scores={td.type=4}] run scoreboard players operation $boss_hp td.tmp += @s td.enemy_hp
-execute as @e[tag=td.enemy,scores={td.type=4}] run scoreboard players operation $boss_max td.tmp += @s td.enemy_max_hp
+execute as @e[tag=td.enemy,tag=td.type.boss] run scoreboard players operation $boss_hp td.tmp += @s td.enemy_hp
+execute as @e[tag=td.enemy,tag=td.type.boss] run scoreboard players operation $boss_max td.tmp += @s td.enemy_max_hp
 
 execute unless score $boss_max td.tmp matches 1.. run bossbar set td:boss visible false
 execute if score $boss_max td.tmp matches 1.. run bossbar set td:boss players @a

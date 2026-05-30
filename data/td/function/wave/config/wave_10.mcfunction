@@ -1,14 +1,14 @@
 # Wave 10: boss x1 + basic x10.
-execute if score $wave_time td.wave_time matches 20 run function td:spawn/boss
-execute if score $wave_time td.wave_time matches 80 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 105 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 130 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 155 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 180 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 205 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 230 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 255 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 280 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 305 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/random {type:"boss"}
+execute if score $wave_time td.wave_time matches 80 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 105 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 130 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 155 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 180 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 205 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 230 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 255 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 280 run function td:spawn/random {type:"basic"}
+execute if score $wave_time td.wave_time matches 305 run function td:spawn/random {type:"basic"}
 execute if score $wave_time td.wave_time matches 520 run scoreboard players set $wave_done td.wave_done 1
 

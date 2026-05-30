@@ -1,0 +1,8 @@
+{
+  "values": [
+    "td:enemy/hpbar/run/basic",
+    "td:enemy/hpbar/run/fast",
+    "td:enemy/hpbar/run/tank",
+    "td:enemy/hpbar/run/boss"
+  ]
+}

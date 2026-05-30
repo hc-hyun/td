@@ -1,0 +1,1 @@
+give @s minecraft:carrot_on_a_stick[custom_data={td:{tool:"tower",tower:"basic"}},item_name='{"text":"Basic Tower","color":"green","italic":false}',lore=['{"text":"Configured cost | Single target","color":"gray","italic":false}'],enchantment_glint_override=true] 1

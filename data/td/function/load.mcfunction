@@ -16,10 +16,8 @@ scoreboard objectives add td.hp dummy
 scoreboard objectives add td.enemy_hp dummy
 scoreboard objectives add td.enemy_max_hp dummy
 scoreboard objectives add td.hp_ratio dummy
-scoreboard objectives add td.type dummy
 scoreboard objectives add td.speed dummy
 scoreboard objectives add td.tower_cd dummy
-scoreboard objectives add td.tower_type dummy
 scoreboard objectives add td.tower_id dummy
 scoreboard objectives add td.tower_cost dummy
 scoreboard objectives add td.blink_time dummy
@@ -30,7 +28,6 @@ scoreboard objectives add td.owner_id dummy
 scoreboard objectives add td.place_use minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add td.place_cd dummy
 scoreboard objectives add td.place_step dummy
-scoreboard objectives add td.place_type dummy
 scoreboard objectives add td.place_cost dummy
 scoreboard objectives add td.refund dummy
 scoreboard objectives add td.tmp dummy
@@ -66,14 +63,8 @@ bossbar set td:boss visible false
 # /reload 이후 기존 적 이름표도 현재 텍스트 컴포넌트 문법으로 다시 갱신되게 합니다.
 tag @e[tag=td.enemy] remove td.hpbar.ready
 
-# 예전 단일 시작점 marker(td.start만 있는 marker)를 새 다중 맵 marker 구조로 보정합니다.
-function td:map/migrate_legacy_start
 function td:map/ensure_ids
 function td:spawnpoint/activate_for_map
-
-# 예전 단일 적 팀 이름은 호환성을 위해 남겨둡니다.
-team add td_enemy
-team modify td_enemy collisionRule never
 
 # 타입별 팀을 만들고 색상과 충돌 규칙을 설정합니다.
 # 적은 타입별 팀 중 하나에 들어가며, td.enemy 태그로 공통 처리됩니다.

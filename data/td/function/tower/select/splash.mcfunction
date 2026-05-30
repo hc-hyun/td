@@ -1,0 +1,3 @@
+tag @s add td.place.tower
+tag @s add td.place.splash
+scoreboard players operation @s td.place_cost = $tower_splash_cost td.place_cost

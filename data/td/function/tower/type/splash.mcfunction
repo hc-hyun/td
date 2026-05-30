@@ -1,6 +1,6 @@
 # splash 방어 유닛 설정입니다.
-# type 2, 사거리 7, 타겟 주변 2.5블록, 공격 주기 60틱입니다.
-scoreboard players set @s td.tower_type 2
+# 사거리 7, 타겟 주변 2.5블록, 공격 주기 60틱입니다.
+tag @s add td.tower.splash
 scoreboard players operation @s td.tower_cd = $tower_splash_initial_cd td.tower_cd
 function td:tower/assign_id
 

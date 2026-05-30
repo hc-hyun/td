@@ -7,10 +7,9 @@ execute if score @s td.enemy_max_hp matches 1.. run scoreboard players operation
 execute if score @s td.enemy_hp matches 1.. if score @s td.hp_ratio matches ..0 run scoreboard players set @s td.hp_ratio 1
 execute if score @s td.hp_ratio matches 11.. run scoreboard players set @s td.hp_ratio 10
 
-execute if score @s td.type matches 1 run function td:enemy/hpbar/type/basic
-execute if score @s td.type matches 2 run function td:enemy/hpbar/type/fast
-execute if score @s td.type matches 3 run function td:enemy/hpbar/type/tank
-execute if score @s td.type matches 4 run function td:enemy/hpbar/type/boss
-execute unless score @s td.type matches 1..4 run function td:enemy/hpbar/type/basic
+tag @s remove td.hpbar.matched
+function #td:enemy/hpbar_types
+execute unless entity @s[tag=td.hpbar.matched] run function td:enemy/hpbar/type/basic
+tag @s remove td.hpbar.matched
 
 tag @s add td.hpbar.ready

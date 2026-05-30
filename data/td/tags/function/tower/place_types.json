@@ -1,0 +1,7 @@
+{
+  "values": [
+    "td:tower/place_type/basic",
+    "td:tower/place_type/splash",
+    "td:tower/place_type/blink"
+  ]
+}

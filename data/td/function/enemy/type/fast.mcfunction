@@ -1,6 +1,6 @@
 # fast 타입 설정입니다.
 # HP, speed, reward는 td:config/enemy/fast에서 가져옵니다.
-scoreboard players set @s td.type 2
+tag @s add td.type.fast
 scoreboard players operation @s td.enemy_max_hp = $enemy_fast_hp td.enemy_max_hp
 scoreboard players operation @s td.enemy_hp = $enemy_fast_hp td.enemy_max_hp
 scoreboard players operation @s td.speed = $enemy_fast_speed td.speed

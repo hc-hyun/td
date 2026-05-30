@@ -1,3 +1,6 @@
+# 플레이어별 경제, 상점 아이템 우클릭, 배치 쿨다운을 처리합니다.
+execute as @a at @s run function td:player/tick
+
 # 매 틱마다 td.enemy 태그가 붙은 모든 적을 각각 실행 주체로 잡습니다.
 # at @s를 함께 써서 각 적의 현재 위치 기준으로 이동과 경로 검사를 처리합니다.
 execute as @e[tag=td.enemy] at @s run function td:enemy/tick

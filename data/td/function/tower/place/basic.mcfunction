@@ -1,5 +1,11 @@
-# 플레이어 위치에 기본 방어 유닛을 배치합니다.
-# 현재 블록의 중앙에 고정 mannequin을 소환하고 기본 장비와 쿨타임을 설정합니다.
-execute align xz positioned ~0.5 ~ ~0.5 run summon minecraft:mannequin ~ ~ ~ {Tags:["td.tower","td.tower.basic","td.tower.new"],immovable:1b,NoGravity:1b,Invulnerable:1b,hide_description:1b,pose:"standing",profile:{texture:"minecraft:entity/player/wide/steve",model:"wide"},Rotation:[180f,0f]}
+# 플레이어 위치에 기본 방어 유닛을 구매 배치합니다.
+execute unless score @s td.player_id matches 1.. run function td:player/assign_id
+tag @a remove td.place.actor
+tag @s add td.place.actor
 
-execute as @e[type=minecraft:mannequin,tag=td.tower.new,tag=td.tower.basic,sort=nearest,limit=1] at @s run function td:tower/type/basic
+scoreboard players set @s td.place_type 1
+scoreboard players set @s td.place_cost 20
+execute unless score @s td.money >= @s td.place_cost run function td:place/fail/no_money
+execute if score @s td.money >= @s td.place_cost align xz positioned ~0.5 ~ ~0.5 run function td:place/attempt
+
+tag @s remove td.place.actor

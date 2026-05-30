@@ -16,7 +16,18 @@ scoreboard objectives add td.speed dummy
 scoreboard objectives add td.tower_cd dummy
 scoreboard objectives add td.tower_type dummy
 scoreboard objectives add td.tower_id dummy
+scoreboard objectives add td.tower_cost dummy
 scoreboard objectives add td.blink_time dummy
+scoreboard objectives add td.money dummy
+scoreboard objectives add td.reward dummy
+scoreboard objectives add td.player_id dummy
+scoreboard objectives add td.owner_id dummy
+scoreboard objectives add td.place_use minecraft.used:minecraft.carrot_on_a_stick
+scoreboard objectives add td.place_cd dummy
+scoreboard objectives add td.place_step dummy
+scoreboard objectives add td.place_type dummy
+scoreboard objectives add td.place_cost dummy
+scoreboard objectives add td.refund dummy
 scoreboard objectives add td.tmp dummy
 scoreboard objectives add td.wave dummy
 scoreboard objectives add td.wave_time dummy
@@ -28,6 +39,8 @@ scoreboard objectives add td.wave_prep dummy
 # /reload 할 때마다 기본값 20으로 다시 맞춰집니다.
 scoreboard players set $base td.hp 20
 scoreboard players set $hp_scale td.tmp 10
+scoreboard players set $two td.tmp 2
+scoreboard players set $start_money td.money 60
 
 # 웨이브 진행 상태입니다.
 # 상태값: 0 대기, 1 진행 중, 2 준비 시간, 3 승리, -1 패배.

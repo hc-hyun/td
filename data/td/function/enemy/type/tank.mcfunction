@@ -4,6 +4,7 @@ scoreboard players set @s td.type 3
 scoreboard players set @s td.enemy_max_hp 30
 scoreboard players set @s td.enemy_hp 30
 scoreboard players set @s td.speed 1
+scoreboard players set @s td.reward 15
 
 # 팀 색상과 충돌 방지 규칙을 적용합니다.
 team join td_enemy_tank @s

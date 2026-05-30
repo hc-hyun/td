@@ -70,7 +70,16 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 
 `td:wave/start`는 활성 맵이 있을 때만 동작합니다. 새 게임 시작용이라 기존 방어 유닛도 함께 정리합니다. 방어 유닛은 `td:wave/start` 이후에 배치합니다.
 
-6. 원하는 위치에 방어 유닛을 배치합니다.
+6. 방어 유닛 상점 아이템을 받고, 원하는 타워 아이템을 든 상태로 설치할 블록을 바라보며 우클릭합니다.
+
+```mcfunction
+/function td:shop/give_items
+/function td:economy/status
+```
+
+상점 아이템은 `Basic Tower`, `Splash Tower`, `Blink Tower`, `Remove Tower` 4종입니다. 배치 아이템은 바라보는 블록 위에 타워를 설치하고, 제거 아이템은 4블록 안의 본인 소유 타워를 환불 제거합니다.
+
+명령으로도 현재 위치에 구매 배치할 수 있습니다.
 
 ```mcfunction
 /function td:tower/place/basic
@@ -143,7 +152,7 @@ S ■ ■ ■
 ## 주요 함수
 
 - `td:load`: 점수판과 팀을 준비하고 기본 기지 체력을 20으로 설정합니다.
-- `td:tick`: 매 틱마다 `td.enemy` 태그가 붙은 적을 처리합니다.
+- `td:tick`: 매 틱마다 플레이어 입력, 적 이동, 방어 유닛, 체력바, 웨이브 상태를 처리합니다.
 - `td:set_start`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:map/save_here`를 실행합니다.
 - `td:map/save_here`: 현재 위치에 저장 맵 시작점을 만들고 즉시 활성 맵으로 전환합니다.
 - `td:map/activate_nearest`: 플레이어 8블록 안의 가장 가까운 저장 맵 시작점을 활성 맵으로 선택합니다.
@@ -159,10 +168,12 @@ S ■ ■ ■
 - `td:wave/stop`: 웨이브를 대기 상태로 전환하고 남은 적을 정리합니다.
 - `td:wave/status`: 현재 웨이브, 코어 HP, 상태값, 준비 시간 tick을 채팅에 표시합니다.
 - `td:wave/tick`: 웨이브 스폰표 실행, 클리어 판정, 준비 시간, 승패 처리를 담당합니다.
-- `td:tower/place/basic`: 플레이어 위치에 기본 mannequin 방어 유닛을 배치합니다.
-- `td:tower/place/splash`: 플레이어 위치에 광역 마법 방어 유닛을 배치합니다.
-- `td:tower/place/blink`: 플레이어 위치에 순간이동 광역 방어 유닛을 배치합니다.
-- `td:tower/remove_nearest`: 플레이어 기준 4블록 안의 가장 가까운 방어 유닛을 제거합니다.
+- `td:shop/give_items`: 타워 배치 아이템 3종과 제거 아이템을 지급합니다.
+- `td:economy/status`: 실행 플레이어의 개인 돈을 표시합니다.
+- `td:tower/place/basic`: 비용 20을 내고 플레이어 위치에 기본 mannequin 방어 유닛을 배치합니다.
+- `td:tower/place/splash`: 비용 40을 내고 플레이어 위치에 광역 마법 방어 유닛을 배치합니다.
+- `td:tower/place/blink`: 비용 70을 내고 플레이어 위치에 순간이동 광역 방어 유닛을 배치합니다.
+- `td:tower/remove_nearest`: 플레이어 기준 4블록 안의 가장 가까운 본인 소유 방어 유닛을 환불 제거합니다.
 - `td:tower/tick`: 방어 유닛의 쿨타임과 공격 판정을 처리합니다.
 - `td:enemy/hpbar/update`: 현재 적의 점수판 HP를 기준으로 머리 위 체력바를 갱신합니다.
 - `td:enemy/bossbar/tick`: 살아 있는 boss 타입 적들의 전체 HP를 bossbar에 반영합니다.
@@ -174,12 +185,12 @@ S ■ ■ ■
 
 ## 몹 타입
 
-| 타입 | 함수 | 엔티티 | HP | 속도 | 크기 |
-| --- | --- | --- | ---: | --- | ---: |
-| basic | `td:spawn/basic` | zombie | 10 | normal | 1.0 |
-| fast | `td:spawn/fast` | vindicator | 6 | fast | 0.85 |
-| tank | `td:spawn/tank` | pillager | 30 | slow | 1.25 |
-| boss | `td:spawn/boss` | evoker | 100 | slow | 1.5 |
+| 타입 | 함수 | 엔티티 | HP | 속도 | 크기 | 보상 |
+| --- | --- | --- | ---: | --- | ---: | ---: |
+| basic | `td:spawn/basic` | zombie | 10 | normal | 1.0 | 5 |
+| fast | `td:spawn/fast` | vindicator | 6 | fast | 0.85 | 6 |
+| tank | `td:spawn/tank` | pillager | 30 | slow | 1.25 | 15 |
+| boss | `td:spawn/boss` | evoker | 100 | slow | 1.5 | 80 |
 
 속도 프리셋은 다음과 같습니다.
 
@@ -191,13 +202,19 @@ S ■ ■ ■
 
 ## 방어 유닛
 
-| 타입 | 함수 | 엔티티 | 피해 | 사거리 | 공격 주기 | 특징 |
-| --- | --- | --- | ---: | ---: | ---: | --- |
-| basic | `td:tower/place/basic` | mannequin | 4 | 8블록 | 40틱 | 가장 가까운 적 1명 공격 |
-| splash | `td:tower/place/splash` | mannequin | 3 | 7블록 | 60틱 | 타겟 주변 2.5블록 광역 공격 |
-| blink | `td:tower/place/blink` | mannequin | 5 | 12블록 | 100틱 | 타겟에게 순간이동해 주변 3블록 광역 공격 후 6틱 동안 머물다 복귀 |
+| 타입 | 함수 | 비용 | 엔티티 | 피해 | 사거리 | 공격 주기 | 특징 |
+| --- | --- | ---: | --- | ---: | ---: | ---: | --- |
+| basic | `td:tower/place/basic` | 20 | mannequin | 4 | 8블록 | 40틱 | 가장 가까운 적 1명 공격 |
+| splash | `td:tower/place/splash` | 40 | mannequin | 3 | 7블록 | 60틱 | 타겟 주변 2.5블록 광역 공격 |
+| blink | `td:tower/place/blink` | 70 | mannequin | 5 | 12블록 | 100틱 | 타겟에게 순간이동해 주변 3블록 광역 공격 후 6틱 동안 머물다 복귀 |
 
 방어 유닛은 `minecraft:mannequin`을 사용하며, 공격할 때 `/swing`으로 팔을 휘두르고 `td.enemy`의 `td.enemy_hp` 점수를 깎습니다. 쿨타임과 사거리 검사는 공통 `td:tower/tick`에서 처리하고, 실제 공격 방식과 이펙트는 `td:tower/attack/<타입>` 함수가 담당합니다.
+
+## 경제와 환불
+
+돈은 플레이어별 `td.money` 점수로 관리합니다. 새 게임 시작 또는 활성 맵 전환 시 온라인 플레이어의 돈은 60으로 초기화됩니다. 적이 죽으면 해당 적의 보상만큼 모든 온라인 플레이어가 같은 돈을 받습니다.
+
+타워는 배치한 플레이어의 `td.player_id`를 `td.owner_id`로 저장합니다. `Remove Tower` 아이템이나 `td:tower/remove_nearest`는 본인 소유 타워만 제거합니다. 웨이브 진행 중(`$wave_state = 1`)에는 구매가의 50%, 대기/준비/승리/패배 상태에서는 100%를 환불합니다. 맵 전환, 새 게임 시작, `td:reset/towers` 정리는 환불하지 않습니다.
 
 ## 적 체력바
 
@@ -317,6 +334,10 @@ execute if score $wave_time td.wave_time matches 220 run scoreboard players set 
 - `td.enemy_hp`: 적의 현재 체력입니다.
 - `td.enemy_max_hp`: 적의 최대 체력입니다.
 - `td.hp_ratio`: 적 체력바의 1~10 단계 값입니다.
+- `td.reward`: 적이 죽을 때 모든 온라인 플레이어에게 지급할 보상입니다.
+- `td.money`: 플레이어 개인 돈입니다.
+- `td.player_id`: 플레이어별 고유 번호입니다.
+- `td.owner_id`: 타워 소유자 번호입니다.
 - `td.type`: 적 타입 번호입니다.
   - `1`: basic
   - `2`: fast
@@ -332,7 +353,11 @@ execute if score $wave_time td.wave_time matches 220 run scoreboard players set 
   - `2`: splash
   - `3`: blink
 - `td.tower_id`: 방어 유닛과 순간이동 복귀 marker를 짝짓기 위한 고유 번호입니다.
+- `td.tower_cost`: 타워의 구매가입니다. 환불 계산에 사용합니다.
 - `td.blink_time`: blink 방어 유닛이 타겟 위치에 머무는 남은 틱입니다.
+- `td.place_use`: 타워 상점 아이템 우클릭 감지 값입니다.
+- `td.place_cd`: 우클릭 배치/제거 중복 실행을 막는 플레이어별 쿨다운입니다.
+- `td.place_step`, `td.place_type`, `td.place_cost`, `td.refund`: 자유 배치와 환불 계산용 값입니다.
 - `td.wave`: 현재 웨이브 번호입니다. `$wave` 가짜 플레이어에 저장됩니다.
 - `td.wave_time`: 현재 웨이브 경과 tick입니다. `$wave_time` 가짜 플레이어에 저장됩니다.
 - `td.wave_state`: 웨이브 상태입니다. `$wave_state` 값이 `0`이면 대기, `1`이면 진행 중, `2`이면 준비 시간, `3`이면 승리, `-1`이면 패배입니다.
@@ -346,7 +371,7 @@ execute if score $wave_time td.wave_time matches 220 run scoreboard players set 
 
 1. `data/td/function/spawn/<타입>.mcfunction`을 만들고 원하는 바닐라 엔티티를 소환합니다.
 2. 소환 NBT에 `td.enemy`, `td.new`, `td.type.<타입>` 태그를 넣습니다.
-3. `data/td/function/enemy/type/<타입>.mcfunction`을 만들고 `td.type`, `td.enemy_hp`, `td.enemy_max_hp`, `td.speed`, `minecraft:scale`, 장비, 소환 이펙트를 설정합니다.
+3. `data/td/function/enemy/type/<타입>.mcfunction`을 만들고 `td.type`, `td.enemy_hp`, `td.enemy_max_hp`, `td.reward`, `td.speed`, `minecraft:scale`, 장비, 소환 이펙트를 설정합니다.
 4. `data/td/function/load.mcfunction`에 타입별 팀을 추가하고 `collisionRule never`를 설정합니다.
 5. 소환 함수에서 타입 설정 함수 실행 후 `td:spawn/common`을 실행합니다.
 
@@ -356,12 +381,13 @@ execute if score $wave_time td.wave_time matches 220 run scoreboard players set 
 
 새 방어 유닛을 추가할 때는 기존 `basic`, `splash`, `blink` 중 가장 비슷한 타입을 복사해서 아래 흐름을 맞추면 됩니다.
 
-1. `data/td/function/tower/place/<타입>.mcfunction`을 만들고 `minecraft:mannequin`을 소환합니다.
-2. 소환 NBT에 `td.tower`, `td.tower.new`, `td.tower.<타입>` 태그를 넣습니다.
-3. `data/td/function/tower/type/<타입>.mcfunction`에서 `td.tower_type`, 초기 `td.tower_cd`, 팀, 장비, 크기, 배치 이펙트를 설정합니다.
-4. `data/td/function/tower/tick.mcfunction`에 해당 타입의 쿨타임, 사거리, `td.tower_type` 분기 조건을 추가합니다.
-5. `data/td/function/tower/attack.mcfunction`에 새 타입 번호와 `td:tower/attack/<타입>` 호출을 추가합니다.
-6. `data/td/function/tower/attack/<타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
+1. `data/td/function/tower/spawn/<타입>.mcfunction`을 만들고 `minecraft:mannequin`을 소환합니다.
+2. 소환 NBT에 `td.tower`, `td.tower.new`, `td.tower.<타입>` 태그를 넣고 `td.owner_id`, `td.tower_cost`를 배치 플레이어에서 복사합니다.
+3. `data/td/function/tower/place/<타입>.mcfunction` 또는 상점 아이템 분기에 타입 번호와 비용을 추가합니다.
+4. `data/td/function/tower/type/<타입>.mcfunction`에서 `td.tower_type`, 초기 `td.tower_cd`, 팀, 장비, 크기, 배치 이펙트를 설정합니다.
+5. `data/td/function/tower/tick.mcfunction`에 해당 타입의 쿨타임, 사거리, `td.tower_type` 분기 조건을 추가합니다.
+6. `data/td/function/tower/attack.mcfunction`에 새 타입 번호와 `td:tower/attack/<타입>` 호출을 추가합니다.
+7. `data/td/function/tower/attack/<타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
 
 공격 함수에서는 시작 전에 `td:tower/attack`이 임시 태그를 정리합니다. 가장 가까운 단일 타겟은 `td.tower.target`, 광역 피해 대상은 `td.tower.hit` 태그를 붙인 뒤 `td:tower/damage/apply` 또는 `td:tower/damage/hit_tagged`를 호출합니다. 순간이동형 공격은 `td.tower.origin` marker로 원위치를 저장하고 `td.blink_time`이 끝난 뒤 반드시 돌아오도록 작성합니다. 적의 `td.enemy_hp`를 바꾸는 새 피해 함수는 생존한 적에게 `td:enemy/hpbar/update`도 호출해야 합니다.
 

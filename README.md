@@ -62,7 +62,17 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:map/remove_nearest
 ```
 
-5. 웨이브 게임을 시작합니다.
+5. 필요하면 활성 맵에 추가 적 소환 지점을 저장합니다.
+
+```mcfunction
+/function td:spawnpoint/save_here/1
+/function td:spawnpoint/save_here/2
+/function td:spawnpoint/status
+```
+
+소환 지점은 활성 맵에 묶이며 번호는 `1`부터 `8`까지 사용할 수 있습니다. 저장된 소환 지점이 없으면 기존처럼 활성 맵 시작점에서 적이 소환됩니다.
+
+6. 웨이브 게임을 시작합니다.
 
 ```mcfunction
 /function td:wave/start
@@ -70,7 +80,7 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 
 `td:wave/start`는 활성 맵이 있을 때만 동작합니다. 새 게임 시작용이라 기존 방어 유닛도 함께 정리합니다. 방어 유닛은 `td:wave/start` 이후에 배치합니다.
 
-6. 방어 유닛 상점 아이템을 받고, 원하는 타워 아이템을 든 상태로 설치할 블록을 바라보며 우클릭합니다.
+7. 방어 유닛 상점 아이템을 받고, 원하는 타워 아이템을 든 상태로 설치할 블록을 바라보며 우클릭합니다.
 
 ```mcfunction
 /function td:shop/give_items
@@ -101,7 +111,7 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:wave/stop
 ```
 
-7. 원하는 타입의 적을 수동 소환해서 테스트할 수도 있습니다.
+8. 원하는 타입의 적을 수동 소환해서 테스트할 수도 있습니다.
 
 ```mcfunction
 /function td:spawn/basic
@@ -110,13 +120,20 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:spawn/boss
 ```
 
+이 기본 소환 함수들은 활성 맵의 저장된 소환 지점 중 하나를 랜덤으로 사용합니다. 특정 지점이나 모든 지점에서 테스트하려면 다음처럼 호출합니다.
+
+```mcfunction
+/function td:spawn/basic/from_1
+/function td:spawn/basic/all
+```
+
 기존 테스트 명령도 계속 사용할 수 있습니다. 이 명령은 `td:spawn/basic`을 호출합니다.
 
 ```mcfunction
 /function td:spawn_enemy
 ```
 
-8. 기지 체력을 확인합니다.
+9. 기지 체력을 확인합니다.
 
 ```mcfunction
 /scoreboard players get $base td.hp
@@ -137,6 +154,7 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 - 검은 양털 경로는 1칸 폭이어야 합니다.
 - 대각선 이동은 지원하지 않습니다.
 - 갈림길은 지원합니다. 적마다 되돌아가는 방향을 제외한 검은 양털 후보 중 하나를 균등 랜덤으로 선택합니다.
+- 두 갈래가 다시 만나는 합류 칸에는 방향 가이드를 두어 목적지 방향을 지정해야 합니다.
 - 높낮이 없는 평면 경로를 기준으로 합니다.
 - 시작점과 끝점은 막다른 길이어야 합니다.
 - 순환 경로는 방문 기록을 따로 저장하지 않으므로 피하는 것이 좋습니다.
@@ -149,6 +167,26 @@ S ■ ■ ■
       ■ ■ ■ E
 ```
 
+합류형 경로 예시:
+
+```text
+      ┌ ■ ■ ┐
+S ■ ■       ■ > ■ E
+      └ ■ ■ ┘
+```
+
+위 예시처럼 두 길이 다시 만나는 칸에는 `>` 위치에서 목적지 방향 가이드를 저장합니다. 가이드가 없는 갈라지는 지점은 기존처럼 랜덤으로 갈래를 선택합니다.
+
+```mcfunction
+/function td:path/guide/east
+/function td:path/guide/west
+/function td:path/guide/south
+/function td:path/guide/north
+/function td:path/guide/remove_nearest
+```
+
+가이드는 보이지 않는 marker로 저장되며, `td:reset/all`, `td:wave/start`, 맵 전환으로 삭제되지 않습니다.
+
 ## 주요 함수
 
 - `td:load`: 점수판과 팀을 준비하고 기본 기지 체력을 20으로 설정합니다.
@@ -158,10 +196,15 @@ S ■ ■ ■
 - `td:map/activate_nearest`: 플레이어 8블록 안의 가장 가까운 저장 맵 시작점을 활성 맵으로 선택합니다.
 - `td:map/remove_nearest`: 플레이어 8블록 안의 가장 가까운 저장 맵 시작점을 삭제합니다.
 - `td:map/status`: 활성 맵 존재 여부와 현재 웨이브/코어 상태를 표시합니다.
-- `td:spawn/basic`: 기본 좀비 적을 소환합니다.
-- `td:spawn/fast`: 빠른 vindicator 적을 소환합니다.
-- `td:spawn/tank`: 느리고 튼튼한 pillager 적을 소환합니다.
-- `td:spawn/boss`: 크고 체력이 높은 evoker 보스 적을 소환합니다.
+- `td:spawnpoint/save_here/1` ~ `td:spawnpoint/save_here/8`: 현재 위치를 활성 맵의 번호별 적 소환 지점으로 저장합니다.
+- `td:spawnpoint/remove_nearest`: 플레이어 8블록 안의 가장 가까운 활성 맵 소환 지점을 삭제합니다.
+- `td:spawnpoint/status`: 활성 맵의 소환 지점 개수와 저장된 번호를 표시합니다.
+- `td:spawn/basic`: 기본 좀비 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
+- `td:spawn/fast`: 빠른 vindicator 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
+- `td:spawn/tank`: 느리고 튼튼한 pillager 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
+- `td:spawn/boss`: 크고 체력이 높은 evoker 보스 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
+- `td:spawn/<타입>/from_1` ~ `from_8`: 해당 번호의 활성 소환 지점에서만 적을 소환합니다.
+- `td:spawn/<타입>/all`: 활성 소환 지점 전체에서 적을 한 마리씩 소환합니다.
 - `td:spawn_enemy`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:spawn/basic`을 실행합니다.
 - `td:wave/start`: 활성 맵이 있으면 적과 방어 유닛을 초기화하고 코어 HP를 20으로 되돌린 뒤 1웨이브를 시작합니다.
 - `td:wave/next`: 준비 시간 중이면 즉시 다음 웨이브를 시작합니다.
@@ -181,6 +224,11 @@ S ■ ■ ■
 - `td:reset/towers`: 모든 아군 방어 유닛과 blink 복귀 marker를 초기화합니다.
 - `td:reset/all`: 적과 아군 방어 유닛을 모두 초기화합니다.
 - `td:path/on_cell`: 현재 칸 주변의 검은 양털을 검사해서 다음 이동 방향을 고릅니다. 후보가 여러 개면 적마다 랜덤으로 하나를 선택합니다.
+- `td:path/guide/east`: 현재 칸에 동쪽 `+X` 방향 가이드를 저장합니다.
+- `td:path/guide/west`: 현재 칸에 서쪽 `-X` 방향 가이드를 저장합니다.
+- `td:path/guide/south`: 현재 칸에 남쪽 `+Z` 방향 가이드를 저장합니다.
+- `td:path/guide/north`: 현재 칸에 북쪽 `-Z` 방향 가이드를 저장합니다.
+- `td:path/guide/remove_nearest`: 플레이어 4블록 안의 가장 가까운 방향 가이드를 제거합니다.
 - `td:path/finish`: 적이 끝점에 도착했을 때 기지 체력을 1 줄이고 적을 제거합니다.
 
 ## 몹 타입
@@ -233,7 +281,7 @@ boss 타입 적이 하나 이상 살아 있으면 `td:boss` bossbar가 화면 �
 
 ## 다중 맵 운영
 
-BlackWoolTD는 월드 안에 여러 디펜스맵 시작점을 저장할 수 있지만, 게임 진행은 항상 하나의 활성 맵만 사용합니다. 저장된 시작점은 `td.map.start` marker로 남고, 현재 활성 맵 하나에만 `td.map.active`와 기존 호환용 `td.start` 태그가 붙습니다.
+BlackWoolTD는 월드 안에 여러 디펜스맵 시작점을 저장할 수 있지만, 게임 진행은 항상 하나의 활성 맵만 사용합니다. 저장된 시작점은 `td.map.start` marker로 남고, 현재 활성 맵 하나에만 `td.map.active`와 기존 호환용 `td.start` 태그가 붙습니다. 각 맵 시작점에는 `td.map_id`가 저장되고, 적 소환 지점도 같은 `td.map_id`로 묶입니다.
 
 예전 방식으로 만든 `td.start` 시작점만 남아 있는 월드는 `/reload` 때 자동으로 새 marker 구조로 보정됩니다.
 
@@ -251,12 +299,32 @@ BlackWoolTD는 월드 안에 여러 디펜스맵 시작점을 저장할 수 있�
 
 활성 맵을 바꾸면 진행 중인 적, 방어 유닛, 웨이브 상태가 초기화되고 코어 HP가 20으로 돌아갑니다. 같은 월드에 여러 맵을 두는 용도이며, 여러 맵을 동시에 독립 진행하는 구조는 아닙니다.
 
-가까운 저장 맵 시작점을 삭제하거나 현재 상태를 확인하려면 다음 명령을 사용합니다.
+가까운 저장 맵 시작점을 삭제하거나 현재 상태를 확인하려면 다음 명령을 사용합니다. 저장 맵을 삭제하면 같은 `td.map_id`에 묶인 적 소환 지점도 함께 삭제됩니다.
 
 ```mcfunction
 /function td:map/remove_nearest
 /function td:map/status
 ```
+
+활성 맵에는 최대 8개의 적 소환 지점을 둘 수 있습니다. 플레이어가 서 있는 칸 중앙에 번호별 스폰 marker를 저장합니다.
+
+```mcfunction
+/function td:spawnpoint/save_here/1
+/function td:spawnpoint/save_here/2
+...
+/function td:spawnpoint/save_here/8
+```
+
+번호가 같은 지점을 다시 저장하면 활성 맵의 기존 같은 번호 지점이 교체됩니다. 활성 맵을 바꾸면 새 활성 맵과 같은 `td.map_id`를 가진 소환 지점만 `td.spawn.active`가 되므로, 맵 A의 소환 지점이 맵 B에서 섞여 쓰이지 않습니다.
+
+가까운 활성 맵 소환 지점을 삭제하거나 저장 상태를 확인하려면 다음 명령을 사용합니다.
+
+```mcfunction
+/function td:spawnpoint/remove_nearest
+/function td:spawnpoint/status
+```
+
+저장된 소환 지점이 하나도 없으면 기존 호환을 위해 활성 맵 시작점인 `td.start`에서 소환합니다.
 
 ## 웨이브 시스템
 
@@ -289,6 +357,13 @@ data/td/function/wave/config/
 execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
 execute if score $wave_time td.wave_time matches 50 run function td:spawn/basic
 execute if score $wave_time td.wave_time matches 220 run scoreboard players set $wave_done td.wave_done 1
+```
+
+`td:spawn/<타입>` 기본 호출은 활성 소환 지점 중 하나를 균등 랜덤으로 고릅니다. 특정 번호 지점에서만 보내거나 모든 지점에서 동시에 보내고 싶으면 아래처럼 쓸 수 있습니다.
+
+```mcfunction
+execute if score $wave_time td.wave_time matches 100 run function td:spawn/fast/from_2
+execute if score $wave_time td.wave_time matches 200 run function td:spawn/tank/all
 ```
 
 새 적 타입을 웨이브에 넣을 때는 `td:spawn/<타입>` 함수를 만든 뒤 config 파일에서 호출하면 됩니다. 마지막 스폰 이후 충분한 여유 tick에 `$wave_done td.wave_done`을 `1`로 설정해야, 남은 적이 모두 사라졌을 때 클리어 판정이 납니다.
@@ -326,6 +401,11 @@ execute if score $wave_time td.wave_time matches 220 run scoreboard players set 
   - `2`: 서쪽, `-X`
   - `3`: 남쪽, `+Z`
   - `4`: 북쪽, `-Z`
+- `td.path_dir`: 방향 가이드 marker의 강제 진행 방향입니다. 방향 값은 `td.dir`과 같습니다.
+- `td.map_id`: 저장 맵과 그 맵에 속한 적 소환 지점을 연결하는 고유 번호입니다.
+- `td.spawn_id`: 맵별 적 소환 지점 번호입니다. 공개 함수는 `1`부터 `8`까지 지원합니다.
+- `td.spawn_count`: 활성 맵의 스폰 후보 수를 세는 임시 값입니다.
+- `td.spawn_pick`: 랜덤 스폰 후보 중 몇 번째를 고를지 저장하는 임시 값입니다.
 - `td.step`: 현재 블록을 몇 틱 동안 이동했는지 저장합니다.
 - `td.next`: 다음 이동 방향 후보입니다.
 - `td.branch_count`: 현재 칸에서 되돌아가는 방향을 제외하고 갈 수 있는 검은 양털 후보 수입니다.
@@ -373,7 +453,8 @@ execute if score $wave_time td.wave_time matches 220 run scoreboard players set 
 2. 소환 NBT에 `td.enemy`, `td.new`, `td.type.<타입>` 태그를 넣습니다.
 3. `data/td/function/enemy/type/<타입>.mcfunction`을 만들고 `td.type`, `td.enemy_hp`, `td.enemy_max_hp`, `td.reward`, `td.speed`, `minecraft:scale`, 장비, 소환 이펙트를 설정합니다.
 4. `data/td/function/load.mcfunction`에 타입별 팀을 추가하고 `collisionRule never`를 설정합니다.
-5. 소환 함수에서 타입 설정 함수 실행 후 `td:spawn/common`을 실행합니다.
+5. 기존 타입처럼 `td:spawn/<타입>.mcfunction`은 `td:spawn/select/random`으로 위치를 고르고, `td:spawn/<타입>/selected`가 실제 소환과 타입 설정, `td:spawn/common`을 실행하게 만듭니다.
+6. 웨이브에서 특정 지점 소환이나 전체 지점 소환이 필요하면 `td:spawn/<타입>/from_1` ~ `from_8`, `td:spawn/<타입>/all`도 기존 타입을 복사해 추가합니다.
 
 타입별 소환 함수는 몹 외형과 기본 설정만 담당하고, 실제 이동은 `td:enemy/move`와 `td:enemy/speed/*` 함수가 공통으로 처리합니다.
 

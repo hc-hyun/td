@@ -3,6 +3,11 @@
 # 이미 존재하는 목표를 다시 추가하면 게임 로그에 경고가 뜰 수 있지만,
 # 이후 명령은 계속 실행되므로 테스트용 기본 데이터팩에서는 그대로 둡니다.
 scoreboard objectives add td.dir dummy
+scoreboard objectives add td.path_dir dummy
+scoreboard objectives add td.map_id dummy
+scoreboard objectives add td.spawn_id dummy
+scoreboard objectives add td.spawn_count dummy
+scoreboard objectives add td.spawn_pick dummy
 scoreboard objectives add td.step dummy
 scoreboard objectives add td.next dummy
 scoreboard objectives add td.branch_count dummy
@@ -64,6 +69,8 @@ tag @e[tag=td.enemy] remove td.hpbar.ready
 
 # 예전 단일 시작점 marker(td.start만 있는 marker)를 새 다중 맵 marker 구조로 보정합니다.
 function td:map/migrate_legacy_start
+function td:map/ensure_ids
+function td:spawnpoint/activate_for_map
 
 # 예전 단일 적 팀 이름은 호환성을 위해 남겨둡니다.
 team add td_enemy

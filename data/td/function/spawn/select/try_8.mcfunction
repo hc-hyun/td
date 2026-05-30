@@ -1,0 +1,2 @@
+execute if score $spawn_pick td.spawn_pick matches 1 if entity @e[type=minecraft:marker,tag=td.spawn.active,scores={td.spawn_id=8},limit=1] run tag @e[type=minecraft:marker,tag=td.spawn.active,scores={td.spawn_id=8},limit=1] add td.spawn.selected
+execute unless entity @e[type=minecraft:marker,tag=td.spawn.selected,limit=1] if entity @e[type=minecraft:marker,tag=td.spawn.active,scores={td.spawn_id=8},limit=1] run scoreboard players remove $spawn_pick td.spawn_pick 1

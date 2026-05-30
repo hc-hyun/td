@@ -47,6 +47,9 @@ bossbar set td:boss visible false
 # /reload 이후 기존 적 이름표도 현재 텍스트 컴포넌트 문법으로 다시 갱신되게 합니다.
 tag @e[tag=td.enemy] remove td.hpbar.ready
 
+# 예전 단일 시작점 marker(td.start만 있는 marker)를 새 다중 맵 marker 구조로 보정합니다.
+function td:map/migrate_legacy_start
+
 # 예전 단일 적 팀 이름은 호환성을 위해 남겨둡니다.
 team add td_enemy
 team modify td_enemy collisionRule never

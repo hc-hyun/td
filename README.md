@@ -34,28 +34,43 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 
 ## 사용 방법
 
-1. 월드에서 검은 양털로 1칸 폭 경로를 만듭니다.
+1. 월드에서 검은 양털로 1칸 폭 경로를 하나 이상 만듭니다.
 2. 게임 안에서 데이터팩을 다시 불러옵니다.
 
 ```mcfunction
 /reload
 ```
 
-3. 검은 양털 시작 칸 위에 서서 시작점을 저장합니다.
+3. 각 맵의 검은 양털 시작 칸 위에 서서 시작점을 저장합니다.
 
 ```mcfunction
-/function td:set_start
+/function td:map/save_here
 ```
 
-4. 웨이브 게임을 시작합니다.
+기존 테스트 명령인 `td:set_start`도 계속 사용할 수 있지만, 새 운영에서는 `td:map/save_here`를 권장합니다.
+
+4. 플레이할 맵 시작점 근처에 서서 활성 맵을 선택합니다.
+
+```mcfunction
+/function td:map/activate_nearest
+```
+
+맵 상태를 보거나 가까운 저장 맵을 삭제하려면 다음 명령을 사용합니다.
+
+```mcfunction
+/function td:map/status
+/function td:map/remove_nearest
+```
+
+5. 웨이브 게임을 시작합니다.
 
 ```mcfunction
 /function td:wave/start
 ```
 
-`td:wave/start`는 새 게임 시작용이라 기존 방어 유닛도 함께 정리합니다. 방어 유닛은 `td:wave/start` 이후에 배치합니다.
+`td:wave/start`는 활성 맵이 있을 때만 동작합니다. 새 게임 시작용이라 기존 방어 유닛도 함께 정리합니다. 방어 유닛은 `td:wave/start` 이후에 배치합니다.
 
-5. 원하는 위치에 방어 유닛을 배치합니다.
+6. 원하는 위치에 방어 유닛을 배치합니다.
 
 ```mcfunction
 /function td:tower/place/basic
@@ -77,7 +92,7 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:wave/stop
 ```
 
-6. 원하는 타입의 적을 수동 소환해서 테스트할 수도 있습니다.
+7. 원하는 타입의 적을 수동 소환해서 테스트할 수도 있습니다.
 
 ```mcfunction
 /function td:spawn/basic
@@ -92,7 +107,7 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:spawn_enemy
 ```
 
-7. 기지 체력을 확인합니다.
+8. 기지 체력을 확인합니다.
 
 ```mcfunction
 /scoreboard players get $base td.hp
@@ -128,13 +143,17 @@ S ■ ■ ■
 
 - `td:load`: 점수판과 팀을 준비하고 기본 기지 체력을 20으로 설정합니다.
 - `td:tick`: 매 틱마다 `td.enemy` 태그가 붙은 적을 처리합니다.
-- `td:set_start`: 현재 위치를 적 시작점으로 저장합니다.
+- `td:set_start`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:map/save_here`를 실행합니다.
+- `td:map/save_here`: 현재 위치에 저장 맵 시작점을 만들고 즉시 활성 맵으로 전환합니다.
+- `td:map/activate_nearest`: 플레이어 8블록 안의 가장 가까운 저장 맵 시작점을 활성 맵으로 선택합니다.
+- `td:map/remove_nearest`: 플레이어 8블록 안의 가장 가까운 저장 맵 시작점을 삭제합니다.
+- `td:map/status`: 활성 맵 존재 여부와 현재 웨이브/코어 상태를 표시합니다.
 - `td:spawn/basic`: 기본 좀비 적을 소환합니다.
 - `td:spawn/fast`: 빠른 vindicator 적을 소환합니다.
 - `td:spawn/tank`: 느리고 튼튼한 pillager 적을 소환합니다.
 - `td:spawn/boss`: 크고 체력이 높은 evoker 보스 적을 소환합니다.
 - `td:spawn_enemy`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:spawn/basic`을 실행합니다.
-- `td:wave/start`: 적과 방어 유닛을 초기화하고 코어 HP를 20으로 되돌린 뒤 1웨이브를 시작합니다.
+- `td:wave/start`: 활성 맵이 있으면 적과 방어 유닛을 초기화하고 코어 HP를 20으로 되돌린 뒤 1웨이브를 시작합니다.
 - `td:wave/next`: 준비 시간 중이면 즉시 다음 웨이브를 시작합니다.
 - `td:wave/stop`: 웨이브를 대기 상태로 전환하고 남은 적을 정리합니다.
 - `td:wave/status`: 현재 웨이브, 코어 HP, 상태값, 준비 시간 tick을 채팅에 표시합니다.
@@ -194,6 +213,33 @@ Tank 3/10 ███░░░░░░░
 
 boss 타입 적이 하나 이상 살아 있으면 `td:boss` bossbar가 화면 상단에 표시됩니다. 여러 boss가 동시에 있으면 현재 HP와 최대 HP를 각각 합산해서 하나의 보스 웨이브 체력처럼 보여줍니다.
 
+## 다중 맵 운영
+
+BlackWoolTD는 월드 안에 여러 디펜스맵 시작점을 저장할 수 있지만, 게임 진행은 항상 하나의 활성 맵만 사용합니다. 저장된 시작점은 `td.map.start` marker로 남고, 현재 활성 맵 하나에만 `td.map.active`와 기존 호환용 `td.start` 태그가 붙습니다.
+
+예전 방식으로 만든 `td.start` 시작점만 남아 있는 월드는 `/reload` 때 자동으로 새 marker 구조로 보정됩니다.
+
+맵을 추가하려면 각 맵의 시작 칸 위에서 다음 명령을 실행합니다.
+
+```mcfunction
+/function td:map/save_here
+```
+
+플레이할 맵을 바꾸려면 해당 맵 시작점 8블록 안에서 다음 명령을 실행합니다.
+
+```mcfunction
+/function td:map/activate_nearest
+```
+
+활성 맵을 바꾸면 진행 중인 적, 방어 유닛, 웨이브 상태가 초기화되고 코어 HP가 20으로 돌아갑니다. 같은 월드에 여러 맵을 두는 용도이며, 여러 맵을 동시에 독립 진행하는 구조는 아닙니다.
+
+가까운 저장 맵 시작점을 삭제하거나 현재 상태를 확인하려면 다음 명령을 사용합니다.
+
+```mcfunction
+/function td:map/remove_nearest
+/function td:map/status
+```
+
 ## 웨이브 시스템
 
 웨이브 게임은 다음 공개 함수로 제어합니다.
@@ -206,6 +252,8 @@ boss 타입 적이 하나 이상 살아 있으면 `td:boss` bossbar가 화면 �
 ```
 
 `td:wave/start`는 새 게임 시작용입니다. 모든 적과 방어 유닛을 정리하고 `$base td.hp`를 20으로 리셋한 뒤 1웨이브를 시작합니다. 웨이브가 클리어되면 방어 유닛은 유지되고, 다음 웨이브까지 `600`틱, 즉 30초 준비 시간이 주어집니다.
+
+활성 맵이 없으면 `td:wave/start`는 시작하지 않고 안내 메시지만 표시합니다.
 
 웨이브별 스폰표는 아래 파일을 직접 편집합니다.
 

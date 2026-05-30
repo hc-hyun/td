@@ -1,0 +1,22 @@
+# 현재 $wave 번호에 맞는 편집용 웨이브 스폰표를 실행합니다.
+execute if score $wave td.wave matches 1 run function td:wave/config/wave_01
+execute if score $wave td.wave matches 2 run function td:wave/config/wave_02
+execute if score $wave td.wave matches 3 run function td:wave/config/wave_03
+execute if score $wave td.wave matches 4 run function td:wave/config/wave_04
+execute if score $wave td.wave matches 5 run function td:wave/config/wave_05
+execute if score $wave td.wave matches 6 run function td:wave/config/wave_06
+execute if score $wave td.wave matches 7 run function td:wave/config/wave_07
+execute if score $wave td.wave matches 8 run function td:wave/config/wave_08
+execute if score $wave td.wave matches 9 run function td:wave/config/wave_09
+execute if score $wave td.wave matches 10 run function td:wave/config/wave_10
+execute if score $wave td.wave matches 11 run function td:wave/config/wave_11
+execute if score $wave td.wave matches 12 run function td:wave/config/wave_12
+execute if score $wave td.wave matches 13 run function td:wave/config/wave_13
+execute if score $wave td.wave matches 14 run function td:wave/config/wave_14
+execute if score $wave td.wave matches 15 run function td:wave/config/wave_15
+execute if score $wave td.wave matches 16 run function td:wave/config/wave_16
+execute if score $wave td.wave matches 17 run function td:wave/config/wave_17
+execute if score $wave td.wave matches 18 run function td:wave/config/wave_18
+execute if score $wave td.wave matches 19 run function td:wave/config/wave_19
+execute if score $wave td.wave matches 20 run function td:wave/config/wave_20
+

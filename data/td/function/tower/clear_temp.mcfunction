@@ -1,4 +1,4 @@
-# 타워 공격에서 쓰는 임시 태그와 원위치 마커를 정리합니다.
+# 타워 공격에서 쓰는 타겟/피격 태그와 blink 복귀용 임시 태그를 정리합니다.
 tag @e[tag=td.tower.target] remove td.tower.target
 tag @e[tag=td.tower.hit] remove td.tower.hit
 tag @e[tag=td.tower.active_blink] remove td.tower.active_blink

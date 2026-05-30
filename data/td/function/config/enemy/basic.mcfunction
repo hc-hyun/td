@@ -1,0 +1,4 @@
+# basic 적 설정입니다.
+scoreboard players set $enemy_basic_hp td.enemy_max_hp 10
+scoreboard players set $enemy_basic_speed td.speed 2
+scoreboard players set $enemy_basic_reward td.reward 5

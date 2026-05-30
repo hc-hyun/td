@@ -1,0 +1,3 @@
+# splash 타워 설정입니다.
+scoreboard players set $tower_splash_damage td.tmp 3
+scoreboard players set $tower_splash_initial_cd td.tower_cd 60

@@ -1,0 +1,3 @@
+# basic 타워 설정입니다.
+scoreboard players set $tower_basic_damage td.tmp 4
+scoreboard players set $tower_basic_initial_cd td.tower_cd 40

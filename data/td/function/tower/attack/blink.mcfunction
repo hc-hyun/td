@@ -1,4 +1,4 @@
-# blink 공격: 타겟에게 순간이동해 주변 3블록에 5 광역 피해를 준 뒤 잠시 후 원위치로 돌아옵니다.
+# blink 공격: 타겟에게 순간이동해 주변 3블록에 설정된 광역 피해를 준 뒤 잠시 후 원위치로 돌아옵니다.
 scoreboard players set @s td.tower_cd 0
 
 tag @e[tag=td.enemy,distance=..12,limit=1,sort=nearest] add td.tower.target
@@ -20,5 +20,5 @@ execute at @s run particle minecraft:sweep_attack ~ ~1.1 ~ 0.3 0.2 0.3 0 2 force
 playsound minecraft:entity.enderman.teleport master @a[distance=..24] ~ ~ ~ 0.8 1.1
 
 execute at @s run tag @e[tag=td.enemy,distance=..3] add td.tower.hit
-scoreboard players set $damage td.tmp 5
+scoreboard players operation $damage td.tmp = $tower_blink_damage td.tmp
 function td:tower/damage/hit_tagged

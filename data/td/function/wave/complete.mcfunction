@@ -5,6 +5,5 @@ execute if score $wave td.wave matches 20 run function td:wave/win
 execute unless score $wave td.wave matches 20 run scoreboard players set $wave_state td.wave_state 2
 execute unless score $wave td.wave matches 20 run scoreboard players set $wave_time td.wave_time 0
 execute unless score $wave td.wave matches 20 run scoreboard players set $wave_done td.wave_done 0
-execute unless score $wave td.wave matches 20 run scoreboard players set $wave_prep td.wave_prep 600
-execute unless score $wave td.wave matches 20 run tellraw @a [{text:'Wave ',color:'green'},{score:{name:'$wave',objective:'td.wave'},color:'yellow'},{text:' cleared. Next wave in 30 seconds.',color:'green'}]
-
+execute unless score $wave td.wave matches 20 run scoreboard players operation $wave_prep td.wave_prep = $wave_prep_ticks td.wave_prep
+execute unless score $wave td.wave matches 20 run tellraw @a [{text:'Wave ',color:'green'},{score:{name:'$wave',objective:'td.wave'},color:'yellow'},{text:' cleared. Prep ticks: ',color:'green'},{score:{name:'$wave_prep',objective:'td.wave_prep'},color:'yellow'}]

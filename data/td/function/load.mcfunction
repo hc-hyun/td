@@ -40,12 +40,11 @@ scoreboard objectives add td.wave_state dummy
 scoreboard objectives add td.wave_done dummy
 scoreboard objectives add td.wave_prep dummy
 
+# 맵 제작자가 바꾸기 쉬운 기본 설정값을 준비합니다.
+function td:config/load
+
 # 기지 체력은 가짜 플레이어 $base의 td.hp 점수로 관리합니다.
-# /reload 할 때마다 기본값 20으로 다시 맞춰집니다.
-scoreboard players set $base td.hp 20
-scoreboard players set $hp_scale td.tmp 10
-scoreboard players set $two td.tmp 2
-scoreboard players set $start_money td.money 60
+scoreboard players operation $base td.hp = $core_hp td.hp
 
 # 웨이브 진행 상태입니다.
 # 상태값: 0 대기, 1 진행 중, 2 준비 시간, 3 승리, -1 패배.

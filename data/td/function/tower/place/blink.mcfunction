@@ -4,7 +4,7 @@ tag @a remove td.place.actor
 tag @s add td.place.actor
 
 scoreboard players set @s td.place_type 3
-scoreboard players set @s td.place_cost 70
+scoreboard players operation @s td.place_cost = $tower_blink_cost td.place_cost
 execute unless score @s td.money >= @s td.place_cost run function td:place/fail/no_money
 execute if score @s td.money >= @s td.place_cost align xz positioned ~0.5 ~ ~0.5 run function td:place/attempt
 

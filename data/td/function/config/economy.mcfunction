@@ -1,0 +1,9 @@
+# 경제 기본값입니다.
+scoreboard players set $start_money td.money 60
+scoreboard players set $tower_basic_cost td.place_cost 20
+scoreboard players set $tower_splash_cost td.place_cost 40
+scoreboard players set $tower_blink_cost td.place_cost 70
+
+# 웨이브 진행 중 타워 제거 환불은 구매가를 이 값으로 나눕니다. 기본 2 = 50%.
+scoreboard players set $combat_refund_divisor td.tmp 2
+scoreboard players set $two td.tmp 2

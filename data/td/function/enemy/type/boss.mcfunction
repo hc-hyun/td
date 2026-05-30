@@ -1,10 +1,10 @@
 # boss 타입 설정입니다.
-# type 4, HP 100, speed 1(slow), scale 1.5를 사용합니다.
+# HP, speed, reward는 td:config/enemy/boss에서 가져옵니다.
 scoreboard players set @s td.type 4
-scoreboard players set @s td.enemy_max_hp 100
-scoreboard players set @s td.enemy_hp 100
-scoreboard players set @s td.speed 1
-scoreboard players set @s td.reward 80
+scoreboard players operation @s td.enemy_max_hp = $enemy_boss_hp td.enemy_max_hp
+scoreboard players operation @s td.enemy_hp = $enemy_boss_hp td.enemy_max_hp
+scoreboard players operation @s td.speed = $enemy_boss_speed td.speed
+scoreboard players operation @s td.reward = $enemy_boss_reward td.reward
 
 # 팀 색상과 충돌 방지 규칙을 적용합니다.
 team join td_enemy_boss @s

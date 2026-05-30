@@ -1,0 +1,3 @@
+# blink 타워 설정입니다.
+scoreboard players set $tower_blink_damage td.tmp 5
+scoreboard players set $tower_blink_initial_cd td.tower_cd 100

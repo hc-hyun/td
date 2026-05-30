@@ -1,10 +1,10 @@
 # fast 타입 설정입니다.
-# type 2, HP 6, speed 3(fast), scale 0.85를 사용합니다.
+# HP, speed, reward는 td:config/enemy/fast에서 가져옵니다.
 scoreboard players set @s td.type 2
-scoreboard players set @s td.enemy_max_hp 6
-scoreboard players set @s td.enemy_hp 6
-scoreboard players set @s td.speed 3
-scoreboard players set @s td.reward 6
+scoreboard players operation @s td.enemy_max_hp = $enemy_fast_hp td.enemy_max_hp
+scoreboard players operation @s td.enemy_hp = $enemy_fast_hp td.enemy_max_hp
+scoreboard players operation @s td.speed = $enemy_fast_speed td.speed
+scoreboard players operation @s td.reward = $enemy_fast_reward td.reward
 
 # 팀 색상과 충돌 방지 규칙을 적용합니다.
 team join td_enemy_fast @s

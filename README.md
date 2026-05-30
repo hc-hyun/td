@@ -1,14 +1,10 @@
 # BlackWoolTD
 
-검은 양털을 길 데이터로 사용하는 간단한 타워 디펜스용 Minecraft Java 데이터팩입니다.
+검은 양털을 길 데이터로 사용하는 Minecraft Java 26.1 계열 타워 디펜스 데이터팩입니다.
 
-몹은 현재 칸에서 주변 4방향의 `minecraft:black_wool`을 확인하고, 방금 온 방향의 반대편을 제외한 다음 검은 양털 칸으로 이동합니다. 갈 수 있는 칸이 여러 개면 적마다 후보 중 하나를 균등 랜덤으로 고릅니다. 이동 중에는 진행 방향을 바라보고, 끝점은 더 이상 앞으로 갈 검은 양털이 없는 막다른 길로 처리됩니다.
+이 README는 맵 제작자가 설정하는 순서대로 정리되어 있습니다. 먼저 맵과 마커를 만들고, 웨이브를 구성한 뒤, 필요하면 몹/아군/경제 수치를 조정하면 됩니다.
 
-몹은 타입별 설정을 가질 수 있습니다. 현재는 `basic`, `fast`, `tank`, `boss` 4종을 제공하며, 각 타입은 체력, 속도, 크기, 외형, 이름, 소환 이펙트가 다릅니다.
-
-적은 머리 위에 `타입명 n/10 체력바` 형식의 이름표 체력바를 표시합니다. boss 타입 적이 살아 있으면 화면 상단에는 살아 있는 boss들의 HP 합산 bossbar도 표시됩니다.
-
-웨이브 게임은 직접 편집 가능한 `td:wave/config/wave_01` ~ `td:wave/config/wave_20` 스폰표를 사용합니다. 각 파일은 특정 tick에 어떤 적을 소환할지만 담고, 웨이브 시작/클리어/준비 시간/승패 처리는 `td:wave/*` 함수가 공통으로 담당합니다.
+`data/td/function/config/*` 값을 바꾼 뒤에는 `/reload`를 실행해야 새 설정이 적용됩니다.
 
 ## 지원 버전
 
@@ -18,7 +14,7 @@
 
 ## 설치 위치
 
-이 폴더 전체를 월드의 `datapacks` 폴더 안에 둡니다.
+월드의 `datapacks` 폴더 안에 `BlackWoolTD` 폴더를 둡니다.
 
 ```text
 world/
@@ -30,318 +26,105 @@ world/
       .gitignore
 ```
 
-Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아래에 `pack.mcmeta`와 `data/`가 있어야 합니다.
-
-## 사용 방법
-
-1. 월드에서 검은 양털로 1칸 폭 경로를 하나 이상 만듭니다.
-2. 게임 안에서 데이터팩을 다시 불러옵니다.
+게임 안에서 다시 불러옵니다.
 
 ```mcfunction
 /reload
 ```
 
-3. 각 맵의 검은 양털 시작 칸 위에 서서 시작점을 저장합니다.
+## 1. 맵 만들기
+
+검은 양털(`minecraft:black_wool`)을 1칸 폭으로 깔아 적 이동 경로를 만듭니다. 적은 현재 칸의 동/서/남/북 검은 양털을 보고 이동하며, 방금 온 방향으로는 되돌아가지 않습니다.
+
+| 해야 할 일 | 명령 또는 위치 |
+| --- | --- |
+| 시작점 저장 | `/function td:map/save_here` |
+| 플레이할 맵 활성화 | `/function td:map/activate_nearest` |
+| 스폰 지점 저장 | `/function td:spawnpoint/save_here/1` ~ `/8` |
+| 합류 지점 방향 가이드 | `/function td:path/guide/east`, `west`, `south`, `north` |
+| 상태 확인 | `/function td:map/status`, `/function td:spawnpoint/status` |
+| 게임 시작 | `/function td:wave/start` |
+
+### 맵 제작 체크리스트
+
+```mcfunction
+/reload
+/function td:map/save_here
+/function td:spawnpoint/save_here/1
+/function td:path/guide/east
+/function td:map/status
+/function td:spawnpoint/status
+/function td:wave/start
+```
+
+방향 가이드는 합류 지점이나 강제 진행이 필요한 칸에서만 저장합니다. 예시의 `east`는 목적지가 동쪽일 때 쓰는 값입니다.
+
+### 경로 규칙
+
+- 검은 양털 경로는 평면 1칸 폭을 기준으로 합니다.
+- 대각선 이동은 지원하지 않습니다.
+- 시작점과 끝점은 막다른 길로 만듭니다.
+- 갈림길은 지원합니다. 후보가 여러 개면 적마다 랜덤으로 하나를 고릅니다.
+- 두 길이 다시 만나는 합류 칸에는 목적지 방향 가이드를 둡니다.
+- 순환 경로는 방문 기록이 없으므로 피합니다.
+
+### 기본 맵 저장 순서
+
+1. 검은 양털 시작 칸 위에 섭니다.
+2. 시작점을 저장합니다.
 
 ```mcfunction
 /function td:map/save_here
 ```
 
-기존 테스트 명령인 `td:set_start`도 계속 사용할 수 있지만, 새 운영에서는 `td:map/save_here`를 권장합니다.
-
-4. 플레이할 맵 시작점 근처에 서서 활성 맵을 선택합니다.
-
-```mcfunction
-/function td:map/activate_nearest
-```
-
-맵 상태를 보거나 가까운 저장 맵을 삭제하려면 다음 명령을 사용합니다.
-
-```mcfunction
-/function td:map/status
-/function td:map/remove_nearest
-```
-
-5. 필요하면 활성 맵에 추가 적 소환 지점을 저장합니다.
+3. 적을 나오게 할 칸마다 서서 스폰 지점을 저장합니다.
 
 ```mcfunction
 /function td:spawnpoint/save_here/1
 /function td:spawnpoint/save_here/2
-/function td:spawnpoint/status
 ```
 
-소환 지점은 활성 맵에 묶이며 번호는 `1`부터 `8`까지 사용할 수 있습니다. 저장된 소환 지점이 없으면 기존처럼 활성 맵 시작점에서 적이 소환됩니다.
+스폰 지점은 활성 맵의 `td.map_id`에 묶입니다. 한 맵에는 `1`부터 `8`까지 저장할 수 있습니다. 스폰 지점이 하나도 없으면 기존 호환을 위해 활성 맵 시작점인 `td.start`에서 적이 나옵니다.
 
-6. 웨이브 게임을 시작합니다.
-
-```mcfunction
-/function td:wave/start
-```
-
-`td:wave/start`는 활성 맵이 있을 때만 동작합니다. 새 게임 시작용이라 기존 방어 유닛도 함께 정리합니다. 방어 유닛은 `td:wave/start` 이후에 배치합니다.
-
-7. 방어 유닛 상점 아이템을 받고, 원하는 타워 아이템을 든 상태로 설치할 블록을 바라보며 우클릭합니다.
-
-```mcfunction
-/function td:shop/give_items
-/function td:economy/status
-```
-
-상점 아이템은 `Basic Tower`, `Splash Tower`, `Blink Tower`, `Remove Tower` 4종입니다. 배치 아이템은 바라보는 블록 위에 타워를 설치하고, 제거 아이템은 4블록 안의 본인 소유 타워를 환불 제거합니다.
-
-명령으로도 현재 위치에 구매 배치할 수 있습니다.
-
-```mcfunction
-/function td:tower/place/basic
-/function td:tower/place/splash
-/function td:tower/place/blink
-```
-
-가까운 방어 유닛을 제거하려면 다음 명령을 사용합니다.
-
-```mcfunction
-/function td:tower/remove_nearest
-```
-
-웨이브 사이 30초 준비 시간을 건너뛰거나, 상태를 확인하거나, 진행 중인 웨이브를 멈추려면 다음 명령을 사용합니다.
-
-```mcfunction
-/function td:wave/next
-/function td:wave/status
-/function td:wave/stop
-```
-
-8. 원하는 타입의 적을 수동 소환해서 테스트할 수도 있습니다.
-
-```mcfunction
-/function td:spawn/basic
-/function td:spawn/fast
-/function td:spawn/tank
-/function td:spawn/boss
-```
-
-이 기본 소환 함수들은 활성 맵의 저장된 소환 지점 중 하나를 랜덤으로 사용합니다. 특정 지점이나 모든 지점에서 테스트하려면 다음처럼 호출합니다.
-
-```mcfunction
-/function td:spawn/basic/from_1
-/function td:spawn/basic/all
-```
-
-기존 테스트 명령도 계속 사용할 수 있습니다. 이 명령은 `td:spawn/basic`을 호출합니다.
-
-```mcfunction
-/function td:spawn_enemy
-```
-
-9. 기지 체력을 확인합니다.
-
-```mcfunction
-/scoreboard players get $base td.hp
-```
-
-테스트 중 유닛을 정리하려면 다음 초기화 함수를 사용합니다.
-
-```mcfunction
-/function td:reset/enemies
-/function td:reset/towers
-/function td:reset/all
-```
-
-이 초기화 함수들은 적과 방어 유닛만 정리하며, 검은 양털 경로 시작점과 기지 체력은 유지합니다.
-
-## 경로 제작 규칙
-
-- 검은 양털 경로는 1칸 폭이어야 합니다.
-- 대각선 이동은 지원하지 않습니다.
-- 갈림길은 지원합니다. 적마다 되돌아가는 방향을 제외한 검은 양털 후보 중 하나를 균등 랜덤으로 선택합니다.
-- 두 갈래가 다시 만나는 합류 칸에는 방향 가이드를 두어 목적지 방향을 지정해야 합니다.
-- 높낮이 없는 평면 경로를 기준으로 합니다.
-- 시작점과 끝점은 막다른 길이어야 합니다.
-- 순환 경로는 방문 기록을 따로 저장하지 않으므로 피하는 것이 좋습니다.
-
-예시:
-
-```text
-S ■ ■ ■
-      ■
-      ■ ■ ■ E
-```
-
-합류형 경로 예시:
-
-```text
-      ┌ ■ ■ ┐
-S ■ ■       ■ > ■ E
-      └ ■ ■ ┘
-```
-
-위 예시처럼 두 길이 다시 만나는 칸에는 `>` 위치에서 목적지 방향 가이드를 저장합니다. 가이드가 없는 갈라지는 지점은 기존처럼 랜덤으로 갈래를 선택합니다.
+4. 합류형 경로가 있다면 합류 칸에서 목적지 방향 가이드를 저장합니다.
 
 ```mcfunction
 /function td:path/guide/east
 /function td:path/guide/west
 /function td:path/guide/south
 /function td:path/guide/north
-/function td:path/guide/remove_nearest
 ```
 
-가이드는 보이지 않는 marker로 저장되며, `td:reset/all`, `td:wave/start`, 맵 전환으로 삭제되지 않습니다.
-
-## 주요 함수
-
-- `td:load`: 점수판과 팀을 준비하고 기본 기지 체력을 20으로 설정합니다.
-- `td:tick`: 매 틱마다 플레이어 입력, 적 이동, 방어 유닛, 체력바, 웨이브 상태를 처리합니다.
-- `td:set_start`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:map/save_here`를 실행합니다.
-- `td:map/save_here`: 현재 위치에 저장 맵 시작점을 만들고 즉시 활성 맵으로 전환합니다.
-- `td:map/activate_nearest`: 플레이어 8블록 안의 가장 가까운 저장 맵 시작점을 활성 맵으로 선택합니다.
-- `td:map/remove_nearest`: 플레이어 8블록 안의 가장 가까운 저장 맵 시작점을 삭제합니다.
-- `td:map/status`: 활성 맵 존재 여부와 현재 웨이브/코어 상태를 표시합니다.
-- `td:spawnpoint/save_here/1` ~ `td:spawnpoint/save_here/8`: 현재 위치를 활성 맵의 번호별 적 소환 지점으로 저장합니다.
-- `td:spawnpoint/remove_nearest`: 플레이어 8블록 안의 가장 가까운 활성 맵 소환 지점을 삭제합니다.
-- `td:spawnpoint/status`: 활성 맵의 소환 지점 개수와 저장된 번호를 표시합니다.
-- `td:spawn/basic`: 기본 좀비 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
-- `td:spawn/fast`: 빠른 vindicator 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
-- `td:spawn/tank`: 느리고 튼튼한 pillager 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
-- `td:spawn/boss`: 크고 체력이 높은 evoker 보스 적을 활성 소환 지점 중 랜덤 위치에 소환합니다.
-- `td:spawn/<타입>/from_1` ~ `from_8`: 해당 번호의 활성 소환 지점에서만 적을 소환합니다.
-- `td:spawn/<타입>/all`: 활성 소환 지점 전체에서 적을 한 마리씩 소환합니다.
-- `td:spawn_enemy`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:spawn/basic`을 실행합니다.
-- `td:wave/start`: 활성 맵이 있으면 적과 방어 유닛을 초기화하고 코어 HP를 20으로 되돌린 뒤 1웨이브를 시작합니다.
-- `td:wave/next`: 준비 시간 중이면 즉시 다음 웨이브를 시작합니다.
-- `td:wave/stop`: 웨이브를 대기 상태로 전환하고 남은 적을 정리합니다.
-- `td:wave/status`: 현재 웨이브, 코어 HP, 상태값, 준비 시간 tick을 채팅에 표시합니다.
-- `td:wave/tick`: 웨이브 스폰표 실행, 클리어 판정, 준비 시간, 승패 처리를 담당합니다.
-- `td:shop/give_items`: 타워 배치 아이템 3종과 제거 아이템을 지급합니다.
-- `td:economy/status`: 실행 플레이어의 개인 돈을 표시합니다.
-- `td:tower/place/basic`: 비용 20을 내고 플레이어 위치에 기본 mannequin 방어 유닛을 배치합니다.
-- `td:tower/place/splash`: 비용 40을 내고 플레이어 위치에 광역 마법 방어 유닛을 배치합니다.
-- `td:tower/place/blink`: 비용 70을 내고 플레이어 위치에 순간이동 광역 방어 유닛을 배치합니다.
-- `td:tower/remove_nearest`: 플레이어 기준 4블록 안의 가장 가까운 본인 소유 방어 유닛을 환불 제거합니다.
-- `td:tower/tick`: 방어 유닛의 쿨타임과 공격 판정을 처리합니다.
-- `td:enemy/hpbar/update`: 현재 적의 점수판 HP를 기준으로 머리 위 체력바를 갱신합니다.
-- `td:enemy/bossbar/tick`: 살아 있는 boss 타입 적들의 전체 HP를 bossbar에 반영합니다.
-- `td:reset/enemies`: 모든 적 유닛과 bossbar 상태를 초기화합니다.
-- `td:reset/towers`: 모든 아군 방어 유닛과 blink 복귀 marker를 초기화합니다.
-- `td:reset/all`: 적과 아군 방어 유닛을 모두 초기화합니다.
-- `td:path/on_cell`: 현재 칸 주변의 검은 양털을 검사해서 다음 이동 방향을 고릅니다. 후보가 여러 개면 적마다 랜덤으로 하나를 선택합니다.
-- `td:path/guide/east`: 현재 칸에 동쪽 `+X` 방향 가이드를 저장합니다.
-- `td:path/guide/west`: 현재 칸에 서쪽 `-X` 방향 가이드를 저장합니다.
-- `td:path/guide/south`: 현재 칸에 남쪽 `+Z` 방향 가이드를 저장합니다.
-- `td:path/guide/north`: 현재 칸에 북쪽 `-Z` 방향 가이드를 저장합니다.
-- `td:path/guide/remove_nearest`: 플레이어 4블록 안의 가장 가까운 방향 가이드를 제거합니다.
-- `td:path/finish`: 적이 끝점에 도착했을 때 기지 체력을 1 줄이고 적을 제거합니다.
-
-## 몹 타입
-
-| 타입 | 함수 | 엔티티 | HP | 속도 | 크기 | 보상 |
-| --- | --- | --- | ---: | --- | ---: | ---: |
-| basic | `td:spawn/basic` | zombie | 10 | normal | 1.0 | 5 |
-| fast | `td:spawn/fast` | vindicator | 6 | fast | 0.85 | 6 |
-| tank | `td:spawn/tank` | pillager | 30 | slow | 1.25 | 15 |
-| boss | `td:spawn/boss` | evoker | 100 | slow | 1.5 | 80 |
-
-속도 프리셋은 다음과 같습니다.
-
-| 속도 | `td.speed` | 이동량 | 다음 칸 검사 |
-| --- | ---: | ---: | ---: |
-| slow | 1 | 0.05블록/틱 | 20틱마다 |
-| normal | 2 | 0.1블록/틱 | 10틱마다 |
-| fast | 3 | 0.2블록/틱 | 5틱마다 |
-
-## 방어 유닛
-
-| 타입 | 함수 | 비용 | 엔티티 | 피해 | 사거리 | 공격 주기 | 특징 |
-| --- | --- | ---: | --- | ---: | ---: | ---: | --- |
-| basic | `td:tower/place/basic` | 20 | mannequin | 4 | 8블록 | 40틱 | 가장 가까운 적 1명 공격 |
-| splash | `td:tower/place/splash` | 40 | mannequin | 3 | 7블록 | 60틱 | 타겟 주변 2.5블록 광역 공격 |
-| blink | `td:tower/place/blink` | 70 | mannequin | 5 | 12블록 | 100틱 | 타겟에게 순간이동해 주변 3블록 광역 공격 후 6틱 동안 머물다 복귀 |
-
-방어 유닛은 `minecraft:mannequin`을 사용하며, 공격할 때 `/swing`으로 팔을 휘두르고 `td.enemy`의 `td.enemy_hp` 점수를 깎습니다. 쿨타임과 사거리 검사는 공통 `td:tower/tick`에서 처리하고, 실제 공격 방식과 이펙트는 `td:tower/attack/<타입>` 함수가 담당합니다.
-
-## 경제와 환불
-
-돈은 플레이어별 `td.money` 점수로 관리합니다. 새 게임 시작 또는 활성 맵 전환 시 온라인 플레이어의 돈은 60으로 초기화됩니다. 적이 죽으면 해당 적의 보상만큼 모든 온라인 플레이어가 같은 돈을 받습니다.
-
-타워는 배치한 플레이어의 `td.player_id`를 `td.owner_id`로 저장합니다. `Remove Tower` 아이템이나 `td:tower/remove_nearest`는 본인 소유 타워만 제거합니다. 웨이브 진행 중(`$wave_state = 1`)에는 구매가의 50%, 대기/준비/승리/패배 상태에서는 100%를 환불합니다. 맵 전환, 새 게임 시작, `td:reset/towers` 정리는 환불하지 않습니다.
-
-## 적 체력바
-
-일반 적은 이름표를 체력바로 사용합니다. 체력바는 바닐라 엔티티 `Health`가 아니라 데이터팩의 `td.enemy_hp`와 `td.enemy_max_hp` 점수판 값을 기준으로 계산합니다.
-
-예시:
-
-```text
-Basic 6/10 ██████░░░░
-Tank 3/10 ███░░░░░░░
-```
-
-체력바는 적 소환 직후와 타워 피해 적용 직후 갱신됩니다. `/reload` 이후 기존 적에게 체력바가 없으면 `td:enemy/hpbar/init_missing`이 다음 tick에 한 번 보정합니다.
-
-boss 타입 적이 하나 이상 살아 있으면 `td:boss` bossbar가 화면 상단에 표시됩니다. 여러 boss가 동시에 있으면 현재 HP와 최대 HP를 각각 합산해서 하나의 보스 웨이브 체력처럼 보여줍니다.
-
-## 다중 맵 운영
-
-BlackWoolTD는 월드 안에 여러 디펜스맵 시작점을 저장할 수 있지만, 게임 진행은 항상 하나의 활성 맵만 사용합니다. 저장된 시작점은 `td.map.start` marker로 남고, 현재 활성 맵 하나에만 `td.map.active`와 기존 호환용 `td.start` 태그가 붙습니다. 각 맵 시작점에는 `td.map_id`가 저장되고, 적 소환 지점도 같은 `td.map_id`로 묶입니다.
-
-예전 방식으로 만든 `td.start` 시작점만 남아 있는 월드는 `/reload` 때 자동으로 새 marker 구조로 보정됩니다.
-
-맵을 추가하려면 각 맵의 시작 칸 위에서 다음 명령을 실행합니다.
+5. 저장 상태를 확인합니다.
 
 ```mcfunction
-/function td:map/save_here
+/function td:map/status
+/function td:spawnpoint/status
 ```
 
-플레이할 맵을 바꾸려면 해당 맵 시작점 8블록 안에서 다음 명령을 실행합니다.
+6. 게임을 시작합니다.
+
+```mcfunction
+/function td:wave/start
+```
+
+### 여러 맵 운영
+
+월드 안에 여러 시작점을 저장할 수 있지만, 게임은 항상 하나의 활성 맵만 사용합니다. 플레이할 맵 시작점 8블록 안에서 아래 명령을 실행하면 해당 맵이 활성화되고, 기존 적/아군/웨이브 상태와 코어 HP가 초기화됩니다.
 
 ```mcfunction
 /function td:map/activate_nearest
 ```
 
-활성 맵을 바꾸면 진행 중인 적, 방어 유닛, 웨이브 상태가 초기화되고 코어 HP가 20으로 돌아갑니다. 같은 월드에 여러 맵을 두는 용도이며, 여러 맵을 동시에 독립 진행하는 구조는 아닙니다.
-
-가까운 저장 맵 시작점을 삭제하거나 현재 상태를 확인하려면 다음 명령을 사용합니다. 저장 맵을 삭제하면 같은 `td.map_id`에 묶인 적 소환 지점도 함께 삭제됩니다.
+가까운 맵 시작점을 지우면 같은 `td.map_id`에 묶인 스폰 지점도 함께 삭제됩니다.
 
 ```mcfunction
 /function td:map/remove_nearest
-/function td:map/status
 ```
 
-활성 맵에는 최대 8개의 적 소환 지점을 둘 수 있습니다. 플레이어가 서 있는 칸 중앙에 번호별 스폰 marker를 저장합니다.
+## 2. 웨이브 구성하기
 
-```mcfunction
-/function td:spawnpoint/save_here/1
-/function td:spawnpoint/save_here/2
-...
-/function td:spawnpoint/save_here/8
-```
-
-번호가 같은 지점을 다시 저장하면 활성 맵의 기존 같은 번호 지점이 교체됩니다. 활성 맵을 바꾸면 새 활성 맵과 같은 `td.map_id`를 가진 소환 지점만 `td.spawn.active`가 되므로, 맵 A의 소환 지점이 맵 B에서 섞여 쓰이지 않습니다.
-
-가까운 활성 맵 소환 지점을 삭제하거나 저장 상태를 확인하려면 다음 명령을 사용합니다.
-
-```mcfunction
-/function td:spawnpoint/remove_nearest
-/function td:spawnpoint/status
-```
-
-저장된 소환 지점이 하나도 없으면 기존 호환을 위해 활성 맵 시작점인 `td.start`에서 소환합니다.
-
-## 웨이브 시스템
-
-웨이브 게임은 다음 공개 함수로 제어합니다.
-
-```mcfunction
-/function td:wave/start
-/function td:wave/next
-/function td:wave/stop
-/function td:wave/status
-```
-
-`td:wave/start`는 새 게임 시작용입니다. 모든 적과 방어 유닛을 정리하고 `$base td.hp`를 20으로 리셋한 뒤 1웨이브를 시작합니다. 웨이브가 클리어되면 방어 유닛은 유지되고, 다음 웨이브까지 `600`틱, 즉 30초 준비 시간이 주어집니다.
-
-활성 맵이 없으면 `td:wave/start`는 시작하지 않고 안내 메시지만 표시합니다.
-
-웨이브별 스폰표는 아래 파일을 직접 편집합니다.
+웨이브는 사람이 직접 편집하는 함수 파일입니다.
 
 ```text
 data/td/function/wave/config/
@@ -351,135 +134,184 @@ data/td/function/wave/config/
   wave_20.mcfunction
 ```
 
-각 파일은 스폰 명령과 완료 tick만 담습니다.
+각 파일에는 “몇 tick에 무엇을 소환할지”와 “언제 스폰 완료로 볼지”만 적습니다. 웨이브 시작, 클리어, 준비 시간, 승리/패배는 `td:wave/*`가 공통 처리합니다.
+
+| 목적 | 예시 |
+| --- | --- |
+| 활성 스폰 지점 중 랜덤 | `execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic` |
+| 특정 번호 스폰 지점 | `execute if score $wave_time td.wave_time matches 100 run function td:spawn/fast/from_2` |
+| 모든 활성 스폰 지점 | `execute if score $wave_time td.wave_time matches 200 run function td:spawn/tank/all` |
+| 웨이브 스폰 완료 | `execute if score $wave_time td.wave_time matches 300 run scoreboard players set $wave_done td.wave_done 1` |
+
+예시:
 
 ```mcfunction
+# Wave 01: basic x3
 execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
 execute if score $wave_time td.wave_time matches 50 run function td:spawn/basic
-execute if score $wave_time td.wave_time matches 220 run scoreboard players set $wave_done td.wave_done 1
+execute if score $wave_time td.wave_time matches 80 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 140 run scoreboard players set $wave_done td.wave_done 1
 ```
 
-`td:spawn/<타입>` 기본 호출은 활성 소환 지점 중 하나를 균등 랜덤으로 고릅니다. 특정 번호 지점에서만 보내거나 모든 지점에서 동시에 보내고 싶으면 아래처럼 쓸 수 있습니다.
+`$wave_done`이 `1`이고 남은 `td.enemy`가 없으면 웨이브가 클리어됩니다. 완료 tick은 마지막 적이 충분히 나올 시간을 둔 뒤로 잡는 것이 좋습니다.
+
+## 3. 몹 추가하기
+
+현재 적 타입은 `basic`, `fast`, `tank`, `boss`입니다.
+
+| 타입 | 소환 함수 | 엔티티 | 기본 HP | 기본 속도 | 기본 보상 |
+| --- | --- | --- | ---: | --- | ---: |
+| basic | `td:spawn/basic` | zombie | 10 | normal | 5 |
+| fast | `td:spawn/fast` | vindicator | 6 | fast | 6 |
+| tank | `td:spawn/tank` | pillager | 30 | slow | 15 |
+| boss | `td:spawn/boss` | evoker | 100 | slow | 80 |
+
+### 기존 몹 수치만 조정
+
+| 바꿀 것 | 수정 위치 |
+| --- | --- |
+| HP, 속도, 처치 보상 | `data/td/function/config/enemy/<타입>.mcfunction` |
+| 엔티티 종류, 장비, 크기, 소환 이펙트 | `data/td/function/spawn/<타입>/selected.mcfunction`, `data/td/function/enemy/type/<타입>.mcfunction` |
+| 머리 위 체력바 표시 이름 | `data/td/function/enemy/hpbar/type/<타입>.mcfunction` |
+
+속도 값은 `1 = slow`, `2 = normal`, `3 = fast`입니다. 크기(`minecraft:scale`)는 `attribute` 명령이 숫자 리터럴을 요구하므로 `enemy/type/<타입>.mcfunction`에서 직접 수정합니다.
+
+### 새 몹 타입 추가
+
+기존 타입 중 가장 비슷한 것을 복사해서 만듭니다.
+
+1. `data/td/function/config/enemy/<새타입>.mcfunction`을 만들고 HP, 속도, 보상을 설정합니다.
+2. `data/td/function/spawn/<새타입>.mcfunction`을 만들고 `td:spawn/select/random`, `td:spawn/<새타입>/selected`, `td:spawn/select/clear` 흐름을 맞춥니다.
+3. `data/td/function/spawn/<새타입>/selected.mcfunction`에서 실제 엔티티를 소환합니다.
+4. `data/td/function/spawn/<새타입>/from_1` ~ `from_8`, `all`, `from_id`를 기존 타입에서 복사합니다.
+5. `data/td/function/enemy/type/<새타입>.mcfunction`에서 `td.type`, 팀, 크기, 장비, 이펙트를 설정합니다.
+6. `data/td/function/enemy/hpbar/type/<새타입>.mcfunction`을 만들고 체력바 이름을 작성합니다.
+7. `td:config/load`, `td:enemy/hpbar/update`, `td:load`의 팀 생성부에 새 타입을 연결합니다.
+8. 웨이브 config에서 `function td:spawn/<새타입>`을 호출합니다.
+
+## 4. 아군 추가하기
+
+현재 방어 유닛은 `basic`, `splash`, `blink`입니다.
+
+| 타입 | 배치 함수 | 기본 비용 | 피해 | 사거리 | 공격 주기 | 특징 |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| basic | `td:tower/place/basic` | 20 | 4 | 8 | 40틱 | 단일 대상 |
+| splash | `td:tower/place/splash` | 40 | 3 | 7 | 60틱 | 타겟 주변 2.5블록 광역 |
+| blink | `td:tower/place/blink` | 70 | 5 | 12 | 100틱 | 순간이동 후 주변 3블록 광역 |
+
+### 기존 아군 수치만 조정
+
+| 바꿀 것 | 수정 위치 |
+| --- | --- |
+| 비용 | `data/td/function/config/economy.mcfunction` |
+| 공격 피해 | `data/td/function/config/tower/<타입>.mcfunction` |
+| 상점 아이템 이름/설명 | `data/td/function/shop/give_items.mcfunction` |
+| 장비, 크기, 배치 이펙트 | `data/td/function/tower/type/<타입>.mcfunction` |
+| 사거리, 실제 공격 주기 | `data/td/function/tower/tick.mcfunction` |
+| 공격 방식과 이펙트 | `data/td/function/tower/attack/<타입>.mcfunction` |
+
+주의: `distance=..8`, `scores={td.tower_cd=40..}` 같은 선택자 리터럴은 점수판 값으로 대체하기 어렵습니다. 사거리와 실제 공격 주기를 바꿀 때는 `tower/tick.mcfunction`의 해당 줄을 직접 수정합니다. `config/tower/<타입>`의 초기 쿨타임은 새로 배치된 타워가 첫 공격을 언제 시작할지에 영향을 줍니다.
+
+### 새 아군 타입 추가
+
+1. `data/td/function/config/tower/<새타입>.mcfunction`에 피해량과 초기 쿨타임을 추가합니다.
+2. `data/td/function/config/economy.mcfunction`에 비용 fake player를 추가합니다.
+3. `data/td/function/shop/give_items.mcfunction`에 선택 아이템을 추가합니다.
+4. `data/td/function/shop/use.mcfunction`과 `shop/use/<새타입>.mcfunction`에 우클릭 분기를 추가합니다.
+5. `data/td/function/tower/place/<새타입>.mcfunction`을 만들고 명령 배치 비용도 같은 config 값을 쓰게 합니다.
+6. `data/td/function/tower/spawn/<새타입>.mcfunction`에서 mannequin을 소환하고 소유자/구매가를 복사합니다.
+7. `data/td/function/place/success.mcfunction`에 `td.place_type` 분기를 추가합니다.
+8. `data/td/function/tower/type/<새타입>.mcfunction`에서 `td.tower_type`, 팀, 장비, 크기, 배치 이펙트를 설정합니다.
+9. `data/td/function/tower/tick.mcfunction`에 사거리와 쿨타임 조건을 추가합니다.
+10. `data/td/function/tower/attack.mcfunction`에 디스패처 분기를 추가합니다.
+11. `data/td/function/tower/attack/<새타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
+
+타워 공격 함수는 `td:tower/attack`이 시작과 끝에 임시 태그를 정리합니다. 단일 타겟은 `td.tower.target`, 광역 대상은 `td.tower.hit`, blink 복귀 지점은 `td.tower.origin` marker를 사용합니다.
+
+## 5. 경제 시스템 조정하기
+
+돈은 플레이어별 `td.money`로 관리됩니다. 적이 죽으면 그 적의 보상만큼 모든 온라인 플레이어가 같은 돈을 받습니다.
+
+| 바꿀 것 | 수정 위치 | 기본값 |
+| --- | --- | ---: |
+| 시작 돈 | `td:config/economy`의 `$start_money` | 60 |
+| basic 비용 | `td:config/economy`의 `$tower_basic_cost` | 20 |
+| splash 비용 | `td:config/economy`의 `$tower_splash_cost` | 40 |
+| blink 비용 | `td:config/economy`의 `$tower_blink_cost` | 70 |
+| 전투 중 환불 비율 | `td:config/economy`의 `$combat_refund_divisor` | 2 |
+| 적 처치 보상 | `td:config/enemy/<타입>`의 reward | 타입별 |
+| 코어 HP | `td:config/core`의 `$core_hp` | 20 |
+| 웨이브 준비 시간 | `td:config/core`의 `$wave_prep_ticks` | 600 |
+
+환불 규칙은 다음과 같습니다.
+
+- 웨이브 진행 중(`$wave_state = 1`): 구매가를 `$combat_refund_divisor`로 나눈 값 환불
+- 대기, 준비 시간, 승리, 패배 상태: 100% 환불
+- 맵 전환, 새 게임 시작, `td:reset/towers`: 환불 없음
+
+`$combat_refund_divisor`가 `2`이면 50%, `4`이면 25%입니다. 100% 환불 상태는 이 값과 무관합니다. 나눗셈 값이므로 `0`으로 두면 안 됩니다.
+
+## 플레이/운영 명령
 
 ```mcfunction
-execute if score $wave_time td.wave_time matches 100 run function td:spawn/fast/from_2
-execute if score $wave_time td.wave_time matches 200 run function td:spawn/tank/all
+/function td:shop/give_items
+/function td:economy/status
+/function td:wave/status
+/function td:wave/next
+/function td:wave/stop
+/function td:reset/enemies
+/function td:reset/towers
+/function td:reset/all
 ```
 
-새 적 타입을 웨이브에 넣을 때는 `td:spawn/<타입>` 함수를 만든 뒤 config 파일에서 호출하면 됩니다. 마지막 스폰 이후 충분한 여유 tick에 `$wave_done td.wave_done`을 `1`로 설정해야, 남은 적이 모두 사라졌을 때 클리어 판정이 납니다.
+`td:wave/start`는 새 게임 시작용입니다. 적과 방어 유닛을 모두 정리하고, 코어 HP와 플레이어 돈을 config 값으로 되돌린 뒤 1웨이브를 시작합니다.
 
-현재 웨이브 초안은 다음 흐름입니다.
+## 참조: 주요 공개 함수
 
-| Wave | 구성 | 완료 tick |
-| --- | --- | ---: |
-| 1 | basic x6 | 220 |
-| 2 | basic x10 | 300 |
-| 3 | basic x8 + fast x4 | 340 |
-| 4 | basic x14 | 340 |
-| 5 | tank x2 + basic x10 | 420 |
-| 6 | fast x12 | 320 |
-| 7 | basic x12 + tank x3 | 480 |
-| 8 | fast x8 + tank x4 | 500 |
-| 9 | basic x24 | 360 |
-| 10 | boss x1 + basic x10 | 520 |
-| 11 | fast x18 + basic x8 | 480 |
-| 12 | tank x8 | 420 |
-| 13 | basic x20 + fast x10 | 540 |
-| 14 | tank x5 + fast x12 | 560 |
-| 15 | boss x1 + tank x4 + basic x12 | 700 |
-| 16 | fast x24 + tank x4 | 640 |
-| 17 | basic x30 + tank x8 | 760 |
-| 18 | boss x1 + fast x18 | 720 |
-| 19 | basic x20 + fast x12 + tank x6 + boss x1 | 840 |
-| 20 | boss x2 + 지원군 반복 | 1000 |
+| 함수 | 역할 |
+| --- | --- |
+| `td:map/save_here` | 현재 위치에 맵 시작점을 저장하고 활성화 |
+| `td:map/activate_nearest` | 8블록 안의 가장 가까운 저장 맵 활성화 |
+| `td:map/remove_nearest` | 8블록 안의 가장 가까운 저장 맵 삭제 |
+| `td:map/status` | 활성 맵과 현재 웨이브/코어 상태 표시 |
+| `td:spawnpoint/save_here/1` ~ `/8` | 활성 맵에 번호별 스폰 지점 저장 |
+| `td:spawnpoint/remove_nearest` | 가까운 활성 스폰 지점 삭제 |
+| `td:spawnpoint/status` | 활성 맵의 스폰 지점 상태 표시 |
+| `td:path/guide/east`, `west`, `south`, `north` | 현재 칸에 강제 진행 방향 저장 |
+| `td:path/guide/remove_nearest` | 가까운 방향 가이드 삭제 |
+| `td:spawn/basic`, `fast`, `tank`, `boss` | 활성 스폰 지점 중 랜덤 위치에 적 소환 |
+| `td:spawn/<타입>/from_1` ~ `from_8` | 해당 번호 스폰 지점에서 적 소환 |
+| `td:spawn/<타입>/all` | 모든 활성 스폰 지점에서 적 소환 |
+| `td:tower/place/basic`, `splash`, `blink` | 명령으로 현재 위치에 타워 구매 배치 |
+| `td:tower/remove_nearest` | 가까운 본인 소유 타워 환불 제거 |
+| `td:wave/start` | 새 게임 시작 |
 
-## 점수판 값
+## 참조: 내부 설정 함수
 
-- `td.dir`: 현재 이동 방향입니다.
-  - `0`: 아직 방향 없음
-  - `1`: 동쪽, `+X`
-  - `2`: 서쪽, `-X`
-  - `3`: 남쪽, `+Z`
-  - `4`: 북쪽, `-Z`
-- `td.path_dir`: 방향 가이드 marker의 강제 진행 방향입니다. 방향 값은 `td.dir`과 같습니다.
-- `td.map_id`: 저장 맵과 그 맵에 속한 적 소환 지점을 연결하는 고유 번호입니다.
-- `td.spawn_id`: 맵별 적 소환 지점 번호입니다. 공개 함수는 `1`부터 `8`까지 지원합니다.
-- `td.spawn_count`: 활성 맵의 스폰 후보 수를 세는 임시 값입니다.
-- `td.spawn_pick`: 랜덤 스폰 후보 중 몇 번째를 고를지 저장하는 임시 값입니다.
-- `td.step`: 현재 블록을 몇 틱 동안 이동했는지 저장합니다.
-- `td.next`: 다음 이동 방향 후보입니다.
-- `td.branch_count`: 현재 칸에서 되돌아가는 방향을 제외하고 갈 수 있는 검은 양털 후보 수입니다.
-- `td.branch_pick`: 갈림길 후보 중 몇 번째 방향을 선택할지 저장하는 적별 랜덤 값입니다.
-- `td.hp`: 기지 체력입니다. `$base` 가짜 플레이어에 저장됩니다.
-- `td.enemy_hp`: 적의 현재 체력입니다.
-- `td.enemy_max_hp`: 적의 최대 체력입니다.
-- `td.hp_ratio`: 적 체력바의 1~10 단계 값입니다.
-- `td.reward`: 적이 죽을 때 모든 온라인 플레이어에게 지급할 보상입니다.
-- `td.money`: 플레이어 개인 돈입니다.
-- `td.player_id`: 플레이어별 고유 번호입니다.
-- `td.owner_id`: 타워 소유자 번호입니다.
-- `td.type`: 적 타입 번호입니다.
-  - `1`: basic
-  - `2`: fast
-  - `3`: tank
-  - `4`: boss
-- `td.speed`: 적 속도 프리셋입니다.
-  - `1`: slow
-  - `2`: normal
-  - `3`: fast
-- `td.tower_cd`: 방어 유닛의 공격 쿨타임입니다. 40 이상이고 사거리 안에 적이 있으면 공격합니다.
-- `td.tower_type`: 방어 유닛 타입 번호입니다.
-  - `1`: basic
-  - `2`: splash
-  - `3`: blink
-- `td.tower_id`: 방어 유닛과 순간이동 복귀 marker를 짝짓기 위한 고유 번호입니다.
-- `td.tower_cost`: 타워의 구매가입니다. 환불 계산에 사용합니다.
-- `td.blink_time`: blink 방어 유닛이 타겟 위치에 머무는 남은 틱입니다.
-- `td.place_use`: 타워 상점 아이템 우클릭 감지 값입니다.
-- `td.place_cd`: 우클릭 배치/제거 중복 실행을 막는 플레이어별 쿨다운입니다.
-- `td.place_step`, `td.place_type`, `td.place_cost`, `td.refund`: 자유 배치와 환불 계산용 값입니다.
-- `td.wave`: 현재 웨이브 번호입니다. `$wave` 가짜 플레이어에 저장됩니다.
-- `td.wave_time`: 현재 웨이브 경과 tick입니다. `$wave_time` 가짜 플레이어에 저장됩니다.
-- `td.wave_state`: 웨이브 상태입니다. `$wave_state` 값이 `0`이면 대기, `1`이면 진행 중, `2`이면 준비 시간, `3`이면 승리, `-1`이면 패배입니다.
-- `td.wave_done`: 현재 웨이브의 스폰 완료 여부입니다. `$wave_done`이 `1`이고 남은 적이 없으면 클리어 처리됩니다.
-- `td.wave_prep`: 다음 웨이브까지 남은 준비 tick입니다. `$wave_prep` 가짜 플레이어에 저장됩니다.
-- `td.tmp`: 공통 계산용 임시 점수판입니다. 타워 데미지는 `$damage td.tmp`, 체력바 배율은 `$hp_scale td.tmp`, bossbar 합계는 `$boss_hp`와 `$boss_max`에 저장합니다.
+| 함수 | 역할 |
+| --- | --- |
+| `td:config/load` | 모든 설정 함수 호출 |
+| `td:config/core` | 코어 HP, 웨이브 준비 시간, 체력바 배율 |
+| `td:config/economy` | 시작 돈, 타워 비용, 전투 중 환불 divisor |
+| `td:config/enemy/<타입>` | 적 HP, 속도, 보상 |
+| `td:config/tower/<타입>` | 타워 피해량, 초기 쿨타임 |
 
-## 몹 타입 추가 방법
+## 참조: 중요한 점수판
 
-새 몹 타입을 추가할 때는 기존 타입을 복사해서 아래 흐름을 맞추면 됩니다.
-
-1. `data/td/function/spawn/<타입>.mcfunction`을 만들고 원하는 바닐라 엔티티를 소환합니다.
-2. 소환 NBT에 `td.enemy`, `td.new`, `td.type.<타입>` 태그를 넣습니다.
-3. `data/td/function/enemy/type/<타입>.mcfunction`을 만들고 `td.type`, `td.enemy_hp`, `td.enemy_max_hp`, `td.reward`, `td.speed`, `minecraft:scale`, 장비, 소환 이펙트를 설정합니다.
-4. `data/td/function/load.mcfunction`에 타입별 팀을 추가하고 `collisionRule never`를 설정합니다.
-5. 기존 타입처럼 `td:spawn/<타입>.mcfunction`은 `td:spawn/select/random`으로 위치를 고르고, `td:spawn/<타입>/selected`가 실제 소환과 타입 설정, `td:spawn/common`을 실행하게 만듭니다.
-6. 웨이브에서 특정 지점 소환이나 전체 지점 소환이 필요하면 `td:spawn/<타입>/from_1` ~ `from_8`, `td:spawn/<타입>/all`도 기존 타입을 복사해 추가합니다.
-
-타입별 소환 함수는 몹 외형과 기본 설정만 담당하고, 실제 이동은 `td:enemy/move`와 `td:enemy/speed/*` 함수가 공통으로 처리합니다.
-
-## 방어 유닛 타입 추가 방법
-
-새 방어 유닛을 추가할 때는 기존 `basic`, `splash`, `blink` 중 가장 비슷한 타입을 복사해서 아래 흐름을 맞추면 됩니다.
-
-1. `data/td/function/tower/spawn/<타입>.mcfunction`을 만들고 `minecraft:mannequin`을 소환합니다.
-2. 소환 NBT에 `td.tower`, `td.tower.new`, `td.tower.<타입>` 태그를 넣고 `td.owner_id`, `td.tower_cost`를 배치 플레이어에서 복사합니다.
-3. `data/td/function/tower/place/<타입>.mcfunction` 또는 상점 아이템 분기에 타입 번호와 비용을 추가합니다.
-4. `data/td/function/tower/type/<타입>.mcfunction`에서 `td.tower_type`, 초기 `td.tower_cd`, 팀, 장비, 크기, 배치 이펙트를 설정합니다.
-5. `data/td/function/tower/tick.mcfunction`에 해당 타입의 쿨타임, 사거리, `td.tower_type` 분기 조건을 추가합니다.
-6. `data/td/function/tower/attack.mcfunction`에 새 타입 번호와 `td:tower/attack/<타입>` 호출을 추가합니다.
-7. `data/td/function/tower/attack/<타입>.mcfunction`에서 타겟 선정, `/swing`, 파티클/소리, 피해 적용을 구현합니다.
-
-공격 함수에서는 시작 전에 `td:tower/attack`이 임시 태그를 정리합니다. 가장 가까운 단일 타겟은 `td.tower.target`, 광역 피해 대상은 `td.tower.hit` 태그를 붙인 뒤 `td:tower/damage/apply` 또는 `td:tower/damage/hit_tagged`를 호출합니다. 순간이동형 공격은 `td.tower.origin` marker로 원위치를 저장하고 `td.blink_time`이 끝난 뒤 반드시 돌아오도록 작성합니다. 적의 `td.enemy_hp`를 바꾸는 새 피해 함수는 생존한 적에게 `td:enemy/hpbar/update`도 호출해야 합니다.
+| Objective | 용도 |
+| --- | --- |
+| `td.hp` | 코어 HP와 일부 HP 관련 fake player |
+| `td.enemy_hp`, `td.enemy_max_hp` | 적 현재/최대 HP |
+| `td.reward` | 적 처치 보상 |
+| `td.money` | 플레이어 개인 돈 |
+| `td.place_cost` | 배치 비용과 비용 config fake player |
+| `td.tower_cost` | 배치된 타워의 구매가 |
+| `td.tower_type`, `td.tower_cd` | 타워 타입과 쿨타임 |
+| `td.wave`, `td.wave_time`, `td.wave_state`, `td.wave_done`, `td.wave_prep` | 웨이브 진행 상태 |
+| `td.map_id`, `td.spawn_id` | 맵과 스폰 지점 연결 |
+| `td.dir`, `td.next`, `td.branch_count`, `td.branch_pick`, `td.path_dir` | 검은 양털 경로 이동과 분기/가이드 |
+| `td.tmp` | 공통 임시 계산과 일부 config fake player |
 
 ## 파일 메모
 
-`.mcfunction` 파일은 `#` 주석을 사용할 수 있어서 각 명령의 역할을 한글 주석으로 설명했습니다.
-
-`pack.mcmeta`, `load.json`, `tick.json`은 JSON 파일입니다. JSON은 표준 문법상 주석을 허용하지 않으므로, 데이터팩이 깨지지 않도록 이 파일들에는 주석을 넣지 않았습니다.
-
-JSON 파일의 역할은 다음과 같습니다.
-
-- `pack.mcmeta`: Minecraft가 이 폴더를 데이터팩으로 인식하게 하고, 지원 데이터팩 포맷을 `101.1`로 지정합니다.
-- `data/minecraft/tags/function/load.json`: `/reload` 또는 월드 로드 시 `td:load`를 자동 실행하도록 등록합니다.
-- `data/minecraft/tags/function/tick.json`: 매 게임 틱마다 `td:tick`을 자동 실행하도록 등록합니다.
+`.mcfunction` 파일은 `#` 주석을 사용할 수 있습니다. `pack.mcmeta`, `load.json`, `tick.json`은 JSON이므로 주석을 넣지 않습니다.

@@ -1,10 +1,10 @@
 # basic 타입 설정입니다.
-# type 1, HP 10, speed 2(normal), scale 1.0을 사용합니다.
+# HP, speed, reward는 td:config/enemy/basic에서 가져옵니다.
 scoreboard players set @s td.type 1
-scoreboard players set @s td.enemy_max_hp 10
-scoreboard players set @s td.enemy_hp 10
-scoreboard players set @s td.speed 2
-scoreboard players set @s td.reward 5
+scoreboard players operation @s td.enemy_max_hp = $enemy_basic_hp td.enemy_max_hp
+scoreboard players operation @s td.enemy_hp = $enemy_basic_hp td.enemy_max_hp
+scoreboard players operation @s td.speed = $enemy_basic_speed td.speed
+scoreboard players operation @s td.reward = $enemy_basic_reward td.reward
 
 # 팀 색상과 충돌 방지 규칙을 적용합니다.
 team join td_enemy_basic @s

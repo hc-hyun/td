@@ -1,4 +1,4 @@
-# basic 공격: 가장 가까운 적 하나에게 4 피해를 줍니다.
+# basic 공격: 가장 가까운 적 하나에게 설정된 피해를 줍니다.
 scoreboard players set @s td.tower_cd 0
 
 tag @e[tag=td.enemy,distance=..8,limit=1,sort=nearest] add td.tower.target
@@ -9,5 +9,5 @@ swing @s mainhand
 execute at @s positioned ^ ^1.2 ^1 run particle minecraft:sweep_attack ~ ~ ~ 0 0 0 0 1 force
 playsound minecraft:entity.player.attack.sweep master @a[distance=..16] ~ ~ ~ 0.7 1.15
 
-scoreboard players set $damage td.tmp 4
+scoreboard players operation $damage td.tmp = $tower_basic_damage td.tmp
 execute as @e[tag=td.tower.target] at @s run function td:tower/damage/apply

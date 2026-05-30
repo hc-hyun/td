@@ -43,7 +43,19 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:set_start
 ```
 
-4. 원하는 타입의 적을 소환합니다.
+4. 원하는 위치에 기본 방어 유닛을 배치합니다.
+
+```mcfunction
+/function td:tower/place/basic
+```
+
+가까운 방어 유닛을 제거하려면 다음 명령을 사용합니다.
+
+```mcfunction
+/function td:tower/remove_nearest
+```
+
+5. 원하는 타입의 적을 소환합니다.
 
 ```mcfunction
 /function td:spawn/basic
@@ -58,7 +70,7 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:spawn_enemy
 ```
 
-5. 기지 체력을 확인합니다.
+6. 기지 체력을 확인합니다.
 
 ```mcfunction
 /scoreboard players get $base td.hp
@@ -90,6 +102,9 @@ S ■ ■ ■
 - `td:spawn/tank`: 느리고 튼튼한 pillager 적을 소환합니다.
 - `td:spawn/boss`: 크고 체력이 높은 evoker 보스 적을 소환합니다.
 - `td:spawn_enemy`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:spawn/basic`을 실행합니다.
+- `td:tower/place/basic`: 플레이어 위치에 기본 mannequin 방어 유닛을 배치합니다.
+- `td:tower/remove_nearest`: 플레이어 기준 4블록 안의 가장 가까운 방어 유닛을 제거합니다.
+- `td:tower/tick`: 방어 유닛의 쿨타임과 공격 판정을 처리합니다.
 - `td:path/on_cell`: 현재 칸 주변의 검은 양털을 검사해서 다음 이동 방향을 고릅니다.
 - `td:path/finish`: 적이 끝점에 도착했을 때 기지 체력을 1 줄이고 적을 제거합니다.
 
@@ -109,6 +124,14 @@ S ■ ■ ■
 | slow | 1 | 0.05블록/틱 | 20틱마다 |
 | normal | 2 | 0.1블록/틱 | 10틱마다 |
 | fast | 3 | 0.2블록/틱 | 5틱마다 |
+
+## 방어 유닛
+
+| 타입 | 함수 | 엔티티 | 피해 | 사거리 | 공격 주기 |
+| --- | --- | --- | ---: | ---: | ---: |
+| basic | `td:tower/place/basic` | mannequin | 4 | 8블록 | 40틱 |
+
+기본 방어 유닛은 `minecraft:mannequin`을 사용하며, 공격할 때 `/swing`으로 팔을 휘두르고 가장 가까운 `td.enemy`의 `td.enemy_hp` 점수를 깎습니다.
 
 ## 점수판 값
 
@@ -132,6 +155,7 @@ S ■ ■ ■
   - `1`: slow
   - `2`: normal
   - `3`: fast
+- `td.tower_cd`: 방어 유닛의 공격 쿨타임입니다. 40 이상이고 사거리 안에 적이 있으면 공격합니다.
 
 ## 몹 타입 추가 방법
 

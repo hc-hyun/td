@@ -10,6 +10,7 @@ scoreboard objectives add td.enemy_hp dummy
 scoreboard objectives add td.enemy_max_hp dummy
 scoreboard objectives add td.type dummy
 scoreboard objectives add td.speed dummy
+scoreboard objectives add td.tower_cd dummy
 
 # 기지 체력은 가짜 플레이어 $base의 td.hp 점수로 관리합니다.
 # /reload 할 때마다 기본값 20으로 다시 맞춰집니다.
@@ -37,3 +38,9 @@ team modify td_enemy_tank collisionRule never
 team add td_enemy_boss
 team modify td_enemy_boss color dark_purple
 team modify td_enemy_boss collisionRule never
+
+# 방어 유닛은 mannequin 엔티티를 사용합니다.
+# 적 경로와 플레이어 이동을 방해하지 않도록 충돌을 끕니다.
+team add td_tower
+team modify td_tower color blue
+team modify td_tower collisionRule never

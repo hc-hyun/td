@@ -5,6 +5,8 @@
 scoreboard objectives add td.dir dummy
 scoreboard objectives add td.step dummy
 scoreboard objectives add td.next dummy
+scoreboard objectives add td.branch_count dummy
+scoreboard objectives add td.branch_pick dummy
 scoreboard objectives add td.hp dummy
 scoreboard objectives add td.enemy_hp dummy
 scoreboard objectives add td.enemy_max_hp dummy

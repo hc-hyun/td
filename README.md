@@ -8,6 +8,8 @@
 
 적은 머리 위에 `타입명 n/10 체력바` 형식의 이름표 체력바를 표시합니다. boss 타입 적이 살아 있으면 화면 상단에는 살아 있는 boss들의 HP 합산 bossbar도 표시됩니다.
 
+웨이브 게임은 직접 편집 가능한 `td:wave/config/wave_01` ~ `td:wave/config/wave_20` 스폰표를 사용합니다. 각 파일은 특정 tick에 어떤 적을 소환할지만 담고, 웨이브 시작/클리어/준비 시간/승패 처리는 `td:wave/*` 함수가 공통으로 담당합니다.
+
 ## 지원 버전
 
 - Minecraft Java Edition 26.1 계열
@@ -45,7 +47,15 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:set_start
 ```
 
-4. 원하는 위치에 방어 유닛을 배치합니다.
+4. 웨이브 게임을 시작합니다.
+
+```mcfunction
+/function td:wave/start
+```
+
+`td:wave/start`는 새 게임 시작용이라 기존 방어 유닛도 함께 정리합니다. 방어 유닛은 `td:wave/start` 이후에 배치합니다.
+
+5. 원하는 위치에 방어 유닛을 배치합니다.
 
 ```mcfunction
 /function td:tower/place/basic
@@ -59,7 +69,15 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:tower/remove_nearest
 ```
 
-5. 원하는 타입의 적을 소환합니다.
+웨이브 사이 30초 준비 시간을 건너뛰거나, 상태를 확인하거나, 진행 중인 웨이브를 멈추려면 다음 명령을 사용합니다.
+
+```mcfunction
+/function td:wave/next
+/function td:wave/status
+/function td:wave/stop
+```
+
+6. 원하는 타입의 적을 수동 소환해서 테스트할 수도 있습니다.
 
 ```mcfunction
 /function td:spawn/basic
@@ -74,7 +92,7 @@ Minecraft가 데이터팩으로 인식하려면 `BlackWoolTD` 폴더 바로 아�
 /function td:spawn_enemy
 ```
 
-6. 기지 체력을 확인합니다.
+7. 기지 체력을 확인합니다.
 
 ```mcfunction
 /scoreboard players get $base td.hp
@@ -116,6 +134,11 @@ S ■ ■ ■
 - `td:spawn/tank`: 느리고 튼튼한 pillager 적을 소환합니다.
 - `td:spawn/boss`: 크고 체력이 높은 evoker 보스 적을 소환합니다.
 - `td:spawn_enemy`: 예전 사용법을 위한 호환 함수입니다. 내부적으로 `td:spawn/basic`을 실행합니다.
+- `td:wave/start`: 적과 방어 유닛을 초기화하고 코어 HP를 20으로 되돌린 뒤 1웨이브를 시작합니다.
+- `td:wave/next`: 준비 시간 중이면 즉시 다음 웨이브를 시작합니다.
+- `td:wave/stop`: 웨이브를 대기 상태로 전환하고 남은 적을 정리합니다.
+- `td:wave/status`: 현재 웨이브, 코어 HP, 상태값, 준비 시간 tick을 채팅에 표시합니다.
+- `td:wave/tick`: 웨이브 스폰표 실행, 클리어 판정, 준비 시간, 승패 처리를 담당합니다.
 - `td:tower/place/basic`: 플레이어 위치에 기본 mannequin 방어 유닛을 배치합니다.
 - `td:tower/place/splash`: 플레이어 위치에 광역 마법 방어 유닛을 배치합니다.
 - `td:tower/place/blink`: 플레이어 위치에 순간이동 광역 방어 유닛을 배치합니다.
@@ -171,6 +194,64 @@ Tank 3/10 ███░░░░░░░
 
 boss 타입 적이 하나 이상 살아 있으면 `td:boss` bossbar가 화면 상단에 표시됩니다. 여러 boss가 동시에 있으면 현재 HP와 최대 HP를 각각 합산해서 하나의 보스 웨이브 체력처럼 보여줍니다.
 
+## 웨이브 시스템
+
+웨이브 게임은 다음 공개 함수로 제어합니다.
+
+```mcfunction
+/function td:wave/start
+/function td:wave/next
+/function td:wave/stop
+/function td:wave/status
+```
+
+`td:wave/start`는 새 게임 시작용입니다. 모든 적과 방어 유닛을 정리하고 `$base td.hp`를 20으로 리셋한 뒤 1웨이브를 시작합니다. 웨이브가 클리어되면 방어 유닛은 유지되고, 다음 웨이브까지 `600`틱, 즉 30초 준비 시간이 주어집니다.
+
+웨이브별 스폰표는 아래 파일을 직접 편집합니다.
+
+```text
+data/td/function/wave/config/
+  wave_01.mcfunction
+  wave_02.mcfunction
+  ...
+  wave_20.mcfunction
+```
+
+각 파일은 스폰 명령과 완료 tick만 담습니다.
+
+```mcfunction
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 50 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 220 run scoreboard players set $wave_done td.wave_done 1
+```
+
+새 적 타입을 웨이브에 넣을 때는 `td:spawn/<타입>` 함수를 만든 뒤 config 파일에서 호출하면 됩니다. 마지막 스폰 이후 충분한 여유 tick에 `$wave_done td.wave_done`을 `1`로 설정해야, 남은 적이 모두 사라졌을 때 클리어 판정이 납니다.
+
+현재 웨이브 초안은 다음 흐름입니다.
+
+| Wave | 구성 | 완료 tick |
+| --- | --- | ---: |
+| 1 | basic x6 | 220 |
+| 2 | basic x10 | 300 |
+| 3 | basic x8 + fast x4 | 340 |
+| 4 | basic x14 | 340 |
+| 5 | tank x2 + basic x10 | 420 |
+| 6 | fast x12 | 320 |
+| 7 | basic x12 + tank x3 | 480 |
+| 8 | fast x8 + tank x4 | 500 |
+| 9 | basic x24 | 360 |
+| 10 | boss x1 + basic x10 | 520 |
+| 11 | fast x18 + basic x8 | 480 |
+| 12 | tank x8 | 420 |
+| 13 | basic x20 + fast x10 | 540 |
+| 14 | tank x5 + fast x12 | 560 |
+| 15 | boss x1 + tank x4 + basic x12 | 700 |
+| 16 | fast x24 + tank x4 | 640 |
+| 17 | basic x30 + tank x8 | 760 |
+| 18 | boss x1 + fast x18 | 720 |
+| 19 | basic x20 + fast x12 + tank x6 + boss x1 | 840 |
+| 20 | boss x2 + 지원군 반복 | 1000 |
+
 ## 점수판 값
 
 - `td.dir`: 현재 이동 방향입니다.
@@ -201,6 +282,11 @@ boss 타입 적이 하나 이상 살아 있으면 `td:boss` bossbar가 화면 �
   - `3`: blink
 - `td.tower_id`: 방어 유닛과 순간이동 복귀 marker를 짝짓기 위한 고유 번호입니다.
 - `td.blink_time`: blink 방어 유닛이 타겟 위치에 머무는 남은 틱입니다.
+- `td.wave`: 현재 웨이브 번호입니다. `$wave` 가짜 플레이어에 저장됩니다.
+- `td.wave_time`: 현재 웨이브 경과 tick입니다. `$wave_time` 가짜 플레이어에 저장됩니다.
+- `td.wave_state`: 웨이브 상태입니다. `$wave_state` 값이 `0`이면 대기, `1`이면 진행 중, `2`이면 준비 시간, `3`이면 승리, `-1`이면 패배입니다.
+- `td.wave_done`: 현재 웨이브의 스폰 완료 여부입니다. `$wave_done`이 `1`이고 남은 적이 없으면 클리어 처리됩니다.
+- `td.wave_prep`: 다음 웨이브까지 남은 준비 tick입니다. `$wave_prep` 가짜 플레이어에 저장됩니다.
 - `td.tmp`: 공통 계산용 임시 점수판입니다. 타워 데미지는 `$damage td.tmp`, 체력바 배율은 `$hp_scale td.tmp`, bossbar 합계는 `$boss_hp`와 `$boss_max`에 저장합니다.
 
 ## 몹 타입 추가 방법

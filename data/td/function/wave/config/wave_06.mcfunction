@@ -1,0 +1,15 @@
+# Wave 06: fast x12, 18틱 간격.
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 38 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 56 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 74 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 92 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 110 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 128 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 146 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 164 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 182 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 200 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 218 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 320 run scoreboard players set $wave_done td.wave_done 1
+

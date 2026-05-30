@@ -1,0 +1,13 @@
+# Wave 02: basic x10, 25틱 간격.
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 45 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 70 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 95 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 120 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 145 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 170 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 195 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 220 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 245 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 300 run scoreboard players set $wave_done td.wave_done 1
+

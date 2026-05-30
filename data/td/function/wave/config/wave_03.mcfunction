@@ -1,0 +1,15 @@
+# Wave 03: basic x8 + fast x4.
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 45 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 70 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 80 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 95 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 120 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 130 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 145 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 170 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 180 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 195 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 230 run function td:spawn/fast
+execute if score $wave_time td.wave_time matches 340 run scoreboard players set $wave_done td.wave_done 1
+

@@ -8,3 +8,6 @@ function td:tower/tick
 # 체력바가 없는 기존 적을 보정하고, 보스 타입의 화면 상단 체력바를 갱신합니다.
 function td:enemy/hpbar/init_missing
 function td:enemy/bossbar/tick
+
+# 웨이브 진행, 클리어, 준비 시간, 승패 상태를 처리합니다.
+function td:wave/tick

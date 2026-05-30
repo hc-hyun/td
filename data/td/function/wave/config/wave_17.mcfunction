@@ -1,0 +1,41 @@
+# Wave 17: basic x30 + tank x8.
+execute if score $wave_time td.wave_time matches 20 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 38 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 56 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 74 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 92 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 110 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 120 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 128 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 146 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 164 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 182 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 200 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 200 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 218 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 236 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 254 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 272 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 280 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 290 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 308 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 326 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 344 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 360 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 362 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 380 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 398 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 416 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 434 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 440 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 452 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 470 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 488 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 506 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 520 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 524 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 542 run function td:spawn/basic
+execute if score $wave_time td.wave_time matches 600 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 680 run function td:spawn/tank
+execute if score $wave_time td.wave_time matches 760 run scoreboard players set $wave_done td.wave_done 1
+

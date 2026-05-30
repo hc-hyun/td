@@ -16,11 +16,24 @@ scoreboard objectives add td.tower_type dummy
 scoreboard objectives add td.tower_id dummy
 scoreboard objectives add td.blink_time dummy
 scoreboard objectives add td.tmp dummy
+scoreboard objectives add td.wave dummy
+scoreboard objectives add td.wave_time dummy
+scoreboard objectives add td.wave_state dummy
+scoreboard objectives add td.wave_done dummy
+scoreboard objectives add td.wave_prep dummy
 
 # 기지 체력은 가짜 플레이어 $base의 td.hp 점수로 관리합니다.
 # /reload 할 때마다 기본값 20으로 다시 맞춰집니다.
 scoreboard players set $base td.hp 20
 scoreboard players set $hp_scale td.tmp 10
+
+# 웨이브 진행 상태입니다.
+# 상태값: 0 대기, 1 진행 중, 2 준비 시간, 3 승리, -1 패배.
+scoreboard players set $wave td.wave 0
+scoreboard players set $wave_time td.wave_time 0
+scoreboard players set $wave_state td.wave_state 0
+scoreboard players set $wave_done td.wave_done 0
+scoreboard players set $wave_prep td.wave_prep 0
 
 # 보스 타입 적이 살아 있을 때 화면 상단에 전체 보스 체력 합계를 보여줍니다.
 bossbar add td:boss {text:'Boss Wave',color:'dark_purple',bold:true}

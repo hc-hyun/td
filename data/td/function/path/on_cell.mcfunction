@@ -12,6 +12,13 @@ scoreboard players set @s td.branch_pick 0
 # 현재 칸에 방향 가이드 marker가 있으면 유효한 가이드 방향을 우선 적용합니다.
 function td:path/guide/apply
 
+# marker 가이드가 없으면 인접한 검은 콘크리트를 marker 없는 방향 가이드로 사용합니다.
+# 검은 콘크리트는 "가야 하는 다음 칸"을 뜻하며, 방금 온 방향은 제외합니다.
+execute if score @s td.next matches 0 at @s unless score @s td.dir matches 2 if block ~1 ~-1 ~ minecraft:black_concrete run scoreboard players set @s td.next 1
+execute if score @s td.next matches 0 at @s unless score @s td.dir matches 1 if block ~-1 ~-1 ~ minecraft:black_concrete run scoreboard players set @s td.next 2
+execute if score @s td.next matches 0 at @s unless score @s td.dir matches 4 if block ~ ~-1 ~1 minecraft:black_concrete run scoreboard players set @s td.next 3
+execute if score @s td.next matches 0 at @s unless score @s td.dir matches 3 if block ~ ~-1 ~-1 minecraft:black_concrete run scoreboard players set @s td.next 4
+
 # 되돌아가는 방향을 제외하고 현재 칸에서 갈 수 있는 검은 양털 후보 수를 셉니다.
 execute if score @s td.next matches 0 at @s unless score @s td.dir matches 2 if block ~1 ~-1 ~ minecraft:black_wool run scoreboard players add @s td.branch_count 1
 execute if score @s td.next matches 0 at @s unless score @s td.dir matches 1 if block ~-1 ~-1 ~ minecraft:black_wool run scoreboard players add @s td.branch_count 1

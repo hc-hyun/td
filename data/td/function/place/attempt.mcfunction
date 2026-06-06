@@ -8,6 +8,7 @@ execute if block ~ ~ ~ minecraft:void_air run tag @s add td.place.open
 
 execute unless entity @s[tag=td.place.open] run tag @s remove td.place.valid
 execute if block ~ ~-1 ~ minecraft:black_wool run tag @s remove td.place.valid
+execute if block ~ ~-1 ~ minecraft:black_concrete run tag @s remove td.place.valid
 execute if entity @e[type=minecraft:mannequin,tag=td.tower,distance=..1] run tag @s remove td.place.valid
 execute unless score @s td.money >= @s td.place_cost run tag @s remove td.place.valid
 execute unless entity @s[tag=td.place.tower] run tag @s remove td.place.valid

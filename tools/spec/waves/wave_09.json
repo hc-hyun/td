@@ -1,0 +1,128 @@
+{
+  "number": 9,
+  "order": 9,
+  "title": "basic x24, 12틱 간격",
+  "complete_tick": 360,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 32,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 44,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 56,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 68,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 92,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 104,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 116,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 128,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 140,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 152,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 164,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 176,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 188,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 212,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 224,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 236,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 248,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 260,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 272,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 284,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 296,
+      "mode": "random",
+      "type": "basic"
+    }
+  ]
+}

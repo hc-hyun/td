@@ -1,0 +1,68 @@
+{
+  "number": 3,
+  "order": 3,
+  "title": "basic x8 + fast x4",
+  "complete_tick": 340,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 45,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 70,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 95,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 120,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 130,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 145,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 170,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 180,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 195,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 230,
+      "mode": "random",
+      "type": "fast"
+    }
+  ]
+}

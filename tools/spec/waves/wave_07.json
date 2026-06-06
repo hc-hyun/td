@@ -1,0 +1,83 @@
+{
+  "number": 7,
+  "order": 7,
+  "title": "basic x12 + tank x3",
+  "complete_tick": 480,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 45,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 70,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 95,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 120,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 120,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 145,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 170,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 195,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 220,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 240,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 245,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 270,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 295,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 360,
+      "mode": "random",
+      "type": "tank"
+    }
+  ]
+}

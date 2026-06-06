@@ -1,0 +1,46 @@
+{
+  "id": "blink",
+  "display_name": "Blink",
+  "order": 30,
+  "cost": 70,
+  "damage": 5,
+  "initial_cooldown": 100,
+  "range": 12,
+  "cooldown": 100,
+  "scale": 1.05,
+  "shop": {
+    "item_name": "Blink Tower",
+    "color": "aqua",
+    "lore": "Configured cost | Teleport area attack",
+    "glint": true
+  },
+  "mannequin": {
+    "profile": {
+      "texture": "minecraft:entity/player/wide/steve",
+      "model": "wide"
+    },
+    "rotation": [
+      180,
+      0
+    ]
+  },
+  "equipment": [
+    {
+      "slot": "weapon.mainhand",
+      "item": "minecraft:ender_pearl"
+    },
+    {
+      "slot": "armor.head",
+      "item": "minecraft:iron_helmet"
+    }
+  ],
+  "effects": [
+    "particle minecraft:portal ~ ~1.1 ~ 0.45 0.6 0.45 0.08 28",
+    "playsound minecraft:entity.enderman.teleport master @a[distance=..24] ~ ~ ~ 0.5 1.5"
+  ],
+  "attack": {
+    "preset": "blink",
+    "aoe": 3,
+    "blink_time": 6
+  }
+}

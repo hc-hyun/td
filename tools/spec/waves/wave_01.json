@@ -1,0 +1,38 @@
+{
+  "number": 1,
+  "order": 1,
+  "title": "basic x6, 30틱 간격",
+  "complete_tick": 220,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 50,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 110,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 140,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 170,
+      "mode": "random",
+      "type": "basic"
+    }
+  ]
+}

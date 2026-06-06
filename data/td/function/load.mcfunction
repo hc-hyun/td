@@ -77,27 +77,5 @@ function td:map/ensure_ids
 function td:spawnpoint/activate_for_map
 function td:core/activate_for_map
 
-# 타입별 팀을 만들고 색상과 충돌 규칙을 설정합니다.
-# 적은 타입별 팀 중 하나에 들어가며, td.enemy 태그로 공통 처리됩니다.
-# NoAI 적을 tp로 움직이는 방식이라 충돌이 켜져 있으면 경로가 어긋날 수 있습니다.
-team add td_enemy_basic
-team modify td_enemy_basic color green
-team modify td_enemy_basic collisionRule never
-
-team add td_enemy_fast
-team modify td_enemy_fast color yellow
-team modify td_enemy_fast collisionRule never
-
-team add td_enemy_tank
-team modify td_enemy_tank color aqua
-team modify td_enemy_tank collisionRule never
-
-team add td_enemy_boss
-team modify td_enemy_boss color dark_purple
-team modify td_enemy_boss collisionRule never
-
-# 방어 유닛은 mannequin 엔티티를 사용합니다.
-# 적 경로와 플레이어 이동을 방해하지 않도록 충돌을 끕니다.
-team add td_tower
-team modify td_tower color blue
-team modify td_tower collisionRule never
+# 타입별 팀은 tools/spec JSON에서 생성됩니다.
+function td:team/load

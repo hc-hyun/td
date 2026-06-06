@@ -1,0 +1,68 @@
+{
+  "number": 8,
+  "order": 8,
+  "title": "fast x8 + tank x4",
+  "complete_tick": 500,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 50,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 90,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 110,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 140,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 170,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 190,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 230,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 290,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 390,
+      "mode": "random",
+      "type": "tank"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "number": 6,
+  "order": 6,
+  "title": "fast x12, 18틱 간격",
+  "complete_tick": 320,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 38,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 56,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 74,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 92,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 110,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 128,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 146,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 164,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 182,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 218,
+      "mode": "random",
+      "type": "fast"
+    }
+  ]
+}

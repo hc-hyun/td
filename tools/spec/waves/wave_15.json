@@ -1,0 +1,93 @@
+{
+  "number": 15,
+  "order": 15,
+  "title": "boss x1 + tank x4 + basic x12",
+  "complete_tick": 700,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "boss"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 100,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 110,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 140,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 170,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 180,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 230,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 260,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 260,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 290,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 320,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 340,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 350,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 380,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 410,
+      "mode": "random",
+      "type": "basic"
+    }
+  ]
+}

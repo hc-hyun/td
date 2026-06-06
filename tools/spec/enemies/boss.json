@@ -1,0 +1,33 @@
+{
+  "id": "boss",
+  "display_name": "Boss",
+  "order": 40,
+  "entity": "minecraft:evoker",
+  "custom_name_color": "dark_purple",
+  "bold": true,
+  "hpbar_bold": true,
+  "hp": 100,
+  "speed": 1,
+  "reward": 80,
+  "core_damage": 10,
+  "team": {
+    "name": "td_enemy_boss",
+    "color": "dark_purple",
+    "collision_rule": "never"
+  },
+  "scale": 1.5,
+  "equipment": [
+    {
+      "slot": "armor.head",
+      "item": "minecraft:golden_helmet"
+    },
+    {
+      "slot": "weapon.mainhand",
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "effects": [
+    "particle minecraft:enchant ~ ~1.2 ~ 0.6 0.7 0.6 0.2 40",
+    "playsound minecraft:entity.evoker.ambient master @a[distance=..24] ~ ~ ~ 0.8 0.7"
+  ]
+}

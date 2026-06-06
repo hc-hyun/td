@@ -1,0 +1,198 @@
+{
+  "number": 17,
+  "order": 17,
+  "title": "basic x30 + tank x8",
+  "complete_tick": 760,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 38,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 56,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 74,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 92,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 110,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 120,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 128,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 146,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 164,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 182,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 218,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 236,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 254,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 272,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 280,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 290,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 308,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 326,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 344,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 360,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 362,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 380,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 398,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 416,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 434,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 440,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 452,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 470,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 488,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 506,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 520,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 524,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 542,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 600,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 680,
+      "mode": "random",
+      "type": "tank"
+    }
+  ]
+}

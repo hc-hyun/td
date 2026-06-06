@@ -1,0 +1,27 @@
+{
+  "id": "basic",
+  "display_name": "Basic",
+  "order": 10,
+  "entity": "minecraft:zombie",
+  "custom_name_color": "green",
+  "hp": 10,
+  "speed": 2,
+  "reward": 5,
+  "core_damage": 1,
+  "team": {
+    "name": "td_enemy_basic",
+    "color": "green",
+    "collision_rule": "never"
+  },
+  "scale": 1.0,
+  "equipment": [
+    {
+      "slot": "armor.head",
+      "item": "minecraft:leather_helmet"
+    }
+  ],
+  "effects": [
+    "particle minecraft:happy_villager ~ ~1 ~ 0.3 0.4 0.3 0 8",
+    "playsound minecraft:entity.zombie.ambient master @a[distance=..16] ~ ~ ~ 0.4 1.2"
+  ]
+}

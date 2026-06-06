@@ -1,0 +1,78 @@
+{
+  "number": 4,
+  "order": 4,
+  "title": "basic x14, 18틱 간격",
+  "complete_tick": 340,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 38,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 56,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 74,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 92,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 110,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 128,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 146,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 164,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 182,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 218,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 236,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 254,
+      "mode": "random",
+      "type": "basic"
+    }
+  ]
+}

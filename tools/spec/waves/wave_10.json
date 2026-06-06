@@ -1,0 +1,63 @@
+{
+  "number": 10,
+  "order": 10,
+  "title": "boss x1 + basic x10",
+  "complete_tick": 520,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "boss"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 105,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 130,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 155,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 180,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 205,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 230,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 255,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 280,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 305,
+      "mode": "random",
+      "type": "basic"
+    }
+  ]
+}

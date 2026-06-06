@@ -1,0 +1,58 @@
+{
+  "number": 2,
+  "order": 2,
+  "title": "basic x10, 25틱 간격",
+  "complete_tick": 300,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 45,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 70,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 95,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 120,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 145,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 170,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 195,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 220,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 245,
+      "mode": "random",
+      "type": "basic"
+    }
+  ]
+}

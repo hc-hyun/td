@@ -1,0 +1,12 @@
+{
+  "core_hp": 20,
+  "wave_prep_ticks": 600,
+  "hp_scale": 10,
+  "start_money": 60,
+  "combat_refund_divisor": 2,
+  "tower_team": {
+    "name": "td_tower",
+    "color": "blue",
+    "collision_rule": "never"
+  }
+}

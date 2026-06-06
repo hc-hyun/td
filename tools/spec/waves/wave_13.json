@@ -1,0 +1,158 @@
+{
+  "number": 13,
+  "order": 13,
+  "title": "basic x20 + fast x10",
+  "complete_tick": 540,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 40,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 60,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 60,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 100,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 100,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 120,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 140,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 140,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 160,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 180,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 180,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 220,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 220,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 240,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 260,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 260,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 280,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 300,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 300,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 320,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 340,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 340,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 360,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 380,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 380,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 400,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 420,
+      "mode": "random",
+      "type": "fast"
+    }
+  ]
+}

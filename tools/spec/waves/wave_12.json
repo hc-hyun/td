@@ -1,0 +1,48 @@
+{
+  "number": 12,
+  "order": 12,
+  "title": "tank x8, 35틱 간격",
+  "complete_tick": 420,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 55,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 90,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 125,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 160,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 195,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 230,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 265,
+      "mode": "random",
+      "type": "tank"
+    }
+  ]
+}

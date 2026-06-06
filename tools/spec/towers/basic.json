@@ -1,0 +1,44 @@
+{
+  "id": "basic",
+  "display_name": "Basic",
+  "order": 10,
+  "cost": 20,
+  "damage": 4,
+  "initial_cooldown": 40,
+  "range": 8,
+  "cooldown": 40,
+  "scale": 1.0,
+  "shop": {
+    "item_name": "Basic Tower",
+    "color": "green",
+    "lore": "Configured cost | Single target",
+    "glint": true
+  },
+  "mannequin": {
+    "profile": {
+      "texture": "minecraft:entity/player/wide/steve",
+      "model": "wide"
+    },
+    "rotation": [
+      180,
+      0
+    ]
+  },
+  "equipment": [
+    {
+      "slot": "weapon.mainhand",
+      "item": "minecraft:iron_sword"
+    },
+    {
+      "slot": "armor.head",
+      "item": "minecraft:leather_helmet"
+    }
+  ],
+  "effects": [
+    "particle minecraft:happy_villager ~ ~1 ~ 0.3 0.4 0.3 0 8",
+    "playsound minecraft:block.note_block.pling master @a[distance=..16] ~ ~ ~ 0.6 1.4"
+  ],
+  "attack": {
+    "preset": "single"
+  }
+}

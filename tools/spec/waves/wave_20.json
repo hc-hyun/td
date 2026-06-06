@@ -1,0 +1,178 @@
+{
+  "number": 20,
+  "order": 20,
+  "title": "boss x2 + 지원군 basic/fast/tank 반복",
+  "complete_tick": 1000,
+  "events": [
+    {
+      "tick": 20,
+      "mode": "random",
+      "type": "boss"
+    },
+    {
+      "tick": 80,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 110,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 120,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 140,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 170,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 180,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 200,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 230,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 240,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 260,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 290,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 300,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 320,
+      "mode": "random",
+      "type": "boss"
+    },
+    {
+      "tick": 360,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 390,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 400,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 420,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 420,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 450,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 480,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 480,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 510,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 540,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 540,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 570,
+      "mode": "random",
+      "type": "basic"
+    },
+    {
+      "tick": 600,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 600,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 660,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 720,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 780,
+      "mode": "random",
+      "type": "fast"
+    },
+    {
+      "tick": 800,
+      "mode": "random",
+      "type": "tank"
+    },
+    {
+      "tick": 840,
+      "mode": "random",
+      "type": "fast"
+    }
+  ]
+}

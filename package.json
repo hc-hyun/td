@@ -1,0 +1,16 @@
+{
+  "name": "blackwooltd-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Repository tools for the BlackWoolTD datapack",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "tdgen": "node tools/tdgen.js",
+    "validate": "node tools/tdgen.js validate",
+    "build": "node tools/tdgen.js build",
+    "list": "node tools/tdgen.js list all"
+  }
+}

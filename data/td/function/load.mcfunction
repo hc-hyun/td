@@ -31,6 +31,9 @@ scoreboard objectives add td.place_cd dummy
 scoreboard objectives add td.place_step dummy
 scoreboard objectives add td.place_cost dummy
 scoreboard objectives add td.refund dummy
+scoreboard objectives add td.hud_ticks dummy
+scoreboard objectives add td.hud_value dummy
+scoreboard objectives add td.hud_count dummy
 scoreboard objectives add td.tmp dummy
 scoreboard objectives add td.wave dummy
 scoreboard objectives add td.wave_time dummy

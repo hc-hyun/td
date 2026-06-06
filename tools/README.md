@@ -6,6 +6,14 @@
 
 ## Quickstart
 
+Node.js `>=20`이 필요합니다. 명령은 데이터팩 루트, 즉 `package.json`이 있는 위치에서 실행합니다.
+
+명령 목록이 헷갈리면 먼저 도움말을 확인합니다.
+
+```bash
+node tools/tdgen.js --help
+```
+
 처음에는 아래 순서만 기억하면 됩니다.
 
 ```bash
@@ -25,6 +33,14 @@ npm run tdgen -- build
 2. `npm run tdgen -- validate`로 실수를 확인합니다.
 3. `npm run tdgen -- build`로 `.mcfunction`과 tag JSON을 재생성합니다.
 4. 게임 안에서 `/reload`를 실행합니다.
+
+자주 쓰는 명령은 짧은 npm script로도 실행할 수 있습니다.
+
+```bash
+npm run validate
+npm run build
+npm run list
+```
 
 ## 핵심 개념
 

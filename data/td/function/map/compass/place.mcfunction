@@ -9,10 +9,10 @@ setblock ~ ~-1 ~1 minecraft:yellow_concrete
 setblock ~ ~-1 ~-1 minecraft:light_blue_concrete
 
 summon minecraft:marker ~ ~ ~ {Tags:["td.map.compass.origin"]}
-summon minecraft:text_display ~1 ~0.65 ~ {Tags:["td.map.compass.text"],text:'{"text":"동 +X","color":"red","bold":true}',billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
-summon minecraft:text_display ~-1 ~0.65 ~ {Tags:["td.map.compass.text"],text:'{"text":"서 -X","color":"blue","bold":true}',billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
-summon minecraft:text_display ~ ~0.65 ~1 {Tags:["td.map.compass.text"],text:'{"text":"남 +Z","color":"yellow","bold":true}',billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
-summon minecraft:text_display ~ ~0.65 ~-1 {Tags:["td.map.compass.text"],text:'{"text":"북 -Z","color":"aqua","bold":true}',billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
+summon minecraft:text_display ~1 ~0.65 ~ {Tags:["td.map.compass.text"],text:{text:'동 +X',color:'red',bold:true},billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
+summon minecraft:text_display ~-1 ~0.65 ~ {Tags:["td.map.compass.text"],text:{text:'서 -X',color:'blue',bold:true},billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
+summon minecraft:text_display ~ ~0.65 ~1 {Tags:["td.map.compass.text"],text:{text:'남 +Z',color:'yellow',bold:true},billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
+summon minecraft:text_display ~ ~0.65 ~-1 {Tags:["td.map.compass.text"],text:{text:'북 -Z',color:'aqua',bold:true},billboard:"center",alignment:"center",shadow:1b,see_through:1b,background:1073741824,line_width:120,transformation:{scale:[1.4f,1.4f,1.4f]}}
 
 particle minecraft:happy_villager ~ ~1 ~ 0.4 0.25 0.4 0 12
 playsound minecraft:block.note_block.pling master @s ~ ~ ~ 0.6 1.2

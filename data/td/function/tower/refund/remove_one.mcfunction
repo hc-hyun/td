@@ -9,6 +9,6 @@ scoreboard players operation $last_refund td.refund = @s td.refund
 
 particle minecraft:poof ~ ~1 ~ 0.3 0.4 0.3 0.02 12
 playsound minecraft:block.note_block.bass master @a[distance=..16] ~ ~ ~ 0.6 0.8
-title @a[tag=td.place.actor,limit=1] actionbar [{text:'Tower refunded ',color:'green'},{score:{name:'$last_refund',objective:'td.refund'},color:'yellow'}]
+execute as @a[tag=td.place.actor,limit=1] run function td:hud/notify/refund
 
 kill @s

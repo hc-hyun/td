@@ -4,5 +4,8 @@ scoreboard players operation @s td.player_id = $next_player_id td.player_id
 scoreboard players operation @s td.money = $start_money td.money
 scoreboard players set @s td.place_use 0
 scoreboard players set @s td.place_cd 0
+scoreboard players set @s td.hud_ticks 0
+scoreboard players set @s td.hud_value 0
+scoreboard players set @s td.hud_count 0
 
 tellraw @s [{text:'BlackWoolTD ready. Money: ',color:'gold'},{score:{name:'@s',objective:'td.money'},color:'yellow'}]

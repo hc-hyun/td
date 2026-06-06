@@ -129,12 +129,26 @@ function loadGame() {
   };
 }
 
-function compactJson(value) {
-  return JSON.stringify(value);
-}
-
 function snbtString(value) {
   return `'${String(value).replaceAll("\\", "\\\\").replaceAll("'", "\\'")}'`;
+}
+
+function snbtBoolean(value) {
+  return value ? "true" : "false";
+}
+
+function snbtTextComponent({ text, color, italic, bold }) {
+  const parts = [`text:${snbtString(text)}`];
+  if (color != null) {
+    parts.push(`color:${snbtString(color)}`);
+  }
+  if (italic != null) {
+    parts.push(`italic:${snbtBoolean(italic)}`);
+  }
+  if (bold != null) {
+    parts.push(`bold:${snbtBoolean(bold)}`);
+  }
+  return `{${parts.join(",")}}`;
 }
 
 function scoreboardName(prefix, typeId, suffix) {
@@ -310,11 +324,11 @@ function renderTowerConfig(tower) {
 function renderShopGiveItem(tower) {
   const typeId = tower.id;
   const shop = tower.shop;
-  const itemName = compactJson({ text: shop.item_name, color: shop.color ?? "white", italic: false });
-  const lore = compactJson({ text: shop.lore ?? "Configured cost", color: "gray", italic: false });
+  const itemName = snbtTextComponent({ text: shop.item_name, color: shop.color ?? "white", italic: false });
+  const lore = snbtTextComponent({ text: shop.lore ?? "Configured cost", color: "gray", italic: false });
   const glint = shop.glint ?? true ? "true" : "false";
   return [
-    `give @s minecraft:carrot_on_a_stick[custom_data={td:{tool:"tower",tower:"${typeId}"}},item_name='${itemName}',lore=['${lore}'],enchantment_glint_override=${glint}] 1`,
+    `give @s minecraft:carrot_on_a_stick[custom_data={td:{tool:"tower",tower:"${typeId}"}},item_name=${itemName},lore=[${lore}],enchantment_glint_override=${glint}] 1`,
   ];
 }
 
